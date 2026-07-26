@@ -46,11 +46,17 @@ One repo holds the framework *and* every client site:
     settings.json
     skills/                   # orchestration · intake-research ·
                               # visual-identity · lovable-page
+  BUILD.md                    # the build hot path — start here
   orchestration.md            # the playbooks live at the repo root
   build-part-1-mvp.md
   build-part-2-live.md
+  templates/
+    one-pager/                # the master project every site is copied from
+  scripts/
+    new-site.mjs              # templates/one-pager → projects/<slug>
   projects/
     amigos-shop-tilburg/      # a full, independent Astro project
+      site.config.json
       package.json
       package-lock.json
       astro.config.mjs
@@ -85,10 +91,12 @@ Pages); no live server yet. Multi-page sites, blogs, and catalogs are a
       it once: scaffold the layout in §1, `git init`, and
       `gh repo create <sites-repo> --private --source=. --push`.
 - [ ] Node.js LTS installed locally.
-- [ ] The **section list** for the one page decided — normally the output of the
-      `lovable-page` skill (which sections) + `visual-identity` skill (the look),
-      both seeded by the `intake-research` brief. This drives the content model in
-      §5; you can't write the schema without it.
+- [ ] The **identity letter** (A/B/C) chosen from the business category —
+      `visual-identity` skill. The generator takes it as `--identity`.
+- [ ] The **section list** for the one page decided — `lovable-page` skill,
+      seeded by the `intake-research` brief. It's now a `sections` array in
+      `site.config.json` rather than something that shapes the schema, so it is
+      cheap to change later.
 
 Not needed yet (Part 2): a domain, a registrar, a Cloudflare account, Decap.
 
@@ -98,10 +106,11 @@ CLI** (`gh auth status` should show a logged-in account — currently
 `RickBerends`). An autonomous run needs no per-command approval because the build
 tooling is pre-authorized in [`.claude/settings.json`](./.claude/settings.json):
 `defaultMode: acceptEdits` plus an allow-list for `gh`, `git`, `npm`, `npx`,
-`node`, `mkdir`, `WebSearch`, `WebFetch`, and the Claude Browser tools. Its
-`additionalDirectories` points at the **monorepo clone** (not `Desktop`), so all
-writes land in-repo. If you clone this framework elsewhere, that file travels with
-it — verify `gh` is authenticated, Node is installed, and the run is prompt-free.
+`node`, `mkdir`, `WebSearch`, `WebFetch`, and the browser tools. Its
+`additionalDirectories` is `["."]` — the monorepo clone itself, whatever machine
+it sits on — so all writes land in-repo and the file travels with the repo. If you
+clone this framework elsewhere, verify `gh` is authenticated, Node is installed,
+and the run is prompt-free.
 (One residual: the in-app browser may still show a one-time per-origin card the
 first time it visits a new domain, e.g. Google Maps during intake — that's a
 browsing-policy gate, not a settings permission.)
@@ -110,75 +119,57 @@ browsing-policy gate, not a settings permission.)
 
 ## 3. Scaffold a new project inside the monorepo
 
-Create the site **as a folder in `projects/`**, never as a loose top-level
-project:
+**This is now one command.** `templates/one-pager/` is a complete, buildable
+Astro project; `scripts/new-site.mjs` copies it into `projects/<slug>/` and
+rewrites the handful of things that differ per site.
 
 ```bash
 # from the monorepo root
-npm create astro@latest projects/<slug> -- --template minimal --no-git --yes
-cd projects/<slug>
-npm install @astrojs/sitemap
+node scripts/new-site.mjs <slug> --identity=B --name="Business Name"
 ```
 
-(`--no-git` matters — the monorepo is already a git repo; a nested repo would
-break it.)
+See [`./BUILD.md`](./BUILD.md) for the flags and the full five-step path. Do not
+hand-scaffold with `npm create astro` any more — the five sites built that way
+each re-derived the same ~1,100 lines and drifted on all of them (different token
+names, five separate link checkers, five different schemas, and two sites that
+silently shipped without their webfonts).
 
-Recommended `package.json` scripts (per project):
-
-```json
-{
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "check-links": "node scripts/check-links.mjs"
-  }
-}
-```
-
-Per-project layout (content-collection driven; one component per section):
+Per-project layout, for orientation:
 
 ```
 projects/<slug>/
+  site.config.json    # slug · name · lang · identity · draft · sections · strings
   astro.config.mjs
   package.json
   src/
-    content/            # home.md — the single page's content (edited in git for now)
-    content.config.ts   # zod schema for the one page (see §5)
-    pages/
-      index.astro       # the one-pager; renders sections from home.md
-      404.astro
-    components/          # one component per section (Hero, Trust, Services…)
-    styles/global.css    # design tokens from the visual-identity skill
-  scripts/              # build-time helpers (link checker, etc.)
-  public/
-    robots.txt
+    content/home.md   # THE file you write — the business's words
+    content.config.ts # the canonical schema (§5)
+    config.ts         # hasSection(), telHref(), whatsappHref()
+    layouts/BaseLayout.astro
+    pages/            # index.astro · 404.astro
+    components/       # one per section
+    styles/           # tokens.css + identity-<a|b|c>.css + global.css
+  scripts/check-links.mjs
+  public/robots.txt
 ```
 
 (`public/admin/` for the CMS is added in Part 2 — leave it out for now.)
 
-`astro.config.mjs` for the monorepo Pages URL:
+### The two-segment `base` gotcha (why the generator writes that line)
 
-```js
-import { defineConfig } from 'astro/config';
-import sitemap from '@astrojs/sitemap';
+GitHub Pages serves the monorepo under `https://<owner>.github.io/<sites-repo>/`,
+and each project lives one level deeper at `/<slug>/`. So `base` **must** be
+`/<sites-repo>/<slug>` — *both* segments. A standalone repo only needed
+`/<repo-name>`. Forgetting the second segment produces broken asset paths and
+404s on the live link even though `npm run dev` looked fine.
 
-export default defineConfig({
-  site: 'https://<owner>.github.io',
-  base: '/<sites-repo>/<slug>',   // BOTH segments — repo AND project. See gotcha.
-  trailingSlash: 'always',
-  integrations: [sitemap()],
-});
-```
+This was the #1 cause of broken MVP links, which is exactly why
+`scripts/new-site.mjs` generates it rather than trusting anyone to type it. It is
+written as a literal string because `scripts/check-links.mjs` reads it back with a
+regex to resolve root-relative links against `dist/`.
 
-**Gotcha (the #1 cause of broken MVP links):** GitHub Pages serves the monorepo
-under `https://<owner>.github.io/<sites-repo>/`, and each project lives one level
-deeper at `/<slug>/`. So `base` **must** be `/<sites-repo>/<slug>` — *both*
-segments. A standalone repo only needed `/<repo-name>`; the monorepo needs the
-project slug too. Forgetting the second segment produces broken asset paths and
-404s on the live link even though `npm run dev` looked fine. (In Part 2, when a
-per-project custom domain is wired via Cloudflare Pages, `base` flips to `/` and
-both segments go away.)
+(In Part 2, when a per-project custom domain is wired via Cloudflare Pages,
+`base` flips to `/` and both segments go away.)
 
 ---
 
@@ -194,65 +185,35 @@ both segments go away.)
 
 ---
 
-## 5. Design + content model (where the two design skills land)
+## 5. Design + content model
 
-A one-pager is **one page made of sections**. Before writing the schema, settle
-*look* and *structure*:
+A one-pager is **one page made of sections**, and both the sections and the
+schema now ship with the template.
 
-- **`visual-identity` skill** → picks identity A/B/C for the business category and
-  emits the design tokens (palette, two fonts, radii, motion) into
-  `src/styles/global.css`. Every component inherits these — one accent, two fonts,
-  restrained motion.
-- **`lovable-page` skill** → decides which sections exist and writes the copy
-  (hero, trust strip, services as outcomes, about, social proof, location, hours,
-  contact), seeded from the `intake-research` brief. Its section list *is* the
-  schema below.
+- **`visual-identity` skill** → picks identity A/B/C for the category. The
+  palettes, fonts, radii and motion live in
+  `templates/one-pager/src/styles/identity-a|b|c.css` — those files *are* the
+  identities. Pass the letter to the generator (`--identity=B`); never hand-write
+  tokens. Token *names* are shared and live in `tokens.css`.
+- **`lovable-page` skill** → writes the copy. All eight sections exist already;
+  `sections` in `site.config.json` decides which render, so "if a section doesn't
+  increase trust, remove it" is a config edit, not a code edit.
 
-Model the whole page as **one data file** rather than folder collections. (The
-copy is seeded from the intake brief, shaped by `lovable-page`, then confirmed
-with the client.) At MVP there are **two** places to keep in sync (Part 2 adds a
-third — the CMS config):
+**The schema is canonical — don't fork it.** It lives at
+`templates/one-pager/src/content.config.ts` and is a superset of the five
+hand-written schemas that preceded it. Adding a field for a genuine business need
+is fine; renaming an existing one is not. Decap (Part 2) writes this same
+`home.md`, so one stable schema means one CMS config instead of one per client.
 
-1. **Astro's schema** (`src/content.config.ts`) — validates the page's data.
-   Extend it to the lovable-page sections (trust, hours, phone, testimonials):
+At MVP there are **two** places to keep in sync (Part 2 adds a third — the CMS
+config): the schema, and `src/content/home.md` itself.
 
-   ```ts
-   import { defineCollection, z } from 'astro:content';
-   import { glob } from 'astro/loaders';
-
-   const page = defineCollection({
-     loader: glob({ pattern: 'home.md', base: './src/content' }),
-     schema: z.object({
-       hero_heading: z.string(),
-       hero_sub: z.string(),
-       trust: z.array(z.string()).max(4).optional(),
-       about: z.string(),
-       services: z.array(z.object({ title: z.string(), body: z.string() })),
-       testimonials: z.array(z.object({
-         name: z.string(), rating: z.number().optional(), quote: z.string(),
-       })).optional(),                    // only via a compliant intake path
-       hours: z.array(z.object({ day: z.string(), open: z.string() })).optional(),
-       phone: z.string().optional(),
-       whatsapp: z.string().optional(),
-       contact_email: z.string().email().optional(),  // often a gap — keep optional
-       address: z.string().optional(),
-     }),
-   });
-
-   export const collections = { page };
-   ```
-
-2. **The markdown file** (`src/content/home.md`) — the content that
-   `src/pages/index.astro` reads to render each section. For the MVP a developer
-   edits this directly; it's committed to git.
-
-**Never invent a field value.** Testimonials, ratings, and `contact_email` are
-frequently unavailable — keep them **optional** and leave a flagged gap rather
-than fabricating (mirrors the `intake-research` and `lovable-page` rules).
-
-**Design the schema now so Part 2's CMS attaches without reshaping it.** Decap
-(Part 2) just writes the same `home.md` a developer would — a clean schema here
-means the CMS drops in later with no data migration.
+**Never invent a field value.** Testimonials, ratings, `contact_email`, `phone`
+and `address` are optional precisely because they are frequently unavailable —
+delete the field and flag the gap rather than fabricating. `testimonials` also
+carries a `testimonials_source` field: if you cannot name a compliant path (live
+embed / client-permissioned quotes / fresh testimonials, per `intake-research`
+§2b), you should not be publishing the quotes.
 
 **Growth path (out of scope):** a blog or catalog later is where folder-based
 collections and extra pages come in — quote it as a follow-on, not part of the
@@ -262,10 +223,19 @@ one-pager.
 
 ## 6. Deploy the monorepo to GitHub Pages (build only what changed)
 
-The whole monorepo shares **one** workflow. It detects which `projects/<slug>`
-changed on a push, builds only those, and publishes them into a **`gh-pages`
-branch** under `<slug>/`. Untouched projects are preserved (`keep_files: true`),
-so shipping one client never rebuilds or risks the others.
+The whole monorepo shares **one** workflow, already live at
+[`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml). Read that file
+rather than a copy of it here — a YAML block duplicated into a playbook is a
+YAML block that goes stale.
+
+What it does: on a push to `main` it diffs `projects/` to find which `<slug>`
+changed, builds only those (`npm ci && npm run build && node
+scripts/check-links.mjs`), and publishes them into the **`gh-pages` branch** under
+`<slug>/` with `keep_files: true`, so untouched projects survive from prior
+deploys. `workflow_dispatch` with `all=true` forces a full rebuild.
+
+Because `templates/` and `scripts/` sit **outside** `projects/`, changing the
+template never triggers a rebuild of any client site.
 
 **One-time repo setup** (Pages served from the `gh-pages` branch, not the Actions
 artifact — the branch model is what lets us keep unchanged projects):
@@ -285,86 +255,6 @@ gh api --method POST repos/<owner>/<sites-repo>/pages \
 (The `gh-pages` branch is created by the first successful deploy run; you may need
 to run the workflow once before the `pages` API accepts that branch.)
 
-`.github/workflows/deploy.yml`:
-
-```yaml
-name: Deploy changed sites to GitHub Pages
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
-    inputs:
-      all:
-        description: 'Rebuild every project (ignore change detection)'
-        type: boolean
-        default: false
-permissions:
-  contents: write          # peaceiris pushes to the gh-pages branch
-concurrency:
-  group: pages-deploy
-  cancel-in-progress: false
-jobs:
-  detect:
-    runs-on: ubuntu-latest
-    outputs:
-      slugs: ${{ steps.set.outputs.slugs }}
-      any: ${{ steps.set.outputs.any }}
-    steps:
-      - uses: actions/checkout@v4
-        with: { fetch-depth: 0 }
-      - id: set
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.all }}" = "true" ]; then
-            slugs=$(ls -d projects/*/ 2>/dev/null | sed 's#projects/##; s#/##' \
-              | jq -R . | jq -sc 'map(select(length>0))')
-          else
-            base='${{ github.event.before }}'
-            if [ -z "$base" ] || ! git cat-file -e "${base}^{commit}" 2>/dev/null; then
-              base=$(git rev-list --max-parents=0 HEAD | tail -1)   # first push
-            fi
-            slugs=$(git diff --name-only "$base" '${{ github.sha }}' -- projects/ \
-              | awk -F/ 'NF>=2 {print $2}' | sort -u \
-              | jq -R . | jq -sc 'map(select(length>0))')
-          fi
-          echo "slugs=$slugs" >> "$GITHUB_OUTPUT"
-          if [ "$slugs" = "[]" ] || [ -z "$slugs" ]; then
-            echo "any=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "any=true"  >> "$GITHUB_OUTPUT"
-          fi
-  build-deploy:
-    needs: detect
-    if: needs.detect.outputs.any == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 22 }
-      - name: Build each changed project
-        run: |
-          mkdir -p site
-          for slug in $(echo '${{ needs.detect.outputs.slugs }}' | jq -r '.[]'); do
-            echo "::group::build $slug"
-            ( cd "projects/$slug" \
-              && npm ci \
-              && npm run build \
-              && node scripts/check-links.mjs )
-            mkdir -p "site/$slug"
-            cp -r "projects/$slug/dist/." "site/$slug/"
-            echo "::endgroup::"
-          done
-      - name: Publish to gh-pages (keep untouched projects)
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
-          keep_files: true         # projects not in ./site survive from prior deploys
-```
-
-Notes:
-- **`keep_files: true`** is what makes "build only changed" safe on a single Pages
-  site — the deploy overlays the changed `<slug>/` folders onto whatever is
-  already on `gh-pages`.
 - **Force a full rebuild** (e.g. after a shared change) with
   `gh workflow run "Deploy changed sites to GitHub Pages" -f all=true`, then
   `gh run watch "$(gh run list --limit 1 --json databaseId --jq '.[0].databaseId')" --exit-status`.
@@ -379,17 +269,25 @@ Notes:
 Enough polish that the link doesn't embarrass you at review — no more. The full
 SEO/a11y/security gate is Part 2.
 
-- **Build clean:** `npm run build` runs with no errors locally and in CI.
+The template already carries most of this — these come free with a generated
+project and only need re-checking if you've edited the relevant file:
+
 - **A real 404** (`src/pages/404.astro`), on-brand, not the default.
-- **Basic `<head>`:** a `<title>`, a meta description, and the mobile viewport
-  meta so it looks right on a phone.
+- **Basic `<head>`:** `<title>`, meta description, mobile viewport meta.
 - **Internal link checker** (`scripts/check-links.mjs`) crawls built `dist/` and
   fails the build on broken internal links.
-- **`robots.txt`** + the `@astrojs/sitemap` integration from §3. While a project
-  is an unratified draft, keep `robots.txt` Disallow-all + a `noindex` meta.
-- **Design + conversion sanity:** the `visual-identity` tokens are actually
-  applied (one accent, two fonts) and the `lovable-page` conversion checklist
-  passes at a glance (hero answers who/what/where, a CTA appears more than once).
+- **`robots.txt`** Disallow-all + `noindex` while `draft: true` in
+  `site.config.json`, plus the `@astrojs/sitemap` integration.
+- **Identity tokens applied** — one accent, two fonts, and the fonts actually
+  load, because the `@import` ships inside the identity CSS file.
+
+What still needs your eyes:
+
+- **Build clean:** `npm run build` and `npm run check-links` pass locally and in CI.
+- **Conversion sanity:** the `lovable-page` checklist passes at a glance — the
+  hero answers who/what/where, and a CTA appears more than once.
+- **Nothing invented:** every fact on the page traces to the intake brief. This is
+  the one check no script can do for you.
 
 Deferred to Part 2: Open Graph/Twitter cards, JSON-LD, security headers, and the
 Lighthouse/pa11y performance+accessibility budget.

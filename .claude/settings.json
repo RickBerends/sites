@@ -2,9 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "permissions": {
     "defaultMode": "acceptEdits",
-    "additionalDirectories": [
-      "C:\\Users\\Xgaming\\Desktop\\website-framework"
-    ],
+    "additionalDirectories": ["."],
     "allow": [
       "Read",
       "Glob",
@@ -38,6 +36,7 @@
       "Bash(mv:*)",
       "Bash(mv *)",
       "mcp__Claude_Browser",
+      "mcp__claude-in-chrome",
       "mcp__mcp-registry"
     ],
     "deny": [

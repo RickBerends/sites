@@ -93,13 +93,26 @@ Collect from the client first (blocks the build if missing):
       setup — **needed for Phase 7, not now**; line them up so launch isn't
       blocked (build-part-2 §1, §10).
 
-**5c. Build — run Part 1 in the monorepo (only in git).** In the **sites-monorepo
-clone**: scaffold Astro into `projects/<slug>/` → apply the `visual-identity`
-tokens and `lovable-page` sections → content model (schema + `home.md`, committed
-in git, seeded from the confirmed brief) → commit + push; the shared workflow
-detects the changed project and deploys only it. Do **not** create a separate repo
-per client, do **not** leave files in a loose local folder, and do **not**
-implement server-side/LLM features — all out of scope by default.
+**5c. Build — generate, then write the words.** Follow
+[`./BUILD.md`](./BUILD.md); it is the hot path and takes about five steps.
+
+```bash
+node scripts/new-site.mjs <slug> --identity=<A|B|C> --name="<company>"
+```
+
+That produces a project in `projects/<slug>/` that already builds, already has
+the correct two-segment `base`, already loads its identity fonts, and already has
+all eight sections wired. **The only file you write is
+`projects/<slug>/src/content/home.md`** — the business's words, seeded from the
+confirmed brief. Drop unused sections via `sections` in `site.config.json`.
+
+Then commit + push; the shared workflow detects the changed project and deploys
+only it. Do **not** hand-scaffold with `npm create astro`, do **not** create a
+separate repo per client, do **not** leave files in a loose local folder, and do
+**not** implement server-side/LLM features — all out of scope by default.
+
+After generation the project is yours: rewrite any component you like. The
+template sets the floor, not the ceiling.
 
 Exit: the project builds clean and deploys to a **shareable
 `github.io/<sites-repo>/<slug>/` link** without disturbing other projects; MVP
