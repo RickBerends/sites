@@ -1,0 +1,29 @@
+---
+interface Props { about: string; }
+const { about } = Astro.props;
+const paragraphs = about.trim().split(/\n\s*\n/);
+---
+<section id="over-ons" class="about">
+  <div class="container about-inner">
+    <span class="section-label">Over ons</span>
+    <h2>Vrijwilligers voor eerlijke handel</h2>
+    <div class="about-copy reveal">
+      {paragraphs.map((p) => <p>{p.trim()}</p>)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .about-inner {
+    max-width: 760px;
+  }
+  .about-copy p {
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+  }
+</style>

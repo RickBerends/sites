@@ -1,0 +1,63 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href={base}>Wereldwinkel <span>Tilburg</span></a>
+    <nav class="nav" aria-label="Hoofdnavigatie">
+      <a href="#assortiment">Assortiment</a>
+      <a href="#over-ons">Over ons</a>
+      <a href="#locatie">Locatie</a>
+      <a href="#openingstijden">Openingstijden</a>
+      <a href="#contact" class="btn btn-primary nav-cta">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: color-mix(in srgb, var(--color-bg) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  .brand {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .brand span {
+    color: var(--color-accent-contrast);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 0.95rem;
+  }
+  .nav a:not(.nav-cta) {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .nav a:not(.nav-cta):hover {
+    color: var(--color-accent-contrast);
+  }
+  .nav-cta {
+    padding: 0.5em 1.2em;
+    font-size: 0.9rem;
+  }
+  @media (max-width: 720px) {
+    .nav a:not(.nav-cta) { display: none; }
+  }
+</style>

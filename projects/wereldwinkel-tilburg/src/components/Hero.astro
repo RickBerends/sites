@@ -1,0 +1,45 @@
+---
+interface Props {
+  heading: string;
+  sub: string;
+  phone?: string;
+}
+const { heading, sub, phone } = Astro.props;
+---
+<section id="hero" class="hero">
+  <div class="container hero-inner reveal">
+    <span class="section-label">Wereldwinkel &middot; Tilburg</span>
+    <h1>{heading}</h1>
+    <p class="hero-sub">{sub}</p>
+    <div class="hero-ctas">
+      {phone && (
+        <a class="btn btn-primary" href={`tel:${phone.replace(/\s+/g, '')}`}>Bel de winkel</a>
+      )}
+      <a class="btn btn-secondary" href="#openingstijden">Bekijk openingstijden</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-top: 140px;
+    padding-bottom: 96px;
+    background:
+      radial-gradient(60% 60% at 85% 0%, color-mix(in srgb, var(--color-accent) 16%, transparent), transparent 70%),
+      var(--color-bg);
+  }
+  .hero-inner {
+    max-width: 760px;
+  }
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--color-text-secondary);
+    max-width: 56ch;
+  }
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+</style>

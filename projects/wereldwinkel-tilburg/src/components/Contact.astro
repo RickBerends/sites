@@ -1,0 +1,91 @@
+---
+interface Props {
+  phone?: string;
+  whatsapp?: string;
+  contact_email?: string;
+  address?: string;
+}
+const { phone, whatsapp, contact_email, address } = Astro.props;
+---
+<section id="contact" class="contact">
+  <div class="container contact-inner reveal">
+    <span class="section-label">Contact</span>
+    <h2>Kom langs of neem contact op</h2>
+    <p class="contact-sub">We helpen je graag met een passend cadeau — bel, mail of loop binnen.</p>
+    <div class="contact-grid">
+      {phone && (
+        <a class="contact-item" href={`tel:${phone.replace(/\s+/g, '')}`}>
+          <span class="label">Telefoon</span>
+          <span class="value">{phone}</span>
+        </a>
+      )}
+      {whatsapp && (
+        <a class="contact-item" href={`https://wa.me/${whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
+          <span class="label">WhatsApp</span>
+          <span class="value">{whatsapp}</span>
+        </a>
+      )}
+      {contact_email && (
+        <a class="contact-item" href={`mailto:${contact_email}`}>
+          <span class="label">E-mail</span>
+          <span class="value">{contact_email}</span>
+        </a>
+      )}
+      {address && (
+        <div class="contact-item">
+          <span class="label">Adres</span>
+          <span class="value">{address}</span>
+        </div>
+      )}
+    </div>
+    <a class="btn btn-primary contact-cta" href={phone ? `tel:${phone.replace(/\s+/g, '')}` : '#hero'}>Neem contact op</a>
+  </div>
+</section>
+
+<style>
+  .contact {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+  }
+  .contact-inner {
+    max-width: 720px;
+  }
+  .contact-sub {
+    color: var(--color-text-secondary);
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+    padding: 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    text-decoration: none;
+    color: inherit;
+    background: var(--color-bg);
+    transition: border-color 220ms;
+  }
+  .contact-item:hover {
+    border-color: var(--color-accent);
+  }
+  .contact-item .label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+  }
+  .contact-item .value {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--color-text);
+  }
+  .contact-cta {
+    margin-top: 0.5rem;
+  }
+</style>

@@ -1,0 +1,42 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const base = import.meta.env.BASE_URL;
+---
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <title>Pagina niet gevonden — Wereldwinkel Tilburg</title>
+    <meta name="description" content="Deze pagina bestaat niet (meer). Ga terug naar de homepage van Wereldwinkel Tilburg." />
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body>
+    <p class="draft-banner">Proof-of-concept ontwerp — nog niet bekrachtigd door de klant. Niet geïndexeerd door zoekmachines.</p>
+    <Header />
+    <main>
+      <section class="not-found">
+        <div class="container reveal">
+          <span class="section-label">404</span>
+          <h1>Deze pagina bestaat niet</h1>
+          <p>De pagina die je zoekt is verplaatst of bestaat niet (meer). Misschien vind je wat je zoekt via de knop hieronder.</p>
+          <a class="btn btn-primary" href={base}>Terug naar de homepage</a>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .not-found {
+    padding: 160px 0;
+    min-height: 50vh;
+  }
+  .not-found .container {
+    max-width: 560px;
+  }
+</style>
