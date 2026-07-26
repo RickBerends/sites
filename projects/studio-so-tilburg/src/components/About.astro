@@ -1,0 +1,21 @@
+---
+interface Props {
+  heading?: string;
+  body: string;
+}
+const { heading, body } = Astro.props;
+---
+<section id="about" class="about">
+  <div class="container">
+    <p class="label">Over ons</p>
+    <h2>{heading ?? "Over Studio S.O"}</h2>
+    <p class="about-body">{body}</p>
+  </div>
+</section>
+
+<style>
+  .about-body {
+    max-width: 62ch;
+    font-size: 1.05rem;
+  }
+</style>

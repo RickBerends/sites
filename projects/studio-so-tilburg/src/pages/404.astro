@@ -1,0 +1,35 @@
+---
+import '../styles/global.css';
+
+const base = import.meta.env.BASE_URL;
+---
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="icon" href={`${base}favicon.ico`} />
+    <meta name="generator" content={Astro.generator} />
+    <title>Pagina niet gevonden — Studio S.O</title>
+    <meta name="description" content="Deze pagina bestaat niet." />
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body>
+    <section class="not-found">
+      <div class="container fade-up">
+        <p class="label">404</p>
+        <h1>Deze pagina bestaat niet</h1>
+        <p>Misschien is de link verouderd. Ga terug naar de homepage van Studio S.O.</p>
+        <a class="btn btn-primary" href={base}>Terug naar home</a>
+      </div>
+    </section>
+  </body>
+</html>
+
+<style>
+  .not-found {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+  }
+</style>
