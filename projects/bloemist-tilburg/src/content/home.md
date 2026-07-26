@@ -2,6 +2,8 @@
 hero_label: "Bloemist · Tilburg"
 hero_heading: "Verse bloemen, terug in het hart van Tilburg"
 hero_sub: "Bloem'ist aan de Heuvelstraat maakt verse boeketten en bloemwerk voor bruiloft of afscheid, en verzorgt mooie planten — loop binnen of bel voor advies."
+# hero_image: './images/hero.jpg'  # path relative to this file — falls back to
+                                    # src/assets/stock/hero.png when unset
 trust:
   - "Midden in het centrum van Tilburg"
   - "Bruids- & rouwboeketten"
@@ -15,6 +17,7 @@ about: >
   bruiloft of afscheid, en een leuke plant voor thuis of op het balkon. Het is
   een kleine, persoonlijke winkel in het centrum — binnenlopen voor een bosje
   bloemen kan net zo goed als vooraf bellen voor iets bijzonders.
+# about_image: './images/about.jpg'  # same fallback rule as hero_image
 services:
   - title: "Boeketten op maat"
     body: "Een vers boeket, met aandacht samengesteld voor elke gelegenheid."

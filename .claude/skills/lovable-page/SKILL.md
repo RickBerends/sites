@@ -123,15 +123,20 @@ a field to fill with a guess.
 Priority: **1)** owner portrait → **2)** owner working → **3)** storefront →
 **4)** interior → **5)** customers (with permission).
 
-**Never use obvious stock imagery.** A generic smiling model damages trust more
-than white space does. If there's no real photograph yet, ship the section
-without one and flag it — do not fill the hole with a stock placeholder.
+**The hero and about image slots are required and must never render empty.**
+If there's no real photograph yet, the template automatically fills the slot
+with a stock photo matched to the business's identity and category (see
+`visual-identity`'s imagery direction) — never a generic smiling-model shot —
+and marks it with a visible "placeholder" caption. Swap in the real photo the
+moment one is sourced; the caption disappears on its own once `hero_image` /
+`about_image` is set in `home.md`.
 
 ## Conversion checklist (before publishing)
 
 - [ ] Visitor understands the business within 5 seconds.
 - [ ] Contact info visible without scrolling far.
-- [ ] A real owner photo exists (or is a flagged gap).
+- [ ] A real owner photo exists, or the identity-matched stock fallback is in
+      place and visibly flagged for replacement.
 - [ ] At least one trust signal exists.
 - [ ] At least one review exists, or it's an explicit flagged gap.
 - [ ] CTA appears more than once.
