@@ -52,7 +52,7 @@ Communicate **who / what / where / why choose them**, immediately.
 - One supporting sentence describing the experience.
 - Primary CTA: `Call now` · Secondary CTA: `View opening hours`.
 - At least one **authentic** image — owner portrait, owner working, or interior.
-  Avoid generic stock and AI-generated people.
+  Start with generic stock image. 
 
 *Visitor feeling:* "I already understand what this business is."
 

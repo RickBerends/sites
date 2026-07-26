@@ -31,6 +31,12 @@
       "Bash(cat *)",
       "Bash(find:*)",
       "Bash(find *)",
+      "Bash(curl:*)",
+      "Bash(curl *)",
+      "Bash(cp:*)",
+      "Bash(cp *)",
+      "Bash(mv:*)",
+      "Bash(mv *)",
       "mcp__Claude_Browser",
       "mcp__mcp-registry"
     ],
