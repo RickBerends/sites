@@ -1,0 +1,41 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import Services from '../components/Services.astro';
+import About from '../components/About.astro';
+import Hours from '../components/Hours.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+
+const entry = await getEntry('page', 'home');
+if (!entry) {
+  throw new Error('Missing src/content/home.md');
+}
+const data = entry.data;
+
+const title = 'Kledingreparatie Perfect — Kleding herstellen & stomerij in Tilburg';
+const description =
+  'Kledingreparatie, vermaken en stomerij aan de Telefoonstraat 47 in Tilburg. Vakwerk, eerlijke prijzen, persoonlijk advies.';
+---
+
+<BaseLayout title={title} description={description}>
+  <Header phone={data.phone} />
+  <main>
+    <Hero label={data.hero_label} heading={data.hero_heading} sub={data.hero_sub} phone={data.phone} />
+    <TrustStrip items={data.trust} />
+    <Services services={data.services} />
+    <About heading={data.about_heading} body={data.about} address={data.address} />
+    <Hours hours={data.hours} />
+    <Contact
+      phone={data.phone}
+      whatsapp={data.whatsapp}
+      contact_email={data.contact_email}
+      address={data.address}
+      maps_url={data.maps_url}
+    />
+  </main>
+  <Footer />
+</BaseLayout>

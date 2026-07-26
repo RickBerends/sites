@@ -1,0 +1,89 @@
+---
+interface HourRow {
+  day: string;
+  open: string;
+}
+
+interface Props {
+  hours?: HourRow[];
+}
+
+const { hours = [] } = Astro.props;
+
+const dayIndex: Record<string, number> = {
+  zondag: 0,
+  maandag: 1,
+  dinsdag: 2,
+  woensdag: 3,
+  donderdag: 4,
+  vrijdag: 5,
+  zaterdag: 6,
+};
+
+const todayIndex = new Date().getDay();
+---
+
+{hours.length > 0 && (
+  <section id="openingstijden" class="hours">
+    <div class="container">
+      <span class="eyebrow">Openingstijden</span>
+      <h2>Wanneer u langs kunt komen</h2>
+      <p class="text-secondary hours__note">Vrije inloop — een afspraak maken is niet nodig.</p>
+      <table class="hours__table">
+        <tbody>
+          {hours.map((row) => {
+            const isToday = dayIndex[row.day.toLowerCase()] === todayIndex;
+            return (
+              <tr class={isToday ? 'is-today' : ''}>
+                <th scope="row">{row.day}</th>
+                <td>{row.open}</td>
+                {isToday && <td class="hours__badge">Vandaag</td>}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  </section>
+)}
+
+<style>
+  .hours__note {
+    margin-bottom: 2rem;
+  }
+
+  .hours__table {
+    width: 100%;
+    max-width: 480px;
+    border-collapse: collapse;
+    font-size: 0.98rem;
+  }
+
+  .hours__table tr {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .hours__table th,
+  .hours__table td {
+    text-align: left;
+    padding: 0.75rem 0;
+    font-weight: 400;
+  }
+
+  .hours__table th {
+    font-weight: 500;
+    width: 40%;
+  }
+
+  .hours__table tr.is-today th,
+  .hours__table tr.is-today td {
+    font-weight: 700;
+    color: var(--color-accent-alt);
+  }
+
+  .hours__badge {
+    color: var(--color-accent);
+    font-size: 0.82rem;
+    text-align: right;
+  }
+</style>

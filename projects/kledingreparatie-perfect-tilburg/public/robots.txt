@@ -1,0 +1,4 @@
+# Unratified proof-of-concept draft — keep out of search indexes until the
+# client has signed off (build-part-1 §7 / §8).
+User-agent: *
+Disallow: /

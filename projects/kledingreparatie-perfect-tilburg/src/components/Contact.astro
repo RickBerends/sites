@@ -1,0 +1,124 @@
+---
+interface Props {
+  phone?: string;
+  whatsapp?: string;
+  contact_email?: string;
+  address?: string;
+  maps_url?: string;
+}
+
+const { phone, whatsapp, contact_email, address, maps_url } = Astro.props;
+const telHref = phone ? `tel:${phone.replace(/\s+/g, '')}` : undefined;
+const waHref = whatsapp ? `https://wa.me/${whatsapp.replace(/[^\d]/g, '')}` : undefined;
+---
+
+<section id="contact" class="contact">
+  <div class="container contact__inner">
+    <div class="contact__intro reveal">
+      <span class="eyebrow">Contact</span>
+      <h2>Loop binnen of bel even</h2>
+      <p class="text-secondary">
+        Aan de Telefoonstraat in het centrum van Tilburg — vrije inloop, geen
+        afspraak nodig.
+      </p>
+    </div>
+
+    <div class="card contact__card reveal">
+      <ul class="contact__list">
+        {address && (
+          <li>
+            <span class="contact__label">Adres</span>
+            <span>{address}</span>
+          </li>
+        )}
+        {phone && (
+          <li>
+            <span class="contact__label">Telefoon</span>
+            <a href={telHref}>{phone}</a>
+          </li>
+        )}
+        {whatsapp && (
+          <li>
+            <span class="contact__label">WhatsApp</span>
+            <a href={waHref}>{whatsapp}</a>
+          </li>
+        )}
+        {contact_email && (
+          <li>
+            <span class="contact__label">E-mail</span>
+            <a href={`mailto:${contact_email}`}>{contact_email}</a>
+          </li>
+        )}
+      </ul>
+
+      <div class="contact__ctas">
+        {phone && (
+          <a class="btn btn-primary" href={telHref}>Bel nu — {phone}</a>
+        )}
+        {maps_url && (
+          <a class="btn btn-secondary" href={maps_url} target="_blank" rel="noopener noreferrer">
+            Route plannen
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .contact__intro h2 {
+    max-width: 20ch;
+  }
+
+  .contact__list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .contact__list li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    font-size: 1.02rem;
+  }
+
+  .contact__list a {
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .contact__list a:hover {
+    color: var(--color-accent);
+  }
+
+  .contact__label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+  }
+
+  .contact__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+  }
+
+  @media (min-width: 768px) {
+    .contact__inner {
+      grid-template-columns: 1fr 1.1fr;
+      align-items: start;
+    }
+  }
+</style>
