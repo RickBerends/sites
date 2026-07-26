@@ -1,0 +1,87 @@
+---
+import { strings, telHref, whatsappHref } from '../config';
+
+interface Props {
+  phone?: string;
+  whatsapp?: string;
+  email?: string;
+  address?: string;
+}
+
+const { phone, whatsapp, email, address } = Astro.props;
+
+const rows = [
+  phone && { label: strings.phoneLabel, value: phone, href: telHref(phone) },
+  whatsapp && {
+    label: strings.whatsappLabel,
+    value: whatsapp,
+    href: whatsappHref(whatsapp),
+  },
+  email && { label: strings.emailLabel, value: email, href: `mailto:${email}` },
+  address && { label: strings.addressLabel, value: address, href: null },
+].filter(Boolean) as { label: string; value: string; href: string | null }[];
+---
+
+<section id="contact" class="section section-alt">
+  <div class="container contact-inner reveal">
+    <h2>{strings.contactHeading}</h2>
+
+    <dl>
+      {
+        rows.map((row) => (
+          <div class="contact-row">
+            <dt>{row.label}</dt>
+            <dd>{row.href ? <a href={row.href}>{row.value}</a> : row.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    {
+      phone && (
+        <a class="btn btn-primary" href={telHref(phone)}>
+          {strings.primaryCta}
+        </a>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .contact-inner {
+    max-width: 60ch;
+  }
+
+  dl {
+    margin: 0 0 2rem;
+  }
+
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  dt {
+    min-width: 8rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  dd {
+    margin: 0;
+    color: var(--color-text-secondary);
+    white-space: pre-line;
+  }
+
+  dd a {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  dd a:hover {
+    text-decoration: underline;
+  }
+</style>
