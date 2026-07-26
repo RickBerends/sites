@@ -1,0 +1,55 @@
+---
+import { getEntry } from 'astro:content';
+import '../styles/global.css';
+import DraftBanner from '../components/DraftBanner.astro';
+import Hero from '../components/Hero.astro';
+import Trust from '../components/Trust.astro';
+import Services from '../components/Services.astro';
+import About from '../components/About.astro';
+import Contact from '../components/Contact.astro';
+
+const entry = await getEntry('page', 'home');
+if (!entry) {
+  throw new Error('src/content/home.md is missing or failed to parse');
+}
+const data = entry.data;
+const base = import.meta.env.BASE_URL;
+
+const title = 'Studio S.O — nagelstudio in Tilburg (concept)';
+const description = 'Studio S.O is een kleine nagel- en beautystudio in Tilburg. Afspraak maken via Instagram.';
+---
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="icon" href={`${base}favicon.ico`} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body>
+    <DraftBanner />
+    <Hero
+      label={data.hero_label}
+      heading={data.hero_heading}
+      sub={data.hero_sub}
+      instagramUrl={data.instagram_url}
+    />
+    <Trust items={data.trust} />
+    <Services services={data.services} />
+    <About heading={data.about_heading} body={data.about} />
+    <Contact
+      instagramHandle={data.instagram_handle}
+      instagramUrl={data.instagram_url}
+      phone={data.phone}
+      whatsapp={data.whatsapp}
+      contactEmail={data.contact_email}
+      address={data.address}
+    />
+    <footer>
+      <p>Studio S.O · Tilburg · Concept-website, nog niet definitief.</p>
+    </footer>
+  </body>
+</html>

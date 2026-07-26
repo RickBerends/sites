@@ -1,0 +1,51 @@
+---
+interface Props {
+  instagramHandle?: string;
+  instagramUrl?: string;
+  phone?: string;
+  whatsapp?: string;
+  contactEmail?: string;
+  address?: string;
+}
+const { instagramHandle, instagramUrl, phone, whatsapp, contactEmail, address } = Astro.props;
+---
+<section id="contact" class="contact">
+  <div class="container">
+    <p class="label">Contact</p>
+    <h2>Een afspraak maken</h2>
+    <p class="contact-intro">
+      Studio S.O werkt op afspraak. De snelste manier om een afspraak te maken
+      is via Instagram — stuur een DM met wat je wilt laten doen.
+    </p>
+    <div class="contact-grid">
+      {instagramUrl && (
+        <a class="btn btn-primary" href={instagramUrl} target="_blank" rel="noopener noreferrer">
+          Stuur een DM {instagramHandle ? `(${instagramHandle})` : "op Instagram"}
+        </a>
+      )}
+      {phone && <a class="btn btn-secondary" href={`tel:${phone}`}>Bel {phone}</a>}
+      {whatsapp && <a class="btn btn-secondary" href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>}
+      {contactEmail && <a class="btn btn-secondary" href={`mailto:${contactEmail}`}>E-mail</a>}
+    </div>
+    <p class="contact-fallback">
+      {address
+        ? address
+        : "Gevestigd in Tilburg — het exacte adres wordt gedeeld bij het maken van een afspraak."}
+    </p>
+  </div>
+</section>
+
+<style>
+  .contact-intro {
+    max-width: 52ch;
+  }
+  .contact-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 1.5em 0;
+  }
+  .contact-fallback {
+    font-size: 0.9rem;
+  }
+</style>

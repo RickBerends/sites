@@ -1,0 +1,204 @@
+/* Studio S.O — visual identity tokens (Identity B: Soft Boutique)
+   warm, elegant, human, calm. One accent, two fonts, restrained motion. */
+
+:root {
+  /* Palette */
+  --color-bg: #FFFDF9;
+  --color-surface: #FFFFFF;
+  --color-text: #2C2C2C;
+  --color-text-secondary: #6B6B6B;
+  --color-accent: #B8827A;
+  --color-accent-alt: #AAB39B;
+  --color-accent-alt-2: #D5A6A0;
+  --color-border: #ECE6DE;
+
+  /* Typography */
+  --font-display: "Instrument Serif", "Cormorant Garamond", Georgia, serif;
+  --font-body: "Manrope", "Inter", system-ui, -apple-system, sans-serif;
+
+  /* Radii */
+  --radius-card: 20px;
+  --radius-button: 999px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration: 260ms;
+
+  /* Spacing */
+  --space-section-desktop: 140px;
+  --space-section-mobile: 80px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.15;
+  margin: 0 0 0.5em;
+  color: var(--color-text);
+}
+
+h1 { font-size: clamp(2.25rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.75rem, 3.5vw, 2.5rem); }
+h3 { font-size: 1.25rem; }
+
+p {
+  margin: 0 0 1em;
+  color: var(--color-text-secondary);
+}
+
+a {
+  color: var(--color-accent);
+}
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+section {
+  padding: var(--space-section-mobile) 0;
+}
+
+@media (min-width: 768px) {
+  section {
+    padding: var(--space-section-desktop) 0;
+  }
+}
+
+.label {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 1em;
+}
+
+.btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.85em 1.8em;
+  border-radius: var(--radius-button);
+  text-decoration: none;
+  transition: transform var(--duration) var(--ease-out), opacity var(--duration) var(--ease-out);
+  border: 1px solid transparent;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: #FFFFFF;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 2em;
+}
+
+.grid {
+  display: grid;
+  gap: 24px;
+}
+
+@media (min-width: 640px) {
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+.trust-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .trust-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.trust-list li {
+  font-size: 0.95rem;
+  color: var(--color-text);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.trust-list li::before {
+  content: "✓";
+  color: var(--color-accent);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.fade-up {
+  animation: fadeUp var(--duration) var(--ease-out) both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Draft banner — this build is an unratified proof-of-concept (see robots.txt / noindex) */
+.draft-banner {
+  background: var(--color-accent-alt);
+  color: #21281f;
+  text-align: center;
+  font-size: 0.85rem;
+  padding: 0.6em 1em;
+}
+
+.draft-banner strong {
+  font-weight: 700;
+}
+
+footer {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--color-border);
+}

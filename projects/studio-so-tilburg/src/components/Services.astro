@@ -1,0 +1,34 @@
+---
+interface Service {
+  title: string;
+  body: string;
+}
+interface Props {
+  services: Service[];
+}
+const { services } = Astro.props;
+---
+<section id="services" class="services">
+  <div class="container">
+    <p class="label">Diensten</p>
+    <h2>Wat je bij Studio S.O kunt laten doen</h2>
+    <div class="grid grid-2">
+      {services.map((service) => (
+        <div class="card">
+          <h3>{service.title}</h3>
+          <p>{service.body}</p>
+        </div>
+      ))}
+    </div>
+    <p class="services-note">
+      Exacte behandelingen, technieken en prijzen worden nog aangevuld — vraag ernaar via Instagram.
+    </p>
+  </div>
+</section>
+
+<style>
+  .services-note {
+    margin-top: 1.5em;
+    font-size: 0.85rem;
+  }
+</style>
