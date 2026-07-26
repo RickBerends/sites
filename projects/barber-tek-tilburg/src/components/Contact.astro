@@ -1,0 +1,97 @@
+---
+interface Props {
+  phone?: string;
+  whatsapp?: string;
+  contactEmail?: string;
+  address?: string;
+}
+const { phone, whatsapp, contactEmail, address } = Astro.props;
+const telHref = phone ? `tel:${phone.replace(/\s+/g, '')}` : undefined;
+const waHref = whatsapp ? `https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}` : undefined;
+---
+<section id="contact" class="contact">
+  <div class="container contact-inner fade-up">
+    <p class="eyebrow">Contact</p>
+    <h2>Loop binnen of bel even</h2>
+    <ul class="contact-list">
+      {phone && (
+        <li>
+          <span class="contact-label">Telefoon</span>
+          <a href={telHref}>{phone}</a>
+        </li>
+      )}
+      {waHref && (
+        <li>
+          <span class="contact-label">WhatsApp</span>
+          <a href={waHref} target="_blank" rel="noopener noreferrer">{whatsapp}</a>
+        </li>
+      )}
+      {contactEmail && (
+        <li>
+          <span class="contact-label">E-mail</span>
+          <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+        </li>
+      )}
+      {address && (
+        <li>
+          <span class="contact-label">Adres</span>
+          <span>{address}</span>
+        </li>
+      )}
+    </ul>
+    {telHref && (
+      <a class="btn btn-primary contact-cta" href={telHref}>Bel nu</a>
+    )}
+  </div>
+</section>
+
+<style>
+  .contact {
+    background: var(--color-accent-alt);
+    color: #fff;
+  }
+
+  .contact h2,
+  .contact .eyebrow {
+    color: #fff;
+  }
+
+  .contact-inner {
+    max-width: 640px;
+  }
+
+  .contact-list {
+    list-style: none;
+    margin: 1.5rem 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .contact-list li {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 1.05rem;
+  }
+
+  .contact-list a {
+    color: #fff;
+    text-decoration: underline;
+  }
+
+  .contact-label {
+    color: rgba(255, 255, 255, 0.6);
+    min-width: 7rem;
+  }
+
+  .contact-cta {
+    margin-top: 0.5rem;
+    background: #fff;
+    color: var(--color-accent-alt);
+  }
+
+  .contact-cta:hover {
+    background: var(--color-bg);
+  }
+</style>
