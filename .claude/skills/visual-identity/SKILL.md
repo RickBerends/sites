@@ -17,196 +17,84 @@ description: >-
 # Visual identity: category → a complete, restrained look
 
 The objective is **not** to make the site look trendy. The objective is to make
-visitors **trust the business within seconds**. Every visual decision reinforces
-the personality of the business. When in doubt, remove decoration.
+visitors **trust the business within seconds**. When in doubt, remove decoration.
 
-**Where this fits:** run this at **orchestration.md Phase 5**, right after the
-`intake-research` brief and alongside the `lovable-page` skill. `lovable-page`
-decides *what sections exist and what they say*; this skill decides *how they
-look*. The output is a small set of design tokens (colours, two fonts, radii,
-motion) that go straight into `src/styles/global.css` and the section components
-in **build-part-1 §5**.
+**This skill is now one decision, not a token table.** The palettes, fonts,
+radii and motion values live in real CSS:
+
+- `templates/one-pager/src/styles/identity-a.css`
+- `templates/one-pager/src/styles/identity-b.css`
+- `templates/one-pager/src/styles/identity-c.css`
+
+Those files **are** the identities — read them if you need a value. They are the
+single source of truth, so a value cannot be mistyped into a site by hand.
+Token *names* are shared and live in `tokens.css`; identity files set values only.
 
 ## Workflow
 
-When generating a website:
-
-1. **Determine the business category** (from the intake brief).
-2. **Select the matching identity** (A, B, or C below).
-3. **Adapt the accent colour** to the business only if there's a real reason
-   (e.g. an existing logo colour). Keep the rest of the palette.
-4. **Never mix identities.** Pick one and commit.
-5. **Keep the design restrained** — authenticity beats decoration.
+1. **Determine the business category** from the intake brief.
+2. **Pick A, B or C** from the table below.
+3. **Pass it to the generator:** `node scripts/new-site.mjs <slug> --identity=B …`
+   That copies the identity CSS in, fonts included. Do not hand-write tokens.
+4. **Adapt the accent only if there is a real reason** — an existing logo colour,
+   or a signal the business genuinely trades on. Use
+   `--accent=#RRGGBB --accent-reason="…"`; the generator requires the reason and
+   writes it into the CSS as a comment. Across the first five sites built, exactly
+   one override was justified (a fair-trade shop taking the sage alt accent).
+5. **Never mix identities.** Pick one and commit.
 
 If a business spans two categories, pick the one that matches the *feeling the
-owner wants a visitor to have*, not the literal trade.
+owner wants a visitor to have*, not the literal trade. That judgement is the only
+genuinely hard part of this skill.
 
----
+## The three identities
 
-## Identity A — Crafted Masculine
+| | Best for | Feels like | Never |
+|---|---|---|---|
+| **A — Crafted Masculine** | barber · tattoo artist · car detailing · mechanic · electrician · carpenter · personal trainer · bike shop · plumber · contractor | Apple × Japanese craftsmanship × modern workshop. *"This person knows exactly what they're doing."* | saturated blues · bright reds · gradients · glassmorphism |
+| **B — Soft Boutique** | hairdresser · beautician · nail salon · midwife · yoga studio · florist · photographer · wedding planner · interior stylist · massage therapist | Aesop × boutique hotel × modern wellness studio. *"I'll enjoy spending time here."* | bright pink · purple gradients · bouncy motion |
+| **C — Editorial Food** | restaurant · bakery · lunchroom · wine bar · café · delicatessen · food truck · catering · cheesemonger · coffee roastery | Kinfolk × modern restaurant × independent roastery. Food is the hero. | bright red · bright yellow · orange gradients |
 
-**Best for:** barber · tattoo artist · car detailing · mechanic · electrician ·
-carpenter · personal trainer · bike shop · plumber · contractor.
+## Imagery direction (the part no CSS file can carry)
 
-**Personality:** confident, craftsmanship, honest, reliable, premium without
-being flashy. Visitors should think: *"This person knows exactly what they're
-doing."*
+Priority order, always: **1)** the owner, **2)** the business, **3)** customers,
+**4)** products, **5)** details. Real photography beats illustration every time.
+**Never obvious stock photos** — a generic smiling model does more damage to
+trust than an imperfect real photo.
 
-**Palette**
+Per identity:
 
-| Role | Hex |
-|---|---|
-| Background | `#F7F5F2` |
-| Surface | `#FFFFFF` |
-| Primary text | `#191919` |
-| Secondary text | `#6D6D6D` |
-| Primary accent | `#5B7C6F` |
-| Optional accent | `#243446` |
+- **A** — craftsmanship: hands, tools, materials, the owner working, the
+  workshop, close-up detail. Avoid posed smiles and fake office shots.
+- **B** — natural daylight, plants, fabric, wood, real customers, soft depth of
+  field. Everything should feel authentic.
+- **C** — large, editorial, close-up: steam, ingredients, hands preparing food.
+  Food occupies a lot of screen space.
 
-Never use saturated blues. Never use bright reds.
-
-**Typography:** display **General Sans** (alt: Clash Display); body **Inter**.
-Weights: display 700–800, body 400–500.
-
-**Imagery:** craftsmanship — hands, tools, materials, the owner working, the
-workshop, close-up details. Avoid posed smiling photos, stock imagery, fake
-office pictures.
-
-**Components:** cards 16px radius; dark filled buttons; minimal borders; subtle
-shadows only.
-
-**Decorative style:** steel, concrete, wood, leather, paper texture, subtle
-grain. No gradients. No glassmorphism.
-
-**Motion:** small fade + slide-up, ~200ms, calm easing.
-
-**Overall feeling:** Apple × Japanese craftsmanship × modern workshop.
-
----
-
-## Identity B — Soft Boutique
-
-**Best for:** hairdresser · beautician · nail salon · midwife · yoga studio ·
-florist · photographer · wedding planner · interior stylist · massage therapist.
-
-**Personality:** warm, elegant, human, comfortable — premium through calmness.
-Visitors should feel: *"I'll enjoy spending time here."*
-
-**Palette**
-
-| Role | Hex |
-|---|---|
-| Background | `#FFFDF9` |
-| Surface | `#FFFFFF` |
-| Primary text | `#2C2C2C` |
-| Secondary text | `#6B6B6B` |
-| Accent | `#B8827A` |
-| Alt accent | `#AAB39B` |
-| Alt accent | `#D5A6A0` |
-
-Never use bright pink. Never use purple gradients.
-
-**Typography:** display **Instrument Serif** (alt: Cormorant Garamond); body
-**Inter** or **Manrope**.
-
-**Imagery:** natural daylight, plants, fabric, wood, real customers, soft depth
-of field. Everything should feel authentic.
-
-**Components:** cards 20px radius; soft borders; tiny shadows; large white space.
-
-**Decorative style:** organic line illustrations, botanical drawings, subtle
-textures. Nothing ornamental.
-
-**Motion:** fade, gentle scaling, slide. Never bounce.
-
-**Overall feeling:** Aesop × boutique hotel × modern wellness studio.
-
----
-
-## Identity C — Editorial Food
-
-**Best for:** restaurant · bakery · lunchroom · wine bar · café · delicatessen ·
-food truck · catering · cheesemonger · coffee roastery.
-
-**Personality:** delicious, crafted, authentic, inviting. Food is the hero;
-visitors should become hungry.
-
-**Palette**
-
-| Role | Hex |
-|---|---|
-| Background | `#FBF8F3` |
-| Primary text | `#202020` |
-| Secondary text | `#555555` |
-| Olive | `#334238` |
-| Terracotta | `#BB6842` |
-| Gold | `#D5B16B` |
-
-Never use bright red, bright yellow, or orange gradients.
-
-**Typography:** display **Fraunces** (alt: Instrument Serif); body **Inter**.
-Menu prices slightly heavier.
-
-**Photography:** large, editorial, close-up, natural — steam, ingredients, hands
-preparing food. Food should occupy lots of screen space.
-
-**Components:** large imagery, minimal cards, editorial layouts, generous
-spacing, thin dividers.
-
-**Decorative style:** paper textures, recipe notes, ingredient sketches, tiny
-imperfections.
-
-**Motion:** image fades, subtle parallax only, section transitions. Never flashy.
-
-**Overall feeling:** Kinfolk magazine × modern restaurant × independent coffee
-roastery.
-
----
+If you have no real photography yet, ship the section without an image and flag
+it for the client. A placeholder that looks like stock is worse than white space.
 
 ## Universal design language (2026)
 
-These rules apply **regardless of identity**.
+These hold regardless of identity, and `tokens.css` already encodes most of them.
 
-- **White space is a feature.** Desktop sections: 120–180px vertical spacing;
-  mobile: 64–96px. Never overcrowd — when in doubt, add space.
-- **Typography:** max two font families — one expressive display, one clean
-  sans-serif. Hierarchy comes from size, spacing, and weight, **not** from
-  excessive colour.
-- **Buttons:** one primary style, one secondary. Rounded 14px or pill. Never
-  gradients.
-- **Cards:** light borders, very subtle shadows, 16–20px radius.
-- **Images:** real photography always beats illustration. Priority: 1) owner,
-  2) business, 3) customers, 4) products, 5) details. Never obvious stock photos.
-- **Icons:** thin outline, consistent stroke width, never colourful.
-- **Colour discipline:** use only background, surface, primary text, secondary
-  text, and **one** accent. Every extra colour reduces quality.
-- **Motion:** animations reassure, never entertain. 180–300ms, ease-out, fade /
-  slide / subtle scale.
-- **Layout hierarchy** (default order, unless a strong reason not to):
-  Hero → Trust → Services → About → Gallery → Reviews → Location →
-  Opening Hours → Contact. *(This mirrors the `lovable-page` section order.)*
-
----
+- **White space is a feature.** Desktop sections 120–180px, mobile 64–96px.
+- **Max two font families** — one display, one clean sans. Hierarchy comes from
+  size, spacing and weight, not colour.
+- **One accent.** Background, surface, primary text, secondary text, and *one*
+  accent. Every extra colour reduces quality.
+- **Buttons:** one primary, one secondary. Never gradients.
+- **Icons:** thin outline, consistent stroke, never colourful.
+- **Motion reassures, never entertains.** 180–300ms, ease-out, fade/slide/subtle
+  scale. `tokens.css` honours `prefers-reduced-motion`.
 
 ## Design principle
 
 The website should never *feel* designed — it should feel **inevitable**.
 Visitors shouldn't notice the interface; they should notice the business.
 
-Every design decision must answer one question:
+Every decision answers one question:
 
 > "Does this make the business feel more trustworthy?"
 
 If the answer is no, remove it.
-
----
-
-## Output of this skill (what to hand to the build)
-
-- **Chosen identity:** A / B / C, with a one-line reason tied to the category.
-- **Token block for `src/styles/global.css`:** the palette hexes as CSS custom
-  properties, the two font families, the radius and motion values.
-- **Imagery direction:** the priority list and the "avoid" list for this
-  identity, so real photos (or clearly-labelled placeholders) are sourced right.
-- **One accent, two fonts, restrained motion** — every component in build-part-1
-  §5 inherits these tokens rather than inventing its own.

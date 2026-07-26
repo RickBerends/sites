@@ -15,9 +15,14 @@ changed and publishes each to its own subpath. Nothing lives outside git.
     intake-research/           # business name → sourced content brief
     visual-identity/           # category → colours/fonts/motion (the look)
     lovable-page/              # sections + trust-building copy (the structure)
+BUILD.md                       # the build hot path — start here
 orchestration.md               # full engagement pipeline (Phases 0–10)
-build-part-1-mvp.md            # scaffold + deploy an MVP under projects/<slug>/
+build-part-1-mvp.md            # the *why* behind the build (layout, quality bar)
 build-part-2-live.md           # custom domain (Cloudflare Pages) + Decap CMS
+templates/
+  one-pager/                   # the master project every site is copied from
+scripts/
+  new-site.mjs                 # templates/one-pager → projects/<slug>
 projects/
   <slug>/                      # a full, independent Astro one-pager
 README.md
@@ -39,9 +44,20 @@ README.md
 
 ## Build a new site
 
-Follow `orchestration.md` (or run the `/build-site` command / the `orchestration`
-skill). The pipeline: intake-research → **visual-identity + lovable-page** →
-build-part-1 (MVP) → review → build-part-2 (launch) → handoff → invoice.
+```bash
+node scripts/new-site.mjs <slug> --identity=<A|B|C> --name="Business Name"
+```
+
+Then write `projects/<slug>/src/content/home.md` — that's the only file that
+carries the business's words. See **`BUILD.md`** for the five-step path.
+
+Every site is a *copy* of `templates/one-pager/`, so after generation the project
+is entirely yours: rewrite any component you like. The template exists so nobody
+retypes a link checker, a CSS reset and a content schema for the sixth time.
+
+For a full client engagement (not just the build), follow `orchestration.md`:
+intake-research → **visual-identity + lovable-page** → build (Phase 5c) → review
+→ build-part-2 (launch) → handoff → invoice.
 
 ## Placeholders
 

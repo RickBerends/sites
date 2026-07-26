@@ -16,19 +16,16 @@ description: >-
 # Lovable local-business landing page
 
 Create a one-page site that feels **trustworthy, human, professional, local, and
-easy to contact** — a modern digital business card that also convinces visitors
-to become customers.
-
-A visitor should answer three questions **within 5 seconds**:
+easy to contact**. A visitor should answer three questions **within 5 seconds**:
 
 1. What is this business?
 2. Why should I trust them?
 3. How do I contact them?
 
-**Where this fits:** run at **orchestration.md Phase 5**, taking the
-`intake-research` brief as raw material and deciding the sections + copy for
-`src/content/home.md` (**build-part-1 §5**). It pairs with `visual-identity`
-(look and feel) — this skill owns *structure and words*.
+**This skill is now about the words.** The sections, their order, and the fields
+they map to are already built — `templates/one-pager/` ships all eight, and
+`sections` in `site.config.json` switches them on and off. You write
+`src/content/home.md`. See `BUILD.md`.
 
 ## Core philosophy
 
@@ -37,113 +34,108 @@ visitor feel: *"This person knows what they're doing," "I'd be comfortable
 working with them," "Contacting them seems easy."*
 
 **Every section must increase trust. If a section doesn't increase trust, remove
-it.** (Same rule as the visual-identity skill, applied to content.)
+it** — drop it from `sections` in `site.config.json` rather than leaving it empty.
 
 ---
 
-## Required sections
+## The copy formulas
 
-### 1. Hero
-Communicate **who / what / where / why choose them**, immediately.
+### Hero — `hero_label`, `hero_heading`, `hero_sub`
 
-- Small label: `Hairdresser • Tilburg`
-- Headline (benefit-led, not just the name): *"A hairdresser who actually
-  listens"*
-- One supporting sentence describing the experience.
-- Primary CTA: `Call now` · Secondary CTA: `View opening hours`.
-- At least one **authentic** image — owner portrait, owner working, or interior.
-  Start with generic stock image. 
+The headline is a **benefit, not the business name**. The name is in the header
+already; the headline has one job, which is to make someone keep reading.
+
+- Label: `Hairdresser • Tilburg` — category and place, nothing clever.
+- Headline: *"A hairdresser who actually listens"* — not *"Salon Mariska"*.
+- Supporting sentence: who it's for and what they walk away with.
 
 *Visitor feeling:* "I already understand what this business is."
 
-### 2. Trust strip
-Directly below the hero. Max **4** short, scannable items:
-`✓ 20+ years experience` · `✓ Specialist in curly hair` · `✓ Personal
-appointments` · `✓ Biological products`.
+### Trust strip — `trust[]`
 
-### 3. Services
-Cards, each: icon + service title + **one-sentence benefit**. Focus on
-**outcomes, not features**.
+Max **4**, short and scannable, and only claims the business can actually back:
+`20+ years experience` · `Specialist in curly hair` · `Personal appointments` ·
+`Organic products`.
 
-- Bad: "Uses scissors and clippers."
-- Good: "You leave with a haircut that suits you."
+An unbacked claim is worse than an empty strip — it's the first thing a sceptical
+visitor will test.
 
-### 4. About the owner
-For local businesses the owner is usually the brand.
+### Services — `services[]`
 
-- Owner photo.
-- Headline: *"You're not just another appointment."*
-- Short story = **experience + personality + customer benefit** (why they
-  started, what they care about, how they work).
+Each one sentence, and write the **outcome, not the method**:
+
+- Bad: *"Uses scissors and clippers."*
+- Good: *"You leave with a haircut that suits you."*
+- Bad: *"Professional garment alteration service."*
+- Good: *"That jacket you love finally fits properly."*
+
+Three to six. More than six and none of them land.
+
+### About — `about_heading`, `about`
+
+For a local business the owner *is* the brand. The formula is
+**experience + personality + customer benefit**: why they started, what they care
+about, and what that means for the person reading.
+
+Two to four sentences. A headline like *"You're not just another appointment."*
+does more than a paragraph of history.
 
 *Visitor feeling:* "This seems like a good person."
 
-### 5. Social proof
-**Mandatory whenever available.** Preferred order: Google reviews → Facebook
-reviews → testimonials. Show 3–6, each with name, rating, short quote.
+### Social proof — `testimonials[]`, `testimonials_source`
 
-> **Use real reviews. Never invent testimonials or ratings.** If none are
-> available via a compliant path, leave it as a flagged gap — see the
-> `intake-research` skill §2b (live embed / client-permissioned quotes / fresh
-> testimonials).
+Show 3–6 with name, rating, short quote — **whenever a compliant path exists**.
 
-### 6. Location & accessibility
-Address, embedded map, parking info, public-transport info; optional storefront
-photo. *Visitor feeling:* "I know exactly where to go."
+> **Never invent a testimonial or a rating.** There are exactly three legitimate
+> sources: a live embed, client-permissioned quotes, or fresh testimonials
+> (`intake-research` §2b). Pasting scraped Google review text is not one of them.
+> No compliant path → leave the section off and flag it for the client.
 
-### 7. Opening hours
-Simple table; highlight **open now / closed now** if possible. Add a helpful
-note like *"Appointments recommended."*
+`testimonials_source` renders as an attribution line. If you can't fill it in,
+that's the signal you shouldn't be publishing the quotes.
 
-### 8. Contact — the most important section
-Phone, WhatsApp (if available), email (if available), address. One large, clear
-CTA (`Book an appointment`). **Never hide contact details; never require multiple
-clicks.**
+### Location & hours — `address`, `maps_url`, `hours[]`
 
----
+*Visitor feeling:* "I know exactly where to go." Add a helpful human note where
+it's true — *"Appointments recommended."*
 
-## Design principles
+### Contact — `phone`, `whatsapp`, `contact_email`, `address`
 
-- **Human before corporate.** Real photos, real stories, real language. Avoid
-  corporate jargon and marketing buzzwords.
-- **Visual hierarchy.** A visitor should understand the whole page by reading
-  only the headlines: Hero → Trust → Services → About → Reviews → Contact.
-- **White space.** Local sites look amateur because they're crowded — when in
-  doubt, add space. (Matches visual-identity's spacing tokens.)
-- **Typography.** One display font + one body font (Inter / Instrument Sans /
-  Manrope). Headlines confident; body text disappears.
-- **Colour.** Start from the business personality; **one** accent colour, not
-  three. (Defer to the chosen `visual-identity`.)
-
-## Imagery priority
-
-1. Owner portrait → 2. Owner working → 3. Storefront → 4. Interior →
-5. Customers (with permission). Avoid stock imagery and fake smiling models.
-Authenticity beats perfection.
-
-## Microinteractions
-
-Subtle hover states, smooth scrolling, button feedback, section-reveal
-animations. Avoid fancy page transitions, autoplaying video, heavy motion —
-**trust comes from calmness.**
-
-## Mobile first
-
-Most visitors arrive on mobile. Call button always visible; address easy to
-copy; map easy to open; opening hours easy to scan.
+The most important section. **Never hide contact details; never require multiple
+clicks.** A missing `contact_email` is extremely common and is a flagged gap, not
+a field to fill with a guess.
 
 ---
 
-## Conversion checklist (verify before publishing)
+## Writing principles
+
+- **Human before corporate.** Real language. No jargon, no buzzwords, no
+  "leveraging synergies to deliver excellence".
+- **Headline-scannable.** Someone reading only the headings — Hero → Trust →
+  Services → About → Reviews → Contact — should understand the whole business.
+- **Write in the customer's words**, not the trade's. Read the business's reviews
+  for the phrases customers actually use.
+- **Mobile first.** Most visitors arrive on a phone: call button always reachable,
+  address easy to copy, hours easy to scan.
+
+## Imagery
+
+Priority: **1)** owner portrait → **2)** owner working → **3)** storefront →
+**4)** interior → **5)** customers (with permission).
+
+**Never use obvious stock imagery.** A generic smiling model damages trust more
+than white space does. If there's no real photograph yet, ship the section
+without one and flag it — do not fill the hole with a stock placeholder.
+
+## Conversion checklist (before publishing)
 
 - [ ] Visitor understands the business within 5 seconds.
-- [ ] Contact info visible without scrolling too far.
-- [ ] A real owner photo exists.
+- [ ] Contact info visible without scrolling far.
+- [ ] A real owner photo exists (or is a flagged gap).
 - [ ] At least one trust signal exists.
-- [ ] At least one review exists (or it's an explicit, flagged gap).
-- [ ] CTA appears multiple times.
+- [ ] At least one review exists, or it's an explicit flagged gap.
+- [ ] CTA appears more than once.
 - [ ] Mobile experience feels effortless.
-- [ ] Page loads fast.
 - [ ] No unnecessary pages.
 
 ## Success metric
@@ -151,20 +143,5 @@ copy; map easy to open; opening hours easy to scan.
 A successful page makes a visitor think: *"This looks professional. This person
 seems trustworthy. I'll contact them."*
 
----
-
-## How this maps to the build
-
-| Section here | `home.md` field(s) (build-part-1 §5) |
-|---|---|
-| Hero | `hero_heading`, `hero_sub` + hero image |
-| Trust strip | `trust[]` (short strings) |
-| Services | `services[]` (`title`, `body`) |
-| About | `about` + owner photo |
-| Social proof | `testimonials[]` — only via a compliant `intake-research` path |
-| Location | address / map / transport in the contact-facts block |
-| Opening hours | `hours` table |
-| Contact | `phone`, `whatsapp?`, `contact_email?`, `address` |
-
-Fields the intake brief couldn't source stay as **flagged gaps** (never
-invented) and are confirmed with the client at Phase 6.
+Anything the intake brief couldn't source stays a **flagged gap** — never
+invented — and is confirmed with the client at Phase 6.

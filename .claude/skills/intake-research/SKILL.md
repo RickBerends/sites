@@ -159,20 +159,29 @@ photos · social links to feature · contact email (often NOT public — see §5
 
 ## 4. Map research → the content model
 
-Each research field lands in a specific `home.md` field from **build-part-1 §5**:
+Everything you gather lands in one file: `src/content/home.md`. The authoritative
+field list is the schema at
+`templates/one-pager/src/content.config.ts` — read it rather than a copy that can
+drift. The template's `home.md` is commented field by field.
 
-| `home.md` field | Filled from | Notes |
+What research feeds which field:
+
+| Filled from | Lands in | Notes |
 |---|---|---|
-| `hero_heading` | Name + core value prop | Short, benefit-led; not just the name |
-| `hero_sub` | One-line value proposition | What they do, for whom, where |
-| `about` | Google description + site/social about | Synthesized from real sources, no invention |
-| `services[]` (`title`, `body`) | Google attributes + site + social | 3–6; each traceable to a source |
-| `contact_email` | Site / social contact | **Usually a gap** — confirm with client (§5) |
-| *(testimonials, if the schema adds them)* | §2b compliant path only | Attribution or written permission required |
+| Name + core value prop | `hero_heading` | Short, benefit-led; **not** just the name |
+| One-line value proposition | `hero_sub` | What they do, for whom, where |
+| Google description + site/social about | `about` | Synthesized from real sources, no invention |
+| Google attributes + site + social | `services[]` | 3–6; each traceable to a source |
+| Site / social contact | `contact_email` | **Usually a gap** — confirm with client (§5) |
+| §2b compliant path only | `testimonials[]` + `testimonials_source` | Attribution or written permission required |
 
-Non-schema outputs the build still needs: the **contact/factual block** (address,
-hours, phone, map), the **brand kit** (logo, colours, fonts, photos), and the
-**social links** to surface.
+Everything is optional except `hero_heading`, `hero_sub`, `about` and `services`.
+**A field you cannot source is deleted, not guessed** — the schema is built to
+let a site ship with honest gaps.
+
+Non-schema outputs the build still needs: the **brand kit** (logo, colours,
+fonts, photos) and the **business category**, which picks the identity
+(`visual-identity`) that the generator takes as `--identity`.
 
 ---
 

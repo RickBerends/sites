@@ -14,24 +14,24 @@ description: >-
   if they don't say the word "orchestration".
 ---
 
-Follow the full engagement runbook, step by step, from this file:
-
-`C:\Users\Xgaming\Desktop\website-framework\orchestration.md`
-
-Read that file first, then execute it. It owns the whole pipeline (Phases 0–10)
-and invokes sub-skills and sub-playbooks at specific phases:
+Follow the full engagement runbook, step by step, from **`orchestration.md` in
+the repo root**. Read it first, then execute it. It owns the whole pipeline and
+invokes sub-skills and sub-playbooks at specific phases:
 
 - `intake-research` skill — via `/intake-research <business-name>` at Phase 5a
   (research → sourced content brief).
-- `visual-identity` skill — Phase 5b (business category → colours/fonts/motion).
+- `visual-identity` skill — Phase 5b (business category → identity A/B/C).
 - `lovable-page` skill — Phase 5b (sections + trust-building copy).
-- `build-part-1-mvp.md` — Phase 5c (scaffold into `projects/<slug>/`), reviewed at
-  Phase 6.
+- **`BUILD.md`** — Phase 5c. This is the build hot path: generate the project with
+  `node scripts/new-site.mjs <slug> --identity=<A|B|C> --name="…"`, then write
+  `src/content/home.md`. Reviewed at Phase 6.
+- `build-part-1-mvp.md` — the *why* behind the build (monorepo layout, quality
+  bar, verification checklist). Read it when something goes wrong, not on the
+  happy path.
 - `build-part-2-live.md` — Phases 7–8 (Cloudflare Pages + domain + Decap CMS).
 
-The runbook's relative links (`./build-part-1-mvp.md`, etc.) resolve from its own
-location in the `website-framework` folder, so always read those companion files
-from that same directory.
+All of these live in the repo root alongside `orchestration.md`, so its relative
+links (`./build-part-1-mvp.md`, etc.) resolve as written.
 
 **Two structural rules the runbook enforces:** build every site as
 `projects/<slug>/` in the **sites monorepo** (one shared workflow builds only
