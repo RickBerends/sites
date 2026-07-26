@@ -1,0 +1,42 @@
+---
+interface Service {
+  title: string;
+  body: string;
+}
+interface Props {
+  services: Service[];
+}
+const { services } = Astro.props;
+---
+<section id="diensten">
+  <div class="container">
+    <p class="eyebrow">Diensten</p>
+    <h2>Waar u op kunt rekenen</h2>
+    <div class="services-grid">
+      {services.map((service) => (
+        <div class="card fade-up">
+          <h3>{service.title}</h3>
+          <p>{service.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  .services-grid h3 {
+    font-size: 1.15rem;
+  }
+
+  .services-grid p {
+    color: var(--color-text-muted);
+    margin-bottom: 0;
+  }
+</style>

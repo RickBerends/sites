@@ -1,0 +1,167 @@
+/* Barber Tek — visual identity A "Crafted Masculine"
+   One accent, two fonts, restrained motion. See orchestration.md Phase 5 /
+   .claude/skills/visual-identity. */
+
+:root {
+  --color-bg: #f7f5f2;
+  --color-surface: #ffffff;
+  --color-text: #191919;
+  --color-text-muted: #6d6d6d;
+  --color-accent: #5b7c6f;
+  --color-accent-alt: #243446;
+
+  --font-display: 'General Sans', 'Sora', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  --radius-card: 16px;
+  --radius-button: 14px;
+
+  --motion-duration: 220ms;
+  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --space-section-desktop: 140px;
+  --space-section-mobile: 72px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 0.5em;
+  color: var(--color-text);
+}
+
+p {
+  margin: 0 0 1em;
+  color: var(--color-text);
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+section {
+  padding: var(--space-section-mobile) 1.25rem;
+}
+
+@media (min-width: 900px) {
+  section {
+    padding: var(--space-section-desktop) 2rem;
+  }
+}
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.85rem 1.5rem;
+  border-radius: var(--radius-button);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform var(--motion-duration) var(--motion-ease),
+    background var(--motion-duration) var(--motion-ease);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--color-text);
+  color: var(--color-surface);
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-alt);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-text);
+  border-color: rgba(25, 25, 25, 0.2);
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-text);
+}
+
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  border: 1px solid rgba(25, 25, 25, 0.08);
+  box-shadow: 0 1px 2px rgba(25, 25, 25, 0.04);
+  padding: 1.75rem;
+}
+
+.fade-up {
+  animation: fadeUp var(--motion-duration) var(--motion-ease) both;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.draft-banner {
+  background: var(--color-accent-alt);
+  color: #fff;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  padding: 0.6rem 1rem;
+}
+
+.draft-banner a {
+  color: #fff;
+  text-decoration: underline;
+}

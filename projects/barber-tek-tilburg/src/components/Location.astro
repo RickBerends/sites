@@ -1,0 +1,87 @@
+---
+interface Hour {
+  day: string;
+  open: string;
+}
+interface Props {
+  address?: string;
+  hours?: Hour[];
+}
+const { address, hours } = Astro.props;
+const mapsHref = address
+  ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
+  : undefined;
+---
+<section id="openingstijden" class="location">
+  <div class="container location-grid">
+    <div class="fade-up">
+      <p class="eyebrow">Locatie</p>
+      <h2>Waar u ons vindt</h2>
+      {address && <p class="address">{address}</p>}
+      {mapsHref && (
+        <a class="btn btn-secondary" href={mapsHref} target="_blank" rel="noopener noreferrer">
+          Open in Google Maps
+        </a>
+      )}
+    </div>
+    {hours && hours.length > 0 && (
+      <div class="fade-up">
+        <p class="eyebrow">Openingstijden</p>
+        <table class="hours-table">
+          <tbody>
+            {hours.map((h) => (
+              <tr>
+                <td>{h.day}</td>
+                <td>{h.open}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .location {
+    background: var(--color-surface);
+  }
+
+  .location-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 800px) {
+    .location-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .address {
+    font-size: 1.05rem;
+    color: var(--color-text-muted);
+  }
+
+  .hours-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .hours-table td {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(25, 25, 25, 0.08);
+    font-size: 0.98rem;
+  }
+
+  .hours-table td:first-child {
+    font-weight: 600;
+  }
+
+  .hours-table td:last-child {
+    text-align: right;
+    color: var(--color-text-muted);
+  }
+
+</style>

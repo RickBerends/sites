@@ -1,0 +1,29 @@
+---
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+---
+<section id="over-ons" class="about">
+  <div class="container about-inner">
+    <p class="eyebrow">Over de zaak</p>
+    <h2>Barber Tek</h2>
+    <p class="about-body fade-up">{text}</p>
+  </div>
+</section>
+
+<style>
+  .about {
+    background: var(--color-surface);
+  }
+
+  .about-inner {
+    max-width: 680px;
+  }
+
+  .about-body {
+    font-size: 1.05rem;
+    color: var(--color-text-muted);
+    white-space: pre-line;
+  }
+</style>

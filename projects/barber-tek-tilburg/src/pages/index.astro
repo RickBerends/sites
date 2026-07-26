@@ -1,0 +1,55 @@
+---
+import { getEntry } from 'astro:content';
+import '../styles/global.css';
+import DraftBanner from '../components/DraftBanner.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Trust from '../components/Trust.astro';
+import Services from '../components/Services.astro';
+import About from '../components/About.astro';
+import Location from '../components/Location.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+
+const home = await getEntry('page', 'home');
+if (!home) {
+  throw new Error('Missing src/content/home.md');
+}
+const data = home.data;
+---
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barber Tek — Barbier Willem II-straat, Tilburg</title>
+    <meta
+      name="description"
+      content="Barber Tek is een herenbarbier aan de Willem II-straat in Tilburg. Knippen voor € 13, baard trimmen voor € 8."
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=general-sans@700,600,500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <DraftBanner />
+    <Nav />
+    <Hero label={data.hero_label} heading={data.hero_heading} sub={data.hero_sub} phone={data.phone} />
+    <Trust items={data.trust} />
+    <Services services={data.services} />
+    <About text={data.about} />
+    <Location address={data.address} hours={data.hours} />
+    <Contact phone={data.phone} whatsapp={data.whatsapp} contactEmail={data.contact_email} address={data.address} />
+    <Footer />
+  </body>
+</html>
