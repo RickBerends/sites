@@ -132,7 +132,7 @@ formats) just like developer-committed images.
    | A | @ | 185.199.109.153 | see cert note |
    | A | @ | 185.199.110.153 | see cert note |
    | A | @ | 185.199.111.153 | see cert note |
-   | CNAME | www | `<repo-owner>.github.io` | see cert note |
+   | CNAME | www | `<owner>.github.io` | see cert note |
 
    (Those four IPs are GitHub Pages' fixed addresses — same for every site.)
    For the **Cloudflare Pages track**, DNS is added automatically when you attach
@@ -174,9 +174,10 @@ the CDN/analytics/security benefits.
    });
    ```
 
-   Drops the `/<repo-name>` subpath — the site now lives at the domain root.
+   Drops the `/<sites-repo>/<slug>` subpath — the site now lives at the domain
+   root.
 4. **Verify:** visit `https://<domain>` and `https://www.<domain>`, click
-   internal links, confirm no doubled paths (`/<repo-name>/<repo-name>/…`).
+   internal links, confirm no doubled paths (`/<sites-repo>/<slug>/<slug>/…`).
 
 ---
 
@@ -222,7 +223,7 @@ standalone Worker.)*
      ```yaml
      backend:
        name: github
-       repo: <repo-owner>/<repo-name>
+       repo: <owner>/<sites-repo>
        branch: main
        base_url: https://<worker-name>.<cf-account>.workers.dev
        auth_endpoint: auth
