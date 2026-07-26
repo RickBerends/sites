@@ -177,11 +177,14 @@ regex to resolve root-relative links against `dist/`.
 
 - **Navigation** is smooth-scroll anchors to section IDs on the same page — no
   routing, so no extra `base`-subpath surprises beyond §3.
-- **Images:** use Astro's built-in `astro:assets` (`<Image>` / `<Picture>` on
-  files in `src/assets/`) for responsive sizes + modern formats at build time.
-  For the MVP, images are committed to the repo like any other content. Source
-  them per the `visual-identity` and `lovable-page` imagery priority (owner →
-  business → customers → products → details; never obvious stock).
+- **Images:** the Hero and About slots are required — `content.config.ts`'s
+  `hero_image`/`about_image` fields render via Astro's `astro:assets`
+  (`<Image>`), and the component falls back to the site's identity-matched
+  stock image (`src/assets/stock/`) whenever the field is unset, so the slot
+  is never empty. Source real photos per the `visual-identity` and
+  `lovable-page` imagery priority (owner → business → customers → products →
+  details) and commit them to the repo like any other content; until then the
+  stock fallback shows with a visible "placeholder" caption.
 
 ---
 

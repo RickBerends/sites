@@ -24,6 +24,13 @@ hero_label: 'REPLACE — category · city'
 hero_heading: 'REPLACE — the benefit a visitor gets, not the trade name'
 hero_sub: 'REPLACE — one sentence on who this is for and what they walk away with.'
 
+# HERO IMAGE — optional, path relative to this file, e.g. './images/hero.jpg'.
+# Put the real photo (once sourced, per visual-identity's priority order) in a
+# sibling `images/` folder. Leave this field out entirely if you don't have one
+# yet — Hero.astro automatically falls back to the identity's stock image, so
+# the section is never empty either way.
+# hero_image: './images/hero.jpg'
+
 # TRUST STRIP — max 4. Only claims the business can actually back.
 trust:
   - 'REPLACE — a real, checkable claim'
@@ -36,6 +43,10 @@ about: |
   about, and why that matters to the person reading.
 
   A blank line starts a new paragraph.
+
+# ABOUT IMAGE — same rule as hero_image: optional, path relative to this file.
+# Falls back to the identity's stock image when unset.
+# about_image: './images/about.jpg'
 
 # SERVICES — 3 to 6. Write the OUTCOME, not the method.
 #   bad:  "Uses scissors and clippers."

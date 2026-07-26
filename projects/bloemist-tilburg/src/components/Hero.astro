@@ -1,24 +1,25 @@
 ---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import stockHero from '../assets/stock/hero.png';
+
 interface Props {
   label: string;
   heading: string;
   sub: string;
   phone?: string;
+  image?: ImageMetadata;
 }
-const { label, heading, sub, phone } = Astro.props;
+const { label, heading, sub, phone, image } = Astro.props;
 const telHref = phone ? `tel:${phone.replace(/\s+/g, '')}` : undefined;
+const isStock = !image;
+const heroImage = image ?? stockHero;
 ---
 
 <section id="top" class="hero section fade-in">
-  <div class="hero-visual" aria-hidden="true">
-    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" stroke-width="1.2"/>
-      <path d="M100 40 C 120 60, 120 90, 100 110 C 80 90, 80 60, 100 40 Z" fill="none" stroke="currentColor" stroke-width="1.2"/>
-      <path d="M100 110 C 120 120, 140 120, 150 100 C 140 80, 120 80, 100 110 Z" fill="none" stroke="currentColor" stroke-width="1.2"/>
-      <path d="M100 110 C 80 120, 60 120, 50 100 C 60 80, 80 80, 100 110 Z" fill="none" stroke="currentColor" stroke-width="1.2"/>
-      <line x1="100" y1="110" x2="100" y2="165" stroke="currentColor" stroke-width="1.2"/>
-    </svg>
-    <p class="visual-caption">Sfeerbeeld — echte winkelfoto's volgen na klant­goedkeuring</p>
+  <div class="hero-visual">
+    <Image src={heroImage} alt={isStock ? '' : heading} widths={[400, 800, 1200]} sizes="(min-width: 900px) 50vw, 100vw" />
+    {isStock && <p class="visual-caption">Sfeerbeeld — wordt vervangen zodra er eigen winkelfoto's zijn</p>}
   </div>
 
   <div class="hero-copy">
@@ -42,27 +43,19 @@ const telHref = phone ? `tel:${phone.replace(/\s+/g, '')}` : undefined;
 
   .hero-visual {
     order: -1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(160deg, var(--color-accent-alt-2) 0%, var(--color-accent-alt) 100%);
-    border-radius: var(--radius-card);
-    padding: 3rem 1.5rem;
-    color: #fff;
-    text-align: center;
   }
 
-  .hero-visual svg {
-    width: 120px;
-    height: 120px;
-    opacity: 0.9;
+  .hero-visual img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-card);
+    display: block;
   }
 
   .visual-caption {
-    margin-top: 1rem;
+    margin-top: 0.6rem;
     font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--color-text-secondary);
   }
 
   .hero-sub {

@@ -65,6 +65,7 @@ const LANG_PRESETS = {
     addressLabel: 'Adres',
     mapsLinkLabel: 'Bekijk op Google Maps',
     closedLabel: 'Gesloten',
+    stockImageCaption: "Sfeerbeeld — wordt vervangen zodra er eigen foto's zijn",
     draftBanner:
       'Concept — voorbeeldpagina ter beoordeling. Teksten zijn nog niet definitief.',
     notFoundHeading: 'Pagina niet gevonden',
@@ -91,6 +92,7 @@ const LANG_PRESETS = {
     addressLabel: 'Address',
     mapsLinkLabel: 'View on Google Maps',
     closedLabel: 'Closed',
+    stockImageCaption: 'Placeholder image — will be replaced once real photos exist',
     draftBanner: 'Draft — preview for review. Copy is not final.',
     notFoundHeading: 'Page not found',
     notFoundBody: "This page doesn't exist (any more).",
@@ -231,6 +233,34 @@ async function main() {
     const file = `identity-${letter}.css`;
     if (file !== keep) await fs.rm(path.join(targetDir, 'src', 'styles', file));
   }
+
+  // ---- stock fallback images: keep the chosen identity's pair only ---------
+  // Mirrors the identity-CSS pruning below: Hero.astro/About.astro glob all
+  // three assets/stock/{a,b,c}/ folders and pick the one matching this site's
+  // identity, so deleting the other two here is a repo-size cleanup, not a
+  // requirement for the build to resolve the right image.
+
+  const stockDir = path.join(targetDir, 'src', 'assets', 'stock');
+  for (const letter of ['a', 'b', 'c']) {
+    if (letter !== identity.toLowerCase()) {
+      await fs.rm(path.join(stockDir, letter), { recursive: true, force: true });
+    }
+  }
+  await write(
+    'src/assets/stock/README.md',
+    `# Stock fallback images
+
+\`${identity.toLowerCase()}/hero.png\` and \`${identity.toLowerCase()}/about.png\`
+fill the Hero/About image slots when this project's own
+\`hero_image\`/\`about_image\` isn't set in \`src/content/home.md\` yet — see
+\`content.config.ts\`.
+
+These start as gradient placeholders for identity ${identity}. Overwrite them
+in place with a real photo (same filename, or update the glob pattern in
+\`Hero.astro\`/\`About.astro\` if you change the extension) once one is sourced,
+per the \`visual-identity\` skill's imagery priority order.
+`,
+  );
 
   let globalCss = await read('src/styles/global.css');
   const identityImport = /@import '\.\/identity-[abc]\.css';/;

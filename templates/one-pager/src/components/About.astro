@@ -1,12 +1,24 @@
 ---
-import { strings } from '../config';
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import { site, strings } from '../config';
+
+// See Hero.astro's stockHeroes comment: one import path can't vary by
+// identity, so this globs all three and picks the site's own.
+const stockAbouts = import.meta.glob<{ default: ImageMetadata }>('../assets/stock/*/about.png', {
+  eager: true,
+});
+const stockAbout = stockAbouts[`../assets/stock/${site.identity.toLowerCase()}/about.png`].default;
 
 interface Props {
   heading?: string;
   body: string;
+  image?: ImageMetadata;
 }
 
-const { heading, body } = Astro.props;
+const { heading, body, image } = Astro.props;
+const isStock = !image;
+const aboutImage = image ?? stockAbout;
 
 // Split on blank lines so a multi-paragraph `about` renders as paragraphs
 // rather than one wall of text.
@@ -15,13 +27,21 @@ const paragraphs = body.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
 
 <section id="about" class="section section-alt">
   <div class="container about-inner reveal">
-    <h2>{heading ?? strings.aboutHeading}</h2>
-    {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    <div class="about-visual">
+      <Image src={aboutImage} alt={isStock ? '' : (heading ?? strings.aboutHeading)} widths={[400, 800, 1000]} sizes="(min-width: 900px) 40vw, 100vw" />
+      {isStock && <p class="visual-caption">{strings.stockImageCaption}</p>}
+    </div>
+    <div class="about-copy">
+      <h2>{heading ?? strings.aboutHeading}</h2>
+      {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
   </div>
 </section>
 
 <style>
   .about-inner {
+    display: grid;
+    gap: 2rem;
     max-width: 68ch;
   }
 
@@ -31,5 +51,26 @@ const paragraphs = body.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
 
   .about-inner p:last-child {
     margin-bottom: 0;
+  }
+
+  .about-visual img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-card);
+    display: block;
+  }
+
+  .visual-caption {
+    margin-top: 0.6rem;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 900px) {
+    .about-inner {
+      grid-template-columns: 0.8fr 1.2fr;
+      align-items: center;
+      max-width: 1080px;
+    }
   }
 </style>

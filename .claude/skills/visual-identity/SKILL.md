@@ -58,9 +58,8 @@ genuinely hard part of this skill.
 ## Imagery direction (the part no CSS file can carry)
 
 Priority order, always: **1)** the owner, **2)** the business, **3)** customers,
-**4)** products, **5)** details. Real photography beats illustration every time.
-**Never obvious stock photos** — a generic smiling model does more damage to
-trust than an imperfect real photo.
+**4)** products, **5)** details. Real photography beats a stock fallback every
+time — a real photo, even an imperfect one, builds more trust than a stock shot.
 
 Per identity:
 
@@ -71,8 +70,18 @@ Per identity:
 - **C** — large, editorial, close-up: steam, ingredients, hands preparing food.
   Food occupies a lot of screen space.
 
-If you have no real photography yet, ship the section without an image and flag
-it for the client. A placeholder that looks like stock is worse than white space.
+**The Hero and About image slots are required — they must never render empty.**
+`content.config.ts`'s `hero_image`/`about_image` fields are optional precisely
+because a client's own photo is frequently not sourced yet, but Hero.astro and
+About.astro always render *something*: the real photo if `home.md` has it,
+otherwise the identity's bundled stock fallback (`templates/one-pager/src/assets/stock/{a,b,c}/`).
+When the fallback is showing, the component renders a visible caption saying so
+— the "flag the gap" instinct survives, it just no longer leaves white space.
+
+Choosing the fallback stock photo is the same discipline as choosing a real
+one: match the identity's imagery direction above and this specific business,
+not a generic smiling-model shot. Swap it for a real photo the moment one
+exists — the fallback is a placeholder, not a destination.
 
 ## Universal design language (2026)
 
