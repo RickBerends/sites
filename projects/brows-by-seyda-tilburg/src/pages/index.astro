@@ -1,0 +1,46 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site, hasSection } from '../config';
+
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Trust from '../components/Trust.astro';
+import Services from '../components/Services.astro';
+import About from '../components/About.astro';
+import Footer from '../components/Footer.astro';
+
+const entry = await getEntry('page', 'home');
+if (!entry) {
+  throw new Error('Missing src/content/home.md');
+}
+const data = entry.data;
+
+// <head> copy lives in home.md so it stays with the rest of the content — and so
+// Decap can edit it in Part 2 without touching a component.
+const title = data.seo_title ?? `${site.name} — ${data.hero_heading}`;
+const description = data.seo_description ?? data.hero_sub;
+---
+
+<BaseLayout title={title} description={description}>
+  <Header phone={data.phone} />
+
+  <main id="main">
+    {
+      hasSection('hero') && (
+        <Hero
+          label={data.hero_label}
+          heading={data.hero_heading}
+          sub={data.hero_sub}
+          phone={data.phone}
+          instagramUrl={data.instagram_url}
+        />
+      )
+    }
+    {hasSection('trust') && <Trust items={data.trust} />}
+    {hasSection('services') && <Services services={data.services} />}
+    {hasSection('about') && <About heading={data.about_heading} body={data.about} />}
+  </main>
+
+  <Footer instagramUrl={data.instagram_url} facebookUrl={data.facebook_url} />
+</BaseLayout>
