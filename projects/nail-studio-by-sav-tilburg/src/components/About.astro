@@ -1,0 +1,35 @@
+---
+import { strings } from '../config';
+
+interface Props {
+  heading?: string;
+  body: string;
+}
+
+const { heading, body } = Astro.props;
+
+// Split on blank lines so a multi-paragraph `about` renders as paragraphs
+// rather than one wall of text.
+const paragraphs = body.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
+---
+
+<section id="about" class="section section-alt">
+  <div class="container about-inner reveal">
+    <h2>{heading ?? strings.aboutHeading}</h2>
+    {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+  </div>
+</section>
+
+<style>
+  .about-inner {
+    max-width: 68ch;
+  }
+
+  .about-inner p {
+    font-size: 1.05rem;
+  }
+
+  .about-inner p:last-child {
+    margin-bottom: 0;
+  }
+</style>
