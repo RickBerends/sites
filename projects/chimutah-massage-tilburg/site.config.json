@@ -1,0 +1,38 @@
+{
+  "slug": "chimutah-massage-tilburg",
+  "name": "Chimutah Massagepraktijk",
+  "lang": "nl",
+  "identity": "B",
+  "draft": true,
+  "sections": [
+    "hero",
+    "trust",
+    "services",
+    "about"
+  ],
+  "strings": {
+    "skipToContent": "Naar de inhoud",
+    "primaryCta": "Bel ons",
+    "secondaryCta": "Bekijk openingstijden",
+    "navServices": "Diensten",
+    "navAbout": "Over ons",
+    "navHours": "Openingstijden",
+    "navContact": "Contact",
+    "servicesHeading": "Wat we doen",
+    "aboutHeading": "Over ons",
+    "testimonialsHeading": "Wat klanten zeggen",
+    "locationHeading": "Waar je ons vindt",
+    "hoursHeading": "Openingstijden",
+    "contactHeading": "Contact",
+    "phoneLabel": "Telefoon",
+    "emailLabel": "E-mail",
+    "whatsappLabel": "WhatsApp",
+    "addressLabel": "Adres",
+    "mapsLinkLabel": "Bekijk op Google Maps",
+    "closedLabel": "Gesloten",
+    "draftBanner": "Concept — voorbeeldpagina ter beoordeling. Teksten zijn nog niet definitief.",
+    "notFoundHeading": "Pagina niet gevonden",
+    "notFoundBody": "Deze pagina bestaat niet (meer).",
+    "notFoundCta": "Terug naar de homepage"
+  }
+}
