@@ -1,0 +1,17 @@
+# Dependencies & build output — never committed; CI installs/builds fresh
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.astro/
+**/.astro/
+
+# Local env & logs
+.env
+.env.*
+*.log
+npm-debug.log*
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db

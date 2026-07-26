@@ -1,0 +1,75 @@
+name: Deploy changed sites to GitHub Pages
+# One workflow for the whole monorepo. Detects which projects/<slug> changed on a
+# push and builds ONLY those, publishing them into the gh-pages branch under
+# <slug>/. Untouched projects are preserved (keep_files: true). See
+# build-part-1-mvp.md §6.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      all:
+        description: 'Rebuild every project (ignore change detection)'
+        type: boolean
+        default: false
+permissions:
+  contents: write          # peaceiris pushes to the gh-pages branch
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      slugs: ${{ steps.set.outputs.slugs }}
+      any: ${{ steps.set.outputs.any }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - id: set
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.all }}" = "true" ]; then
+            slugs=$(ls -d projects/*/ 2>/dev/null | sed 's#projects/##; s#/##' \
+              | jq -R . | jq -sc 'map(select(length>0))')
+          else
+            base='${{ github.event.before }}'
+            if [ -z "$base" ] || ! git cat-file -e "${base}^{commit}" 2>/dev/null; then
+              base=$(git rev-list --max-parents=0 HEAD | tail -1)   # first push
+            fi
+            slugs=$(git diff --name-only "$base" '${{ github.sha }}' -- projects/ \
+              | awk -F/ 'NF>=2 {print $2}' | sort -u \
+              | jq -R . | jq -sc 'map(select(length>0))')
+          fi
+          echo "slugs=$slugs" >> "$GITHUB_OUTPUT"
+          if [ "$slugs" = "[]" ] || [ -z "$slugs" ]; then
+            echo "any=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "any=true"  >> "$GITHUB_OUTPUT"
+          fi
+  build-deploy:
+    needs: detect
+    if: needs.detect.outputs.any == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Build each changed project
+        run: |
+          mkdir -p site
+          for slug in $(echo '${{ needs.detect.outputs.slugs }}' | jq -r '.[]'); do
+            echo "::group::build $slug"
+            ( cd "projects/$slug" \
+              && npm ci \
+              && npm run build \
+              && node scripts/check-links.mjs )
+            mkdir -p "site/$slug"
+            cp -r "projects/$slug/dist/." "site/$slug/"
+            echo "::endgroup::"
+          done
+      - name: Publish to gh-pages (keep untouched projects)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          keep_files: true

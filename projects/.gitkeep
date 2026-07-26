@@ -1,0 +1,3 @@
+# Each client site is a self-contained Astro project in its own folder here:
+#   projects/<slug>/   (package.json, astro.config.mjs, src/, scripts/, public/)
+# Served at https://<owner>.github.io/<sites-repo>/<slug>/ — see build-part-1-mvp.md.

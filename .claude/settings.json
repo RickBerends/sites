@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "additionalDirectories": [
+      "C:\\Users\\Xgaming\\Desktop\\website-framework"
+    ],
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "WebSearch",
+      "WebFetch",
+      "Bash(gh:*)",
+      "Bash(gh *)",
+      "Bash(git:*)",
+      "Bash(git *)",
+      "Bash(npm:*)",
+      "Bash(npm *)",
+      "Bash(npx:*)",
+      "Bash(npx *)",
+      "Bash(node:*)",
+      "Bash(node *)",
+      "Bash(mkdir:*)",
+      "Bash(mkdir *)",
+      "Bash(echo:*)",
+      "Bash(echo *)",
+      "Bash(ls:*)",
+      "Bash(ls *)",
+      "Bash(cat:*)",
+      "Bash(cat *)",
+      "Bash(find:*)",
+      "Bash(find *)",
+      "mcp__Claude_Browser",
+      "mcp__mcp-registry"
+    ],
+    "deny": [
+      "Bash(rm -rf /*)",
+      "Bash(git push --force*)",
+      "Bash(gh secret*)"
+    ]
+  }
+}
