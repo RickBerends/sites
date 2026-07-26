@@ -1,0 +1,53 @@
+---
+interface Props {
+  heading: string;
+  about: string;
+}
+const { heading, about } = Astro.props;
+---
+
+<section id="over-ons" class="section fade-in about">
+  <div class="about-visual" aria-hidden="true">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <path d="M40 160 C 40 100, 80 60, 100 40 C 120 60, 160 100, 160 160" fill="none" stroke="currentColor" stroke-width="1.2"/>
+      <circle cx="100" cy="40" r="8" fill="none" stroke="currentColor" stroke-width="1.2"/>
+      <circle cx="70" cy="90" r="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+      <circle cx="130" cy="90" r="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    </svg>
+  </div>
+  <div class="about-copy">
+    <span class="eyebrow">Over ons</span>
+    <h2>{heading}</h2>
+    <p>{about}</p>
+  </div>
+</section>
+
+<style>
+  .about {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .about-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    padding: 2.5rem;
+    color: var(--color-accent);
+  }
+
+  .about-visual svg {
+    width: 100px;
+    height: 100px;
+  }
+
+  @media (min-width: 900px) {
+    .about {
+      grid-template-columns: 0.8fr 1.2fr;
+      align-items: center;
+    }
+  }
+</style>

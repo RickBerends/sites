@@ -1,0 +1,62 @@
+---
+interface HourRow {
+  day: string;
+  open: string;
+}
+interface Props {
+  hours?: HourRow[];
+}
+const { hours = [] } = Astro.props;
+---
+
+{hours.length > 0 && (
+  <section id="openingstijden" class="section fade-in">
+    <span class="eyebrow">Openingstijden</span>
+    <h2>Wanneer je binnen kunt lopen</h2>
+    <table class="hours-table">
+      <tbody>
+        {hours.map((h) => (
+          <tr>
+            <td>{h.day}</td>
+            <td class={h.open === 'Gesloten' ? 'closed' : ''}>{h.open}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <p class="note">Buiten openingstijden? Bel gerust even van tevoren.</p>
+  </section>
+)}
+
+<style>
+  .hours-table {
+    margin-top: 1.5rem;
+    width: 100%;
+    max-width: 420px;
+    border-collapse: collapse;
+  }
+
+  .hours-table td {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.98rem;
+  }
+
+  .hours-table td:first-child {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .hours-table td:last-child {
+    text-align: right;
+    color: var(--color-text-secondary);
+  }
+
+  .hours-table td.closed {
+    color: var(--color-accent-alt-2);
+  }
+
+  .note {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+</style>
