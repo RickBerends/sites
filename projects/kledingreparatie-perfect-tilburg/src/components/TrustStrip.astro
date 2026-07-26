@@ -1,0 +1,48 @@
+---
+interface Props {
+  items?: string[];
+}
+
+const { items = [] } = Astro.props;
+---
+
+{items.length > 0 && (
+  <section class="trust" aria-label="Waarom Kledingreparatie Perfect">
+    <div class="container trust__inner">
+      {items.map((item) => (
+        <div class="trust__item reveal">
+          <span class="trust__check" aria-hidden="true">✓</span>
+          <span>{item}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .trust {
+    padding: 2rem 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+
+  .trust__inner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem 2rem;
+  }
+
+  .trust__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .trust__check {
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+</style>

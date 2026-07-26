@@ -1,0 +1,58 @@
+---
+interface Props {
+  heading: string;
+  body: string;
+  address?: string;
+}
+
+const { heading, body } = Astro.props;
+---
+
+<section id="over-ons" class="about">
+  <div class="container about__inner">
+    <div class="about__text reveal">
+      <span class="eyebrow">Over ons</span>
+      <h2>{heading}</h2>
+      <p class="text-secondary">{body}</p>
+    </div>
+    <div class="about__mark reveal" aria-hidden="true">
+      <svg viewBox="0 0 120 120" width="120" height="120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="60" r="58" stroke="#5B7C6F" stroke-width="1.5" stroke-dasharray="4 6" />
+        <path d="M35 60c8-14 20-22 25-22s6 10-2 18-24 8-24 8 10 20 26 20 26-14 26-14"
+          stroke="#243446" stroke-width="2" stroke-linecap="round" fill="none" />
+      </svg>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  .about__text h2 {
+    max-width: 22ch;
+  }
+
+  .about__text p {
+    max-width: 60ch;
+    font-size: 1.02rem;
+  }
+
+  .about__mark {
+    display: none;
+    justify-self: end;
+  }
+
+  @media (min-width: 768px) {
+    .about__inner {
+      grid-template-columns: 3fr 1fr;
+    }
+    .about__mark {
+      display: block;
+    }
+  }
+</style>
