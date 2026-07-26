@@ -1,0 +1,36 @@
+---
+interface Props { address?: string; }
+const { address } = Astro.props;
+const mapsHref = address
+  ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('Wereldwinkel Tilburg, ' + address)}`
+  : undefined;
+---
+{address && (
+  <section id="locatie" class="location">
+    <div class="container location-inner">
+      <div class="reveal">
+        <span class="section-label">Locatie</span>
+        <h2>Vind ons in het Dwaalgebied</h2>
+        <p class="address">{address}</p>
+        <p class="hint">Midden in het gezellige Tilburgse Dwaalgebied, goed te voet en per fiets bereikbaar.</p>
+        <a class="btn btn-secondary" href={mapsHref} target="_blank" rel="noopener noreferrer">Route via Google Maps</a>
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .location {
+    background: var(--color-bg);
+  }
+  .location-inner {
+    max-width: 620px;
+  }
+  .address {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  .hint {
+    color: var(--color-text-secondary);
+  }
+</style>
