@@ -1,0 +1,48 @@
+/* Identity A — Crafted Masculine
+ * barber · tattoo artist · car detailing · mechanic · electrician · carpenter ·
+ * personal trainer · bike shop · plumber · contractor.
+ *
+ * Apple × Japanese craftsmanship × modern workshop. Confident, honest, premium
+ * without being flashy. Never saturated blues, never bright reds.
+ *
+ * Values only — token names live in tokens.css. The font @import is part of this
+ * file on purpose: an identity that ships without its typefaces is not applied.
+ *
+ * Display face: the skill names General Sans (alt Clash Display). Neither is on
+ * Google Fonts, so Sora is the shipped substitute — a close-fitting confident
+ * geometric sans. 'General Sans' is kept first in the stack so self-hosting it
+ * later is a drop-in with no CSS change.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  color-scheme: light;
+
+  /* Palette */
+  --color-bg: #f7f5f2;
+  --color-surface: #ffffff;
+  --color-text: #191919;
+  --color-text-secondary: #6d6d6d;
+  --color-accent: #5b7c6f;
+  --color-accent-alt: #243446;
+  --color-border: #e6e2db;
+  --shadow-soft: 0 1px 2px rgba(25, 25, 25, 0.04), 0 4px 12px rgba(25, 25, 25, 0.04);
+
+  /* Typography — display 700–800, body 400–500 */
+  --font-display: 'General Sans', 'Sora', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-display-weight: 700;
+
+  /* Shape — cards 16px, dark filled buttons, minimal borders */
+  --radius-card: 16px;
+  --radius-button: 14px;
+
+  /* Motion — small fade + slide-up, ~200ms, calm easing */
+  --motion-duration: 200ms;
+  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Spacing */
+  --space-section-desktop: 140px;
+  --space-section-mobile: 72px;
+}
