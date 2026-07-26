@@ -1,0 +1,65 @@
+---
+const links = [
+  { href: '#diensten', label: 'Diensten' },
+  { href: '#over-ons', label: 'Over ons' },
+  { href: '#locatie', label: 'Locatie' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+
+<header class="nav">
+  <a class="nav-brand" href="#top">bloem'ist</a>
+  <nav class="nav-links" aria-label="Hoofdnavigatie">
+    {links.map((l) => <a href={l.href}>{l.label}</a>)}
+    <a class="btn btn-primary nav-cta" href="#contact">Contact</a>
+  </nav>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 253, 249, 0.88);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .nav-brand {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    text-decoration: none;
+    color: var(--color-text);
+  }
+
+  .nav-links {
+    display: none;
+    align-items: center;
+    gap: 1.75rem;
+    font-size: 0.95rem;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--color-text-secondary);
+  }
+
+  .nav-links a:hover {
+    color: var(--color-accent);
+  }
+
+  .nav-cta {
+    color: #fff !important;
+    padding: 0.55rem 1.2rem;
+  }
+
+  @media (min-width: 700px) {
+    .nav-links {
+      display: flex;
+    }
+  }
+</style>

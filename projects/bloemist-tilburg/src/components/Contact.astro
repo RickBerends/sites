@@ -1,0 +1,80 @@
+---
+interface Props {
+  phone?: string;
+  email?: string;
+  address?: string;
+}
+const { phone, email, address } = Astro.props;
+const telHref = phone ? `tel:${phone.replace(/\s+/g, '')}` : undefined;
+---
+
+<section id="contact" class="section fade-in contact">
+  <div class="contact-inner card">
+    <span class="eyebrow">Contact</span>
+    <h2>Kom langs of neem contact op</h2>
+    <ul class="contact-list">
+      {phone && (
+        <li>
+          <span class="label">Telefoon</span>
+          <a href={telHref}>{phone}</a>
+        </li>
+      )}
+      {email && (
+        <li>
+          <span class="label">E-mail</span>
+          <a href={`mailto:${email}`}>{email}</a>
+        </li>
+      )}
+      {address && (
+        <li>
+          <span class="label">Adres</span>
+          <span>{address}</span>
+        </li>
+      )}
+    </ul>
+    {telHref && (
+      <a class="btn btn-primary contact-cta" href={telHref}>Bel Bloem'ist</a>
+    )}
+  </div>
+</section>
+
+<style>
+  .contact-inner {
+    text-align: center;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .contact-list {
+    list-style: none;
+    margin: 1.5rem 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .contact-list a {
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .contact-list a:hover {
+    color: var(--color-accent);
+  }
+
+  .label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.15rem;
+  }
+
+  .contact-cta {
+    margin-top: 0.5rem;
+    color: #fff !important;
+  }
+</style>

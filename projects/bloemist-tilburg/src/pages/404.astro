@@ -1,0 +1,39 @@
+---
+import '../styles/global.css';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <title>Pagina niet gevonden — Bloem'ist</title>
+    <meta name="description" content="Deze pagina bestaat niet. Ga terug naar de homepage van Bloem'ist." />
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body>
+    <main class="section not-found">
+      <span class="eyebrow">404</span>
+      <h1>Deze pagina is verwelkt</h1>
+      <p>De pagina die je zoekt bestaat niet (meer). Ga terug naar de homepage voor verse bloemen, bloemwerk en planten.</p>
+      <a class="btn btn-primary" href={base}>Terug naar de homepage</a>
+    </main>
+  </body>
+</html>
+
+<style>
+  .not-found {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+  }
+
+  .not-found p {
+    max-width: 46ch;
+  }
+</style>

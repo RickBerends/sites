@@ -1,0 +1,54 @@
+---
+import { getEntry } from 'astro:content';
+import '../styles/global.css';
+import DraftBanner from '../components/DraftBanner.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Trust from '../components/Trust.astro';
+import Services from '../components/Services.astro';
+import About from '../components/About.astro';
+import Location from '../components/Location.astro';
+import Hours from '../components/Hours.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+
+const home = await getEntry('page', 'home');
+if (!home) {
+  throw new Error('src/content/home.md is missing or failed schema validation.');
+}
+const data = home.data;
+
+const description = data.hero_sub;
+---
+
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} />
+    <title>Bloem'ist — Bloemist in Tilburg</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <DraftBanner />
+    <Nav />
+    <main>
+      <Hero
+        label={data.hero_label}
+        heading={data.hero_heading}
+        sub={data.hero_sub}
+        phone={data.phone}
+      />
+      <Trust items={data.trust} />
+      <Services services={data.services} />
+      <About heading={data.about_heading} about={data.about} />
+      <Location address={data.address} mapQuery={data.map_query} />
+      <Hours hours={data.hours} />
+      <Contact phone={data.phone} email={data.contact_email} address={data.address} />
+    </main>
+    <Footer />
+  </body>
+</html>
