@@ -13,9 +13,18 @@ Filename doubles as the category tag, so `ls` or `grep` finds what you need:
 | `tattoo-01.jpg` | tattoo artist | portrait | 3456×5184 | About |
 | `makeup-01.jpg` | makeup artist | square | 2500×2500 | Hero or About |
 | `bloemen-01.jpg` | florist | landscape | 5705×3719 | Hero |
+| `bloemen-02.jpg` | florist | portrait | 3941×5912 | About |
+| `boeken-01.jpg` | bookshop | landscape | 4744×3163 | Hero |
+| `tailor-01.jpg` | tailor / alterations | portrait | 2048×3072 | About |
+| `massage-01.jpg` | massage therapist | portrait | 4000×6000 | About |
+| `nagels-01.jpg` | nail salon | portrait | 3376×5387 | About |
 
 Two hairdresser photos exist (`kapper-01`, `kapper-02`) — one of each
 orientation, so a mock kapper build can use one for Hero and one for About.
+Same for florist (`bloemen-01` landscape, `bloemen-02` portrait). Bookshop is
+the only one with a landscape Hero candidate and no portrait About match yet —
+reuse the identity fallback or crop for About until a second bookshop photo
+lands.
 
 ## Using one in a mock build
 
@@ -35,7 +44,7 @@ hero_image: '../assets/hero.jpg'
 
 ## Licence
 
-Four of the five are Unsplash photos (original filenames carried the
+Nine of the ten are Unsplash photos (original filenames carried the
 photographer credit and `unsplash` in the name before this rename) — Unsplash's
 licence permits free commercial use without attribution. `makeup-01.jpg` came in
 without that provenance in its filename; confirm its licence before using it on
