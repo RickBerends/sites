@@ -7,15 +7,19 @@ interface Props {
 const { heading, sub, phone } = Astro.props;
 ---
 <section id="hero" class="hero">
-  <div class="container hero-inner reveal">
-    <span class="section-label">Wereldwinkel &middot; Tilburg</span>
-    <h1>{heading}</h1>
-    <p class="hero-sub">{sub}</p>
-    <div class="hero-ctas">
-      {phone && (
-        <a class="btn btn-primary" href={`tel:${phone.replace(/\s+/g, '')}`}>Bel de winkel</a>
-      )}
-      <a class="btn btn-secondary" href="#openingstijden">Bekijk openingstijden</a>
+  <div class="container hero-grid reveal">
+    <!-- No licensed stock photo in the offline mock library fits a fair-trade gift shop (only barber/tattoo/makeup/florist/bookshop/tailor/massage/nail-salon scenes were available) — swap this panel for real photos of the shop's products/interior before launch. -->
+    <div class="hero-visual" aria-hidden="true"></div>
+    <div class="hero-copy">
+      <span class="section-label">Wereldwinkel &middot; Tilburg</span>
+      <h1>{heading}</h1>
+      <p class="hero-sub">{sub}</p>
+      <div class="hero-ctas">
+        {phone && (
+          <a class="btn btn-primary" href={`tel:${phone.replace(/\s+/g, '')}`}>Bel de winkel</a>
+        )}
+        <a class="btn btn-secondary" href="#openingstijden">Bekijk openingstijden</a>
+      </div>
     </div>
   </div>
 </section>
@@ -28,8 +32,36 @@ const { heading, sub, phone } = Astro.props;
       radial-gradient(60% 60% at 85% 0%, color-mix(in srgb, var(--color-accent) 16%, transparent), transparent 70%),
       var(--color-bg);
   }
-  .hero-inner {
-    max-width: 760px;
+  .hero-grid {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  .hero-copy {
+    max-width: 560px;
+  }
+  /* Woven-basket crosshatch over a soft sage gradient — stands in for a photo
+     of the shop's fair-trade baskets/textiles until a real one exists. */
+  .hero-visual {
+    order: -1;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-soft);
+    background-color: var(--color-surface);
+    background-image:
+      repeating-linear-gradient(45deg,
+        color-mix(in srgb, var(--color-accent-contrast) 12%, transparent) 0 3px,
+        transparent 3px 20px),
+      repeating-linear-gradient(-45deg,
+        color-mix(in srgb, var(--color-accent) 26%, transparent) 0 3px,
+        transparent 3px 20px),
+      radial-gradient(115% 90% at 12% 0%,
+        color-mix(in srgb, var(--color-accent) 40%, var(--color-surface)) 0%,
+        transparent 65%),
+      linear-gradient(165deg,
+        color-mix(in srgb, var(--color-accent) 18%, var(--color-bg)) 0%,
+        var(--color-surface) 100%);
   }
   .hero-sub {
     font-size: 1.15rem;
@@ -41,5 +73,13 @@ const { heading, sub, phone } = Astro.props;
     flex-wrap: wrap;
     gap: 1rem;
     margin-top: 1.5rem;
+  }
+  @media (min-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .hero-visual {
+      order: 1;
+    }
   }
 </style>

@@ -7,6 +7,12 @@ hero_label: 'Beautysalon · Tilburg'
 hero_heading: 'Volle, natuurlijke wimpers, vakkundig aangebracht'
 hero_sub: 'Beautysalon in Tilburg, gespecialiseerd in wimperextensions, wimperlift en wenkbrauwbehandelingen.'
 
+# HERO IMAGE — optional, path relative to this file, e.g. './images/hero.jpg'.
+# Leave out until a real photo of the salon/treatments is sourced — Hero.astro
+# falls back to a CSS gradient in the identity's own accent colours, so the
+# section is never empty either way.
+# hero_image: './images/hero.jpg'
+
 trust:
   - 'Gespecialiseerd in wimperextensions'
   - 'Volume wimperextensions, wimperlift & wenkbrauwbehandeling'
@@ -21,6 +27,10 @@ about: |
 
   Deze pagina is een eerste, nog te bevestigen concept-versie — de volledige
   verhaallijn en foto's volgen na afstemming met de eigenaar.
+
+# ABOUT IMAGE — same rule as hero_image: optional, falls back to the CSS
+# gradient placeholder when unset.
+# about_image: './images/about.jpg'
 
 services:
   - title: 'Volume wimperextensions'

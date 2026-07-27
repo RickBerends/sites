@@ -1,12 +1,15 @@
 ---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
 import { strings } from '../config';
 
 interface Props {
   heading?: string;
   body: string;
+  image?: ImageMetadata;
 }
 
-const { heading, body } = Astro.props;
+const { heading, body, image } = Astro.props;
 
 // Split on blank lines so a multi-paragraph `about` renders as paragraphs
 // rather than one wall of text.
@@ -15,13 +18,37 @@ const paragraphs = body.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
 
 <section id="about" class="section section-alt">
   <div class="container about-inner reveal">
-    <h2>{heading ?? strings.aboutHeading}</h2>
-    {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    <div class="about-visual">
+      {
+        image ? (
+          <Image
+            src={image}
+            alt={heading ?? strings.aboutHeading}
+            widths={[400, 800, 1000]}
+            sizes="(min-width: 900px) 40vw, 100vw"
+          />
+        ) : (
+          // No real photo sourced yet, and no confidently-licensed stock match
+          // for a brow salon existed in the offline mock library — a crafted
+          // CSS placeholder in this project's own identity-B accent tokens
+          // fills the slot instead. TODO: replace with a real photo of the
+          // salon/treatments before launch.
+          <div class="visual-placeholder" role="img" aria-label="" />
+        )
+      }
+      {!image && <p class="visual-caption">{strings.stockImageCaption}</p>}
+    </div>
+    <div class="about-copy">
+      <h2>{heading ?? strings.aboutHeading}</h2>
+      {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
   </div>
 </section>
 
 <style>
   .about-inner {
+    display: grid;
+    gap: 2rem;
     max-width: 68ch;
   }
 
@@ -31,5 +58,57 @@ const paragraphs = body.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
 
   .about-inner p:last-child {
     margin-bottom: 0;
+  }
+
+  .about-visual img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-card);
+    display: block;
+  }
+
+  /* Same restrained-placeholder treatment as Hero, mirrored and in a portrait
+     ratio to suit the About slot's narrower column. */
+  .about-visual .visual-placeholder {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    background:
+      radial-gradient(
+        120% 140% at 88% 8%,
+        color-mix(in srgb, var(--color-accent-alt) 34%, transparent),
+        transparent 60%
+      ),
+      radial-gradient(
+        100% 120% at 8% 96%,
+        color-mix(in srgb, var(--color-accent) 32%, transparent),
+        transparent 65%
+      ),
+      linear-gradient(205deg, var(--color-surface) 0%, var(--color-bg) 100%);
+  }
+
+  .about-visual .visual-placeholder::after {
+    content: '';
+    position: absolute;
+    inset: 13%;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 38%, transparent);
+    border-radius: 45% 55% 40% 60% / 62% 38% 55% 45%;
+  }
+
+  .visual-caption {
+    margin-top: 0.6rem;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 900px) {
+    .about-inner {
+      grid-template-columns: 0.8fr 1.2fr;
+      align-items: center;
+      max-width: 1080px;
+    }
   }
 </style>

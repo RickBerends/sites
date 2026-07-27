@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import heroImg from '../assets/hero.jpg';
+
 interface Props {
   label?: string;
   heading: string;
@@ -10,14 +13,25 @@ const telHref = phone ? `tel:${phone.replace(/\s+/g, '')}` : undefined;
 ---
 <section id="top" class="hero">
   <div class="container hero-inner fade-up">
-    {label && <p class="eyebrow">{label}</p>}
-    <h1>{heading}</h1>
-    <p class="hero-sub">{sub}</p>
-    <div class="hero-ctas">
-      {telHref && (
-        <a class="btn btn-primary" href={telHref}>Bel nu</a>
-      )}
-      <a class="btn btn-secondary" href="#openingstijden">Bekijk openingstijden</a>
+    <div class="hero-copy">
+      {label && <p class="eyebrow">{label}</p>}
+      <h1>{heading}</h1>
+      <p class="hero-sub">{sub}</p>
+      <div class="hero-ctas">
+        {telHref && (
+          <a class="btn btn-primary" href={telHref}>Bel nu</a>
+        )}
+        <a class="btn btn-secondary" href="#openingstijden">Bekijk openingstijden</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <Image
+        src={heroImg}
+        alt="Interieur van een barbershop met klassieke kappersstoelen voor een bakstenen muur met spiegels"
+        widths={[400, 800, 1200]}
+        sizes="(min-width: 900px) 45vw, 100vw"
+      />
+      <p class="visual-caption">Sfeerbeeld — wordt vervangen zodra er eigen foto's van de zaak zijn</p>
     </div>
   </div>
 </section>
@@ -28,7 +42,14 @@ const telHref = phone ? `tel:${phone.replace(/\s+/g, '')}` : undefined;
   }
 
   .hero-inner {
-    max-width: 720px;
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+    max-width: 1080px;
+  }
+
+  .hero-copy {
+    max-width: 560px;
   }
 
   .hero h1 {
@@ -46,5 +67,24 @@ const telHref = phone ? `tel:${phone.replace(/\s+/g, '')}` : undefined;
     flex-wrap: wrap;
     gap: 0.75rem;
     margin-top: 1.5rem;
+  }
+
+  .hero-visual img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-card);
+    display: block;
+  }
+
+  .visual-caption {
+    margin-top: 0.6rem;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  @media (min-width: 900px) {
+    .hero-inner {
+      grid-template-columns: 1.1fr 1fr;
+    }
   }
 </style>

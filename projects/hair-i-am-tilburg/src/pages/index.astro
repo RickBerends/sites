@@ -37,12 +37,17 @@ const description = data.seo_description ?? data.hero_sub;
           heading={data.hero_heading}
           sub={data.hero_sub}
           phone={data.phone}
+          image={data.hero_image}
         />
       )
     }
     {hasSection('trust') && <Trust items={data.trust} />}
     {hasSection('services') && <Services services={data.services} />}
-    {hasSection('about') && <About heading={data.about_heading} body={data.about} />}
+    {
+      hasSection('about') && (
+        <About heading={data.about_heading} body={data.about} image={data.about_image} />
+      )
+    }
     {
       hasSection('testimonials') && (
         <Testimonials testimonials={data.testimonials} source={data.testimonials_source} />

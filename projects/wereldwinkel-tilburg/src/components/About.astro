@@ -4,11 +4,15 @@ const { about } = Astro.props;
 const paragraphs = about.trim().split(/\n\s*\n/);
 ---
 <section id="over-ons" class="about">
-  <div class="container about-inner">
-    <span class="section-label">Over ons</span>
-    <h2>Vrijwilligers voor eerlijke handel</h2>
+  <div class="container about-grid">
+    <!-- No licensed stock photo in the offline mock library fits a fair-trade gift shop — swap this panel for a real photo of the volunteers/shop interior before launch. -->
+    <div class="about-visual" aria-hidden="true"></div>
     <div class="about-copy reveal">
-      {paragraphs.map((p) => <p>{p.trim()}</p>)}
+      <span class="section-label">Over ons</span>
+      <h2>Vrijwilligers voor eerlijke handel</h2>
+      <div class="about-text">
+        {paragraphs.map((p) => <p>{p.trim()}</p>)}
+      </div>
     </div>
   </div>
 </section>
@@ -19,11 +23,43 @@ const paragraphs = about.trim().split(/\n\s*\n/);
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
   }
-  .about-inner {
-    max-width: 760px;
+  .about-grid {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
   }
-  .about-copy p {
+  .about-copy {
+    max-width: 560px;
+  }
+  /* Concentric rings on a warm sage gradient — evokes handmade ceramics/beadwork
+     without borrowing an unrelated stock scene. */
+  .about-visual {
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-soft);
+    background-color: var(--color-bg);
+    background-image:
+      radial-gradient(circle at 30% 30%,
+        color-mix(in srgb, var(--color-accent) 32%, var(--color-bg)) 0%,
+        transparent 45%),
+      radial-gradient(circle at 75% 70%,
+        color-mix(in srgb, var(--color-accent-contrast) 16%, transparent) 0%,
+        transparent 40%),
+      repeating-radial-gradient(circle at 50% 50%,
+        color-mix(in srgb, var(--color-accent) 14%, transparent) 0 2px,
+        transparent 2px 26px),
+      linear-gradient(150deg,
+        color-mix(in srgb, var(--color-accent) 12%, var(--color-bg)) 0%,
+        var(--color-surface) 100%);
+  }
+  .about-text p {
     font-size: 1.05rem;
     color: var(--color-text-secondary);
+  }
+  @media (min-width: 900px) {
+    .about-grid {
+      grid-template-columns: 0.85fr 1.15fr;
+    }
   }
 </style>

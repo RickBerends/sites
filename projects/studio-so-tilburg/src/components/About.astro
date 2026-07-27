@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import aboutImage from '../assets/about.jpg';
+
 interface Props {
   heading?: string;
   body: string;
@@ -6,16 +9,53 @@ interface Props {
 const { heading, body } = Astro.props;
 ---
 <section id="about" class="about">
-  <div class="container">
-    <p class="label">Over ons</p>
-    <h2>{heading ?? "Over Studio S.O"}</h2>
-    <p class="about-body">{body}</p>
+  <div class="container about-inner">
+    <div class="about-visual">
+      <Image
+        src={aboutImage}
+        alt="Close-up van een handverzorgingsbehandeling aan een manicuretafel in een nagelstudio"
+        widths={[400, 800, 1000]}
+        sizes="(min-width: 800px) 40vw, 100vw"
+      />
+      <p class="visual-caption">Sfeerbeeld — wordt vervangen zodra er eigen foto's van de studio zijn</p>
+    </div>
+    <div class="about-copy">
+      <p class="label">Over ons</p>
+      <h2>{heading ?? "Over Studio S.O"}</h2>
+      <p class="about-body">{body}</p>
+    </div>
   </div>
 </section>
 
 <style>
+  .about-inner {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .about-visual img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
+    display: block;
+  }
+
+  .visual-caption {
+    margin-top: 0.6rem;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+
   .about-body {
     max-width: 62ch;
     font-size: 1.05rem;
+  }
+
+  @media (min-width: 800px) {
+    .about-inner {
+      grid-template-columns: 0.8fr 1.2fr;
+      align-items: center;
+    }
   }
 </style>

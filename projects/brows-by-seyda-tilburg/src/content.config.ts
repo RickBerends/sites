@@ -21,66 +21,73 @@ import { glob } from 'astro/loaders';
  */
 const page = defineCollection({
   loader: glob({ pattern: 'home.md', base: './src/content' }),
-  schema: z.object({
-    // Hero
-    hero_label: z.string().optional(),
-    hero_heading: z.string(),
-    hero_sub: z.string(),
+  schema: ({ image }) =>
+    z.object({
+      // Hero
+      hero_label: z.string().optional(),
+      hero_heading: z.string(),
+      hero_sub: z.string(),
+      // Path relative to this content file, e.g. './images/hero.jpg'. Optional —
+      // Hero.astro falls back to a crafted CSS placeholder when unset, so the
+      // rendered slot is never empty even before a real photo exists.
+      hero_image: image().optional(),
 
-    // Trust strip — max 4, directly below the hero
-    trust: z.array(z.string()).max(4).optional(),
+      // Trust strip — max 4, directly below the hero
+      trust: z.array(z.string()).max(4).optional(),
 
-    // About
-    about_heading: z.string().optional(),
-    about: z.string(),
+      // About
+      about_heading: z.string().optional(),
+      about: z.string(),
+      // Same fallback rule as hero_image.
+      about_image: image().optional(),
 
-    // Services, written as outcomes rather than features
-    services: z.array(
-      z.object({
-        title: z.string(),
-        body: z.string(),
-      }),
-    ),
-
-    // Social proof. Only via a compliant path: a live embed, client-permissioned
-    // quotes, or fresh testimonials (intake-research §2b). Reproducing scraped
-    // Google review text here is not one of them.
-    testimonials: z
-      .array(
+      // Services, written as outcomes rather than features
+      services: z.array(
         z.object({
-          name: z.string(),
-          rating: z.number().optional(),
-          quote: z.string(),
+          title: z.string(),
+          body: z.string(),
         }),
-      )
-      .optional(),
-    testimonials_source: z.string().optional(),
+      ),
 
-    // Opening hours
-    hours: z
-      .array(
-        z.object({
-          day: z.string(),
-          open: z.string(),
-        }),
-      )
-      .optional(),
+      // Social proof. Only via a compliant path: a live embed, client-permissioned
+      // quotes, or fresh testimonials (intake-research §2b). Reproducing scraped
+      // Google review text here is not one of them.
+      testimonials: z
+        .array(
+          z.object({
+            name: z.string(),
+            rating: z.number().optional(),
+            quote: z.string(),
+          }),
+        )
+        .optional(),
+      testimonials_source: z.string().optional(),
 
-    // Contact & location
-    phone: z.string().optional(),
-    whatsapp: z.string().optional(),
-    contact_email: z.string().email().optional(),
-    address: z.string().optional(),
-    maps_url: z.string().url().optional(),
+      // Opening hours
+      hours: z
+        .array(
+          z.object({
+            day: z.string(),
+            open: z.string(),
+          }),
+        )
+        .optional(),
 
-    // Social
-    instagram_url: z.string().url().optional(),
-    facebook_url: z.string().url().optional(),
+      // Contact & location
+      phone: z.string().optional(),
+      whatsapp: z.string().optional(),
+      contact_email: z.string().email().optional(),
+      address: z.string().optional(),
+      maps_url: z.string().url().optional(),
 
-    // <head>
-    seo_title: z.string().optional(),
-    seo_description: z.string().optional(),
-  }),
+      // Social
+      instagram_url: z.string().url().optional(),
+      facebook_url: z.string().url().optional(),
+
+      // <head>
+      seo_title: z.string().optional(),
+      seo_description: z.string().optional(),
+    }),
 });
 
 export const collections = { page };

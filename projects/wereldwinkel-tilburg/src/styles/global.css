@@ -175,3 +175,29 @@ section {
   white-space: nowrap;
   border: 0;
 }
+
+/* 2026 restrained-language additions: motion reassures, it never entertains,
+   and it must yield entirely when the visitor has asked the OS to reduce it.
+   Focus rings use the accent so keyboard users get the same "eco/fair-trade"
+   signal as everyone else. Neither existed in the original hand-built file. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .btn-primary:hover {
+    transform: none;
+  }
+}

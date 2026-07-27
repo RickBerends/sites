@@ -21,25 +21,41 @@ const secondaryHref = hasSection('hours')
 
 <section id="top" class="hero section">
   <div class="container hero-inner">
-    {label && <span class="eyebrow">{label}</span>}
-    <h1>{heading}</h1>
-    <p class="lead">{sub}</p>
+    <div class="hero-copy">
+      {label && <span class="eyebrow">{label}</span>}
+      <h1>{heading}</h1>
+      <p class="lead">{sub}</p>
 
-    <div class="hero-ctas">
-      {
-        phone && (
-          <a class="btn btn-primary" href={telHref(phone)}>
-            {strings.primaryCta}
-          </a>
-        )
-      }
-      {
-        secondaryHref && (
-          <a class="btn btn-secondary" href={secondaryHref}>
-            {strings.secondaryCta}
-          </a>
-        )
-      }
+      <div class="hero-ctas">
+        {
+          phone && (
+            <a class="btn btn-primary" href={telHref(phone)}>
+              {strings.primaryCta}
+            </a>
+          )
+        }
+        {
+          secondaryHref && (
+            <a class="btn btn-secondary" href={secondaryHref}>
+              {strings.secondaryCta}
+            </a>
+          )
+        }
+      </div>
+    </div>
+
+    {
+      /* No landscape nail-salon photo exists in the offline library, so this is
+         a crafted CSS visual rather than a stock image — three soft, fanned
+         nail/petal shapes in the identity-B accent tones. Decorative only. */
+    }
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-motif">
+        <span class="motif-ring"></span>
+        <span class="motif-shape motif-shape--a"></span>
+        <span class="motif-shape motif-shape--b"></span>
+        <span class="motif-shape motif-shape--c"></span>
+      </div>
     </div>
   </div>
 </section>
@@ -56,7 +72,10 @@ const secondaryHref = hasSection('hours')
   }
 
   .hero-inner {
-    max-width: 820px;
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+    max-width: 1100px;
   }
 
   .hero-ctas {
@@ -64,5 +83,77 @@ const secondaryHref = hasSection('hours')
     flex-wrap: wrap;
     gap: 1rem;
     margin-top: 2rem;
+  }
+
+  /* Decorative visual: a soft panel holding three fanned, nail-shaped forms.
+     Built entirely from tokens so it stays in step with the identity. */
+  .hero-visual {
+    display: none;
+  }
+
+  .hero-motif {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-card);
+    background: linear-gradient(
+      165deg,
+      var(--color-surface),
+      color-mix(in srgb, var(--color-accent) 10%, var(--color-bg))
+    );
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+  }
+
+  .motif-ring {
+    position: absolute;
+    inset: 14%;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 26%, transparent);
+    border-radius: 50%;
+  }
+
+  .motif-shape {
+    position: absolute;
+    border-radius: 50% 50% 45% 45% / 62% 62% 38% 38%;
+  }
+
+  .motif-shape--a {
+    width: 32%;
+    height: 50%;
+    left: 27%;
+    top: 16%;
+    background: color-mix(in srgb, var(--color-accent) 55%, white);
+    box-shadow: 0 20px 40px color-mix(in srgb, var(--color-accent) 22%, transparent);
+    transform: rotate(-16deg);
+  }
+
+  .motif-shape--b {
+    width: 28%;
+    height: 44%;
+    left: 47%;
+    top: 30%;
+    background: color-mix(in srgb, var(--color-accent-alt) 50%, white);
+    opacity: 0.92;
+    transform: rotate(12deg);
+  }
+
+  .motif-shape--c {
+    width: 25%;
+    height: 38%;
+    left: 18%;
+    top: 44%;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    transform: rotate(-6deg);
+  }
+
+  @media (min-width: 900px) {
+    .hero-inner {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    .hero-visual {
+      display: block;
+    }
   }
 </style>
