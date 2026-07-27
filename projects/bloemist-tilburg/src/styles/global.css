@@ -12,11 +12,12 @@
   --color-accent: #B8827A;
   --color-accent-alt: #AAB39B;
   --color-accent-alt-2: #D5A6A0;
-  --color-border: rgba(44, 44, 44, 0.10);
+  --color-border: #ECE6DE;
 
   /* Typography */
-  --font-display: 'Instrument Serif', 'Cormorant Garamond', serif;
+  --font-display: 'Instrument Serif', 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Inter', 'Manrope', system-ui, sans-serif;
+  --font-display-weight: 400;
 
   /* Shape & motion */
   --radius-card: 20px;
@@ -50,7 +51,7 @@ body {
 
 h1, h2, h3 {
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: var(--font-display-weight);
   line-height: 1.15;
   margin: 0 0 0.5em;
   color: var(--color-text);
@@ -141,6 +142,24 @@ a {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Motion reassures, never entertains — and never at the cost of a user who
+   asked the OS to stop it. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .btn-primary:hover {
+    transform: none;
+  }
 }
 
 .visually-hidden {

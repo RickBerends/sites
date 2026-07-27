@@ -1,30 +1,23 @@
 # Stock fallback images
 
-`hero.png` and `about.png` fill the Hero/About image slots when this
+`hero.jpg` and `about.jpg` fill the Hero/About image slots when this
 project's own `hero_image`/`about_image` isn't set in `src/content/home.md`
 yet — see `content.config.ts`.
 
-**Right now these are gradient placeholders, not real photos.** This session
-could not download binary image files (outbound network is restricted to
-package registries only), so each file is a generated blush-pink/sage
-gradient — enough for the build/layout/fallback logic to be real and
-testable, but not a finished look.
+**These are now real, licensed photos, not gradient placeholders.** They're
+copied from `templates/one-pager/src/assets/stock/mock/` (`bloemen-01.jpg` →
+`hero.jpg`, `bloemen-02.jpg` → `about.jpg`) — Unsplash photos, licence permits
+free commercial use without attribution. They match the `visual-identity`
+imagery direction for this business (natural daylight, real flowers, soft
+depth of field), but they're photos of a *different* florist's flowers, not
+Bloem'ist's own shop — that's why Hero.astro/About.astro still render the
+"Sfeerbeeld" caption whenever a real `hero_image`/`about_image` isn't set in
+`home.md`. Keep that honest disclosure until the client's own photos exist.
 
-## Replacing a placeholder with a real photo
+## Replacing with the client's own photos
 
-Overwrite `hero.png` / `about.png` in place — same filename, same folder. A
-`.jpg`/`.webp` works too as long as you also update the one `import` line
-that names the file in `Hero.astro`/`About.astro`.
-
-## Candidate real photos (unverified — confirm licence before using)
-
-Found via search, not downloaded or licence-checked. Per the
-`visual-identity` imagery direction for this business (natural daylight,
-real flowers/product, soft depth of field — never an obvious "stock" look):
-search Unsplash/Pexels/Openverse for "florist shop natural light",
-"flower bouquet close up soft light", "florist arranging flowers hands".
-Openverse (openverse.org) shows the licence per photo directly on the result,
-which makes checking usability faster.
-
-Once the client's own shop photos exist, prefer those over any stock image —
-set `hero_image`/`about_image` in `home.md` and this fallback stops being used.
+Overwrite `hero.jpg` / `about.jpg` in place — same filename, same folder —
+or set `hero_image`/`about_image` directly in `home.md` (preferred once real
+shop photos exist, since it also drops the "Sfeerbeeld" caption). A `.png`/
+`.webp` works too as long as you also update the one `import` line that names
+the file in `Hero.astro`/`About.astro`.

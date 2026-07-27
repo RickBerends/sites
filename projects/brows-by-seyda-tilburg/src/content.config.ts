@@ -21,11 +21,16 @@ import { glob } from 'astro/loaders';
  */
 const page = defineCollection({
   loader: glob({ pattern: 'home.md', base: './src/content' }),
-  schema: z.object({
+  schema: ({ image }) =>
+    z.object({
     // Hero
     hero_label: z.string().optional(),
     hero_heading: z.string(),
     hero_sub: z.string(),
+    // Path relative to this content file, e.g. './images/hero.jpg'. Optional —
+    // Hero.astro falls back to a crafted CSS placeholder when unset, so the
+    // rendered slot is never empty even before a real photo exists.
+    hero_image: image().optional(),
 
     // Trust strip — max 4, directly below the hero
     trust: z.array(z.string()).max(4).optional(),
@@ -33,6 +38,8 @@ const page = defineCollection({
     // About
     about_heading: z.string().optional(),
     about: z.string(),
+    // Same fallback rule as hero_image.
+    about_image: image().optional(),
 
     // Services, written as outcomes rather than features
     services: z.array(

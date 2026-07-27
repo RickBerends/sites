@@ -14,22 +14,78 @@ const paragraphs = body.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
 ---
 
 <section id="about" class="section section-alt">
-  <div class="container about-inner reveal">
-    <h2>{heading ?? strings.aboutHeading}</h2>
-    {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+  <div class="container about-grid reveal">
+    <div class="about-copy">
+      <h2>{heading ?? strings.aboutHeading}</h2>
+      {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+
+    <!--
+      No second bookshop photo exists in the licensed stock set (only
+      boeken-01.jpg, used for the hero) — reusing that same interior shot here
+      would read as repetitive on a single page. A crafted visual built from
+      the identity's own accent tokens keeps the boutique restraint instead.
+    -->
+    <div class="about-visual" role="img" aria-label="Decoratief vlak in de huisstijlkleuren van de boekwinkel">
+      <span class="about-visual-mark" aria-hidden="true">B</span>
+    </div>
   </div>
 </section>
 
 <style>
-  .about-inner {
+  .about-grid {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  .about-copy {
     max-width: 68ch;
   }
 
-  .about-inner p {
+  .about-copy p {
     font-size: 1.05rem;
   }
 
-  .about-inner p:last-child {
+  .about-copy p:last-child {
     margin-bottom: 0;
+  }
+
+  .about-visual {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    background:
+      radial-gradient(
+        120% 100% at 100% 0%,
+        color-mix(in srgb, var(--color-accent-alt) 26%, transparent),
+        transparent 60%
+      ),
+      linear-gradient(
+        155deg,
+        color-mix(in srgb, var(--color-accent) 16%, var(--color-surface)) 0%,
+        var(--color-surface) 55%,
+        color-mix(in srgb, var(--color-accent-alt) 14%, var(--color-surface)) 100%
+      );
+  }
+
+  .about-visual-mark {
+    position: absolute;
+    right: 0.5rem;
+    bottom: -0.35em;
+    font-family: var(--font-display);
+    font-size: 11rem;
+    line-height: 1;
+    color: color-mix(in srgb, var(--color-accent) 22%, transparent);
+    user-select: none;
+  }
+
+  @media (min-width: 900px) {
+    .about-grid {
+      grid-template-columns: 1.15fr 0.85fr;
+    }
   }
 </style>
