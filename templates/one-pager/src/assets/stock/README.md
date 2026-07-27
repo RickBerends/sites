@@ -1,5 +1,10 @@
 # Stock fallback images
 
+**Looking for real photos to prototype a specific business type (hairdresser,
+tattoo, makeup, florist)?** See `mock/README.md` — a small library of real,
+category-tagged photos for demo builds. This file below covers the separate
+identity-fallback system (A/B/C, currently gradient placeholders).
+
 `a/`, `b/`, `c/` each hold `hero.png` and `about.png` — the image that fills a
 site's Hero/About slot when the client's own `hero_image`/`about_image` isn't
 in `home.md` yet (see `content.config.ts` and the `visual-identity` skill).

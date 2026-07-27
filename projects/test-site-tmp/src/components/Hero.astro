@@ -1,0 +1,110 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import { site, strings, hasSection, telHref } from '../config';
+
+// One import path can't vary by identity at build time, so this globs all
+// three and picks the site's own — the same "pick one, the rest are pruned by
+// new-site.mjs" relationship global.css has with identity-{a,b,c}.css.
+const stockHeroes = import.meta.glob<{ default: ImageMetadata }>('../assets/stock/*/hero.png', {
+  eager: true,
+});
+const stockHero = stockHeroes[`../assets/stock/${site.identity.toLowerCase()}/hero.png`].default;
+
+interface Props {
+  label?: string;
+  heading: string;
+  sub: string;
+  phone?: string;
+  image?: ImageMetadata;
+}
+
+const { label, heading, sub, phone, image } = Astro.props;
+const isStock = !image;
+const heroImage = image ?? stockHero;
+
+// Secondary CTA points at hours if that section exists, otherwise contact —
+// never at a section that isn't rendered.
+const secondaryHref = hasSection('hours')
+  ? '#hours'
+  : hasSection('contact')
+    ? '#contact'
+    : null;
+---
+
+<section id="top" class="hero section">
+  <div class="container hero-inner">
+    <div class="hero-visual">
+      <Image src={heroImage} alt={isStock ? '' : heading} widths={[400, 800, 1200]} sizes="(min-width: 900px) 50vw, 100vw" />
+      {isStock && <p class="visual-caption">{strings.stockImageCaption}</p>}
+    </div>
+
+    <div class="hero-copy">
+      {label && <span class="eyebrow">{label}</span>}
+      <h1>{heading}</h1>
+      <p class="lead">{sub}</p>
+
+      <div class="hero-ctas">
+        {
+          phone && (
+            <a class="btn btn-primary" href={telHref(phone)}>
+              {strings.primaryCta}
+            </a>
+          )
+        }
+        {
+          secondaryHref && (
+            <a class="btn btn-secondary" href={secondaryHref}>
+              {strings.secondaryCta}
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background:
+      radial-gradient(
+        60% 60% at 85% 0%,
+        color-mix(in srgb, var(--color-accent) 14%, transparent),
+        transparent 70%
+      ),
+      var(--color-bg);
+  }
+
+  .hero-inner {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+    max-width: 1100px;
+  }
+
+  .hero-visual img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-card);
+    display: block;
+  }
+
+  .visual-caption {
+    margin-top: 0.6rem;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 900px) {
+    .hero-inner {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
