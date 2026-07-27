@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import aboutImage from '../assets/about.jpg';
 import { strings } from '../config';
 
 interface Props {
@@ -15,8 +17,22 @@ const paragraphs = body.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
 
 <section id="about" class="section section-alt">
   <div class="container about-inner reveal">
-    <h2>{heading ?? strings.aboutHeading}</h2>
-    {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    <div class="about-visual">
+      <Image
+        src={aboutImage}
+        alt="Een kapper knipt met een schaar en kam het haar van een klant met baard bij."
+        widths={[400, 800, 1000]}
+        sizes="(min-width: 900px) 40vw, 100vw"
+      />
+      <p class="visual-caption">
+        Sfeerbeeld — wordt vervangen zodra er eigen foto's van de zaak zijn
+      </p>
+    </div>
+
+    <div class="about-copy">
+      <h2>{heading ?? strings.aboutHeading}</h2>
+      {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
   </div>
 </section>
 
@@ -31,5 +47,28 @@ const paragraphs = body.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
 
   .about-inner p:last-child {
     margin-bottom: 0;
+  }
+
+  .about-visual img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-card);
+    display: block;
+  }
+
+  .visual-caption {
+    margin-top: 0.6rem;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 900px) {
+    .about-inner {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      align-items: center;
+      gap: 2.5rem;
+      max-width: 1100px;
+    }
   }
 </style>

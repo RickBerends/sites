@@ -8,17 +8,26 @@ interface Props {
 const { label, heading, sub, instagramUrl } = Astro.props;
 ---
 <section id="top" class="hero">
-  <div class="container fade-up">
-    {label && <p class="label">{label}</p>}
-    <h1>{heading}</h1>
-    <p class="hero-sub">{sub}</p>
-    <div class="hero-ctas">
-      <a class="btn btn-primary" href="#contact">Neem contact op</a>
-      {instagramUrl && (
-        <a class="btn btn-secondary" href={instagramUrl} target="_blank" rel="noopener noreferrer">
-          Bekijk Instagram
-        </a>
-      )}
+  <div class="container hero-inner">
+    <div class="hero-visual" aria-hidden="true">
+      <span class="hero-visual-ring"></span>
+      <span class="hero-visual-dot hero-visual-dot--a"></span>
+      <span class="hero-visual-dot hero-visual-dot--b"></span>
+      <span class="hero-visual-dot hero-visual-dot--c"></span>
+    </div>
+
+    <div class="hero-copy fade-up">
+      {label && <p class="label">{label}</p>}
+      <h1>{heading}</h1>
+      <p class="hero-sub">{sub}</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#contact">Neem contact op</a>
+        {instagramUrl && (
+          <a class="btn btn-secondary" href={instagramUrl} target="_blank" rel="noopener noreferrer">
+            Bekijk Instagram
+          </a>
+        )}
+      </div>
     </div>
   </div>
 </section>
@@ -27,14 +36,119 @@ const { label, heading, sub, instagramUrl } = Astro.props;
   .hero {
     padding-top: 96px;
   }
+
+  .hero-inner {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  /* Decorative, camera-free "visual": soft blurred colour pools in a rounded
+     card, echoing polish tones — a calm stand-in until real studio photos
+     exist for this slot. */
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    max-width: 420px;
+    margin-inline: auto;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background: linear-gradient(165deg, var(--color-surface) 0%, var(--color-bg) 100%);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .hero-visual::before,
+  .hero-visual::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(46px);
+    opacity: 0.55;
+  }
+
+  .hero-visual::before {
+    width: 62%;
+    aspect-ratio: 1;
+    top: -12%;
+    right: -14%;
+    background: var(--color-accent-alt-2);
+  }
+
+  .hero-visual::after {
+    width: 56%;
+    aspect-ratio: 1;
+    bottom: -16%;
+    left: -12%;
+    background: var(--color-accent-alt);
+  }
+
+  .hero-visual-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 44%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1.5px solid color-mix(in srgb, var(--color-accent) 45%, transparent);
+    background: radial-gradient(
+      circle at 35% 30%,
+      color-mix(in srgb, var(--color-accent) 35%, transparent),
+      transparent 70%
+    );
+  }
+
+  .hero-visual-dot {
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .hero-visual-dot--a {
+    width: 15%;
+    aspect-ratio: 1;
+    bottom: 16%;
+    left: 20%;
+    background: var(--color-accent);
+  }
+
+  .hero-visual-dot--b {
+    width: 10%;
+    aspect-ratio: 1;
+    bottom: 30%;
+    left: 34%;
+    background: var(--color-accent-alt-2);
+  }
+
+  .hero-visual-dot--c {
+    width: 8%;
+    aspect-ratio: 1;
+    top: 20%;
+    right: 22%;
+    background: var(--color-accent-alt);
+  }
+
   .hero-sub {
     max-width: 42ch;
     font-size: 1.1rem;
   }
+
   .hero-ctas {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
     margin-top: 1.5em;
+  }
+
+  @media (min-width: 800px) {
+    .hero-inner {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .hero-visual {
+      margin-inline: 0;
+      order: 1;
+    }
   }
 </style>

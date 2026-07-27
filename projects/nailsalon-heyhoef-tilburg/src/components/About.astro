@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import { strings } from '../config';
+import aboutImg from '../assets/about.jpg';
 
 interface Props {
   heading?: string;
@@ -15,13 +17,26 @@ const paragraphs = body.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
 
 <section id="about" class="section section-alt">
   <div class="container about-inner reveal">
-    <h2>{heading ?? strings.aboutHeading}</h2>
-    {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    <div class="about-visual">
+      <Image
+        src={aboutImg}
+        alt="Close-up van een nagelbehandeling: handen met verzorgde, gelakte nagels tijdens een manicure"
+        widths={[400, 800, 1000]}
+        sizes="(min-width: 900px) 40vw, 100vw"
+      />
+      <p class="visual-caption">{strings.stockImageCaption}</p>
+    </div>
+    <div class="about-copy">
+      <h2>{heading ?? strings.aboutHeading}</h2>
+      {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
   </div>
 </section>
 
 <style>
   .about-inner {
+    display: grid;
+    gap: 2rem;
     max-width: 68ch;
   }
 
@@ -31,5 +46,26 @@ const paragraphs = body.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
 
   .about-inner p:last-child {
     margin-bottom: 0;
+  }
+
+  .about-visual img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-card);
+    display: block;
+  }
+
+  .visual-caption {
+    margin-top: 0.6rem;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 900px) {
+    .about-inner {
+      grid-template-columns: 0.8fr 1.2fr;
+      align-items: center;
+      max-width: 1080px;
+    }
   }
 </style>
