@@ -49,6 +49,48 @@ const page = defineCollection({
         }),
       ),
 
+      // Portfolio / real completed work — large photos, optionally with the
+      // location named (e.g. "Tuinrenovatie — Tilburg"). Every entry needs a
+      // real photo; there is no stock fallback for this section, so a project
+      // without sourced photos should leave it out of `sections` entirely
+      // rather than shipping a placeholder gallery.
+      projects: z
+        .array(
+          z.object({
+            title: z.string(),
+            location: z.string().optional(),
+            body: z.string().optional(),
+            image: image(),
+          }),
+        )
+        .optional(),
+      projects_heading: z.string().optional(),
+
+      // "Why choose us" card grid — distinct from `services` (what we do vs.
+      // why to trust us). `icon` is optional and rendered as-is, e.g. an emoji.
+      highlights: z
+        .array(
+          z.object({
+            icon: z.string().optional(),
+            title: z.string(),
+            body: z.string(),
+          }),
+        )
+        .optional(),
+      highlights_heading: z.string().optional(),
+
+      // How the work happens, step by step (e.g. kennismaken → offerte → aan
+      // de slag → oplevering).
+      process: z
+        .array(
+          z.object({
+            title: z.string(),
+            body: z.string().optional(),
+          }),
+        )
+        .optional(),
+      process_heading: z.string().optional(),
+
       // Social proof. Only via a compliant path: a live embed, client-permissioned
       // quotes, or fresh testimonials (intake-research §2b). Reproducing scraped
       // Google review text here is not one of them.

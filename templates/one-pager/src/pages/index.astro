@@ -7,7 +7,10 @@ import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import Trust from '../components/Trust.astro';
 import Services from '../components/Services.astro';
+import Projects from '../components/Projects.astro';
+import Highlights from '../components/Highlights.astro';
 import About from '../components/About.astro';
+import Process from '../components/Process.astro';
 import Testimonials from '../components/Testimonials.astro';
 import Location from '../components/Location.astro';
 import Hours from '../components/Hours.astro';
@@ -44,9 +47,22 @@ const description = data.seo_description ?? data.hero_sub;
     {hasSection('trust') && <Trust items={data.trust} />}
     {hasSection('services') && <Services services={data.services} />}
     {
+      hasSection('projects') && (
+        <Projects heading={data.projects_heading} items={data.projects} />
+      )
+    }
+    {
+      hasSection('highlights') && (
+        <Highlights heading={data.highlights_heading} items={data.highlights} />
+      )
+    }
+    {
       hasSection('about') && (
         <About heading={data.about_heading} body={data.about} image={data.about_image} />
       )
+    }
+    {
+      hasSection('process') && <Process heading={data.process_heading} steps={data.process} />
     }
     {
       hasSection('testimonials') && (

@@ -25,6 +25,8 @@ radii and motion values live in real CSS:
 - `templates/one-pager/src/styles/identity-a.css`
 - `templates/one-pager/src/styles/identity-b.css`
 - `templates/one-pager/src/styles/identity-c.css`
+- `templates/one-pager/src/styles/identity-d.css`
+- `templates/one-pager/src/styles/identity-e.css`
 
 Those files **are** the identities — read them if you need a value. They are the
 single source of truth, so a value cannot be mistyped into a site by hand.
@@ -33,7 +35,7 @@ Token *names* are shared and live in `tokens.css`; identity files set values onl
 ## Workflow
 
 1. **Determine the business category** from the intake brief.
-2. **Pick A, B or C** from the table below.
+2. **Pick A, B, C, D or E** from the table below.
 3. **Pass it to the generator:** `node scripts/new-site.mjs <slug> --identity=B …`
    That copies the identity CSS in, fonts included. Do not hand-write tokens.
 4. **Adapt the accent only if there is a real reason** — an existing logo colour,
@@ -54,6 +56,16 @@ genuinely hard part of this skill.
 | **A — Crafted Masculine** | barber · tattoo artist · car detailing · mechanic · electrician · carpenter · personal trainer · bike shop · plumber · contractor | Apple × Japanese craftsmanship × modern workshop. *"This person knows exactly what they're doing."* | saturated blues · bright reds · gradients · glassmorphism |
 | **B — Soft Boutique** | hairdresser · beautician · nail salon · midwife · yoga studio · florist · photographer · wedding planner · interior stylist · massage therapist | Aesop × boutique hotel × modern wellness studio. *"I'll enjoy spending time here."* | bright pink · purple gradients · bouncy motion |
 | **C — Editorial Food** | restaurant · bakery · lunchroom · wine bar · café · delicatessen · food truck · catering · cheesemonger · coffee roastery | Kinfolk × modern restaurant × independent roastery. Food is the hero. | bright red · bright yellow · orange gradients |
+| **D — Premium Natural** | hovenier · tuinarchitect · tuinaannemer (premium segment) | Calm, expensive-feeling, natural. *"Rust, vakmanschap en natuur — de tuin is de ster."* Large full-width garden photography, the site design stays out of the way. | bright/saturated green · playful icons · a busy layout · stock photos of someone holding a rake |
+| **E — Warm Regional** | hovenier (buurt-/familiebedrijf) · klusbedrijf · groenvoorziening | A trusted local tradesperson, not a design agency. *"De vakman uit de buurt die trots is op zijn naam."* Owner/team-first imagery, generously rounded shapes, thin lines over shadow. | a cold corporate look · sharp diagonals · heavy drop shadows · stock models |
+
+D and E both fit "hovenier", but for opposite reasons — the deciding question is
+whether the owner wants to read as a **premium showroom** (D: full-bleed garden
+photography, calm luxury, "uw droomtuin vakkundig aangelegd") or as the
+**familiar neighbourhood business** (E: the owner's own face in the hero, a
+family-run feel, "al meer dan 25 jaar dé hovenier voor de regio"). Ask which
+feeling the client wants a visitor to have before defaulting to D just because
+the trade is the same.
 
 ## Imagery direction (the part no CSS file can carry)
 
@@ -69,6 +81,12 @@ Per identity:
   field. Everything should feel authentic.
 - **C** — large, editorial, close-up: steam, ingredients, hands preparing food.
   Food occupies a lot of screen space.
+- **D** — full-bleed, luxe achtertuinen, strakke bestrating, houten veranda's,
+  groene borders, detailfoto's van materialen, medewerkers aan het werk. Never
+  a stock photo of a smiling model gesturing at a plant.
+- **E** — the owner or team first, then the van/logo, then real project photos
+  with the location named ("Tuinrenovatie — Tilburg"). Warm and a little
+  imperfect beats polished and generic.
 
 **The Hero and About image slots are required — they must never render empty.**
 `content.config.ts`'s `hero_image`/`about_image` fields are optional precisely

@@ -91,7 +91,7 @@ Pages); no live server yet. Multi-page sites, blogs, and catalogs are a
       it once: scaffold the layout in §1, `git init`, and
       `gh repo create <sites-repo> --private --source=. --push`.
 - [ ] Node.js LTS installed locally.
-- [ ] The **identity letter** (A/B/C) chosen from the business category —
+- [ ] The **identity letter** (A/B/C/D/E) chosen from the business category —
       `visual-identity` skill. The generator takes it as `--identity`.
 - [ ] The **section list** for the one page decided — `lovable-page` skill,
       seeded by the `intake-research` brief. It's now a `sections` array in
@@ -193,14 +193,16 @@ regex to resolve root-relative links against `dist/`.
 A one-pager is **one page made of sections**, and both the sections and the
 schema now ship with the template.
 
-- **`visual-identity` skill** → picks identity A/B/C for the category. The
+- **`visual-identity` skill** → picks identity A/B/C/D/E for the category. The
   palettes, fonts, radii and motion live in
-  `templates/one-pager/src/styles/identity-a|b|c.css` — those files *are* the
+  `templates/one-pager/src/styles/identity-a|b|c|d|e.css` — those files *are* the
   identities. Pass the letter to the generator (`--identity=B`); never hand-write
   tokens. Token *names* are shared and live in `tokens.css`.
-- **`lovable-page` skill** → writes the copy. All eight sections exist already;
-  `sections` in `site.config.json` decides which render, so "if a section doesn't
-  increase trust, remove it" is a config edit, not a code edit.
+- **`lovable-page` skill** → writes the copy. All eleven sections exist already
+  (hero · trust · services · projects · highlights · about · process ·
+  testimonials · location · hours · contact); `sections` in `site.config.json`
+  decides which render, so "if a section doesn't increase trust, remove it" is a
+  config edit, not a code edit.
 
 **The schema is canonical — don't fork it.** It lives at
 `templates/one-pager/src/content.config.ts` and is a superset of the five

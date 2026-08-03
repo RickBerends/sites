@@ -97,12 +97,12 @@ Collect from the client first (blocks the build if missing):
 [`./BUILD.md`](./BUILD.md); it is the hot path and takes about five steps.
 
 ```bash
-node scripts/new-site.mjs <slug> --identity=<A|B|C> --name="<company>"
+node scripts/new-site.mjs <slug> --identity=<A|B|C|D|E> --name="<company>"
 ```
 
 That produces a project in `projects/<slug>/` that already builds, already has
 the correct two-segment `base`, already loads its identity fonts, and already has
-all eight sections wired. **The only file you write is
+all eleven sections wired. **The only file you write is
 `projects/<slug>/src/content/home.md`** — the business's words, seeded from the
 confirmed brief. Drop unused sections via `sections` in `site.config.json`.
 

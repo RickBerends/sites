@@ -7,7 +7,7 @@
  *
  * Required:
  *   <slug>                kebab-case project folder, e.g. wereldwinkel-tilburg
- *   --identity=A|B|C      visual identity (see .claude/skills/visual-identity)
+ *   --identity=A|B|C|D|E  visual identity (see .claude/skills/visual-identity)
  *   --name="…"            the business's trading name
  *
  * Optional:
@@ -36,7 +36,10 @@ const ALL_SECTIONS = [
   'hero',
   'trust',
   'services',
+  'projects',
+  'highlights',
   'about',
+  'process',
   'testimonials',
   'location',
   'hours',
@@ -54,7 +57,10 @@ const LANG_PRESETS = {
     navHours: 'Openingstijden',
     navContact: 'Contact',
     servicesHeading: 'Wat we doen',
+    projectsHeading: 'Projecten waar we trots op zijn',
+    highlightsHeading: 'Waarom kiezen klanten voor ons?',
     aboutHeading: 'Over ons',
+    processHeading: 'Werkwijze',
     testimonialsHeading: 'Wat klanten zeggen',
     locationHeading: 'Waar je ons vindt',
     hoursHeading: 'Openingstijden',
@@ -81,7 +87,10 @@ const LANG_PRESETS = {
     navHours: 'Opening hours',
     navContact: 'Contact',
     servicesHeading: 'What we do',
+    projectsHeading: 'Projects we are proud of',
+    highlightsHeading: 'Why customers choose us',
     aboutHeading: 'About us',
+    processHeading: 'How we work',
     testimonialsHeading: 'What customers say',
     locationHeading: 'Where to find us',
     hoursHeading: 'Opening hours',
@@ -141,8 +150,8 @@ async function main() {
   if (slug === TEMPLATE_SLUG) fail(`slug cannot be "${TEMPLATE_SLUG}" — that name is the template's.`);
 
   const identity = String(flags.identity ?? '').toUpperCase();
-  if (!['A', 'B', 'C'].includes(identity)) {
-    fail('--identity must be A, B or C. See .claude/skills/visual-identity/SKILL.md.');
+  if (!['A', 'B', 'C', 'D', 'E'].includes(identity)) {
+    fail('--identity must be A, B, C, D or E. See .claude/skills/visual-identity/SKILL.md.');
   }
 
   const name = typeof flags.name === 'string' ? flags.name : null;
@@ -229,7 +238,7 @@ async function main() {
   // ---- identity: keep one, delete the rest --------------------------------
 
   const keep = `identity-${identity.toLowerCase()}.css`;
-  for (const letter of ['a', 'b', 'c']) {
+  for (const letter of ['a', 'b', 'c', 'd', 'e']) {
     const file = `identity-${letter}.css`;
     if (file !== keep) await fs.rm(path.join(targetDir, 'src', 'styles', file));
   }
@@ -241,7 +250,7 @@ async function main() {
   // requirement for the build to resolve the right image.
 
   const stockDir = path.join(targetDir, 'src', 'assets', 'stock');
-  for (const letter of ['a', 'b', 'c']) {
+  for (const letter of ['a', 'b', 'c', 'd', 'e']) {
     if (letter !== identity.toLowerCase()) {
       await fs.rm(path.join(stockDir, letter), { recursive: true, force: true });
     }
@@ -263,7 +272,7 @@ per the \`visual-identity\` skill's imagery priority order.
   );
 
   let globalCss = await read('src/styles/global.css');
-  const identityImport = /@import '\.\/identity-[abc]\.css';/;
+  const identityImport = /@import '\.\/identity-[abcde]\.css';/;
   // Test for the pattern rather than comparing before/after: when the requested
   // identity is the template's own default the rewrite is a legitimate no-op.
   if (!identityImport.test(globalCss)) {

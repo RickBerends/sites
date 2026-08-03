@@ -48,6 +48,12 @@ about: |
 # Falls back to the identity's stock image when unset.
 # about_image: './images/about.jpg'
 
+# PROCESS — how the work happens, step by step. Usually 3 to 4 steps.
+# process_heading: 'REPLACE — e.g. "Werkwijze"'
+# process:
+#   - title: 'REPLACE — step name, e.g. "Kennismaken"'
+#     body: 'REPLACE — one line on what happens in this step'
+
 # SERVICES — 3 to 6. Write the OUTCOME, not the method.
 #   bad:  "Uses scissors and clippers."
 #   good: "You leave with a haircut that suits you."
@@ -58,6 +64,24 @@ services:
     body: 'REPLACE — the outcome the customer gets.'
   - title: 'REPLACE — service name'
     body: 'REPLACE — the outcome the customer gets.'
+
+# PROJECTS — real completed work, large photos. Delete the whole key if there
+# are no real project photos yet; there is no stock fallback for this section,
+# unlike hero_image/about_image.
+# projects_heading: 'REPLACE — e.g. "Projecten waar we trots op zijn"'
+# projects:
+#   - title: 'REPLACE — short project name'
+#     location: 'REPLACE — city or neighbourhood, e.g. "Tuinrenovatie — Tilburg"'
+#     body: 'REPLACE — one line on what was done'
+#     image: './images/project-1.jpg'
+
+# HIGHLIGHTS — "why choose us", distinct from services (what we do). 3 to 4
+# cards. `icon` is optional and rendered as-is (an emoji works well here).
+# highlights_heading: 'REPLACE — e.g. "Waarom kiezen klanten voor ons?"'
+# highlights:
+#   - icon: '🏡'
+#     title: 'REPLACE — a real, checkable reason'
+#     body: 'REPLACE — one line backing it up'
 
 # SOCIAL PROOF — delete both keys unless you have a compliant path
 # (live embed / client-permissioned quotes / fresh testimonials).
