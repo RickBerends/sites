@@ -1,0 +1,40 @@
+---
+import { strings } from '../config';
+
+interface Props {
+  services: { title: string; body: string }[];
+}
+
+const { services } = Astro.props;
+---
+
+<section id="services" class="section">
+  <div class="container">
+    <h2>{strings.servicesHeading}</h2>
+    <ul class="service-grid">
+      {
+        services.map((service) => (
+          <li class="card reveal">
+            <h3>{service.title}</h3>
+            <p>{service.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+  }
+
+  .service-grid p {
+    margin-bottom: 0;
+  }
+</style>
