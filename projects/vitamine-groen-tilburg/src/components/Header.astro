@@ -1,0 +1,101 @@
+---
+import { site, strings, hasSection, telHref } from '../config';
+
+interface Props {
+  phone?: string;
+}
+
+const { phone } = Astro.props;
+
+// Only link to sections that actually render, so the nav can never point at a
+// section that site.config.json switched off.
+const links = [
+  hasSection('services') && { href: '#services', label: strings.navServices },
+  hasSection('about') && { href: '#about', label: strings.navAbout },
+  hasSection('hours') && { href: '#hours', label: strings.navHours },
+  hasSection('contact') && { href: '#contact', label: strings.navContact },
+].filter(Boolean) as { href: string; label: string }[];
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="wordmark" href="#top">{site.name}</a>
+
+    {
+      links.length > 0 && (
+        <nav aria-label={strings.navContact}>
+          <ul>
+            {links.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+
+    {phone && <a class="header-phone" href={telHref(phone)}>{phone}</a>}
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 64px;
+    flex-wrap: wrap;
+  }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: var(--font-display-weight, 500);
+    font-size: 1.15rem;
+    text-decoration: none;
+    margin-right: auto;
+  }
+
+  nav ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav a {
+    text-decoration: none;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    transition: color var(--motion-duration) var(--motion-ease);
+  }
+
+  nav a:hover {
+    color: var(--color-accent);
+  }
+
+  .header-phone {
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    color: var(--color-accent);
+  }
+
+  /* Below the services/about links the nav gets cramped; the phone number and
+     wordmark are what matter on a phone. */
+  @media (max-width: 640px) {
+    nav {
+      display: none;
+    }
+  }
+</style>

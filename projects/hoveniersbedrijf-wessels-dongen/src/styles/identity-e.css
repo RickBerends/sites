@@ -1,0 +1,52 @@
+/* Identity E — Warm Regional (De Hovenier uit de Buurt)
+ * hovenier · klusbedrijf · groenvoorziening — family/neighbourhood businesses
+ * that want to feel like "de vakman uit de buurt", not a design agency.
+ *
+ * Less luxe than identity D on purpose: friendlier type, warmer accent, more
+ * rounded shapes, thin borders instead of shadow. The feeling is a trusted
+ * local tradesperson, proud of their name, not a premium showroom. Never a
+ * cold corporate look, never sharp diagonals, never heavy drop shadows.
+ *
+ * Values only — token names live in tokens.css. The font @import is part of this
+ * file on purpose: an identity that ships without its typefaces is not applied.
+ *
+ * The brief lists two greens (a dark one and a sage one) alongside the
+ * terracotta accent. tokens.css carries one accent + one alt, so terracotta —
+ * the colour the brief explicitly prefers over a gold accent for its warmth —
+ * takes --color-accent (buttons, links, the eyebrow label), and the dark green
+ * takes --color-accent-alt. The sage green is left for a project-specific
+ * override if a build wants it for something like a card icon tint.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  color-scheme: light;
+
+  /* Palette */
+  --color-bg: #f8f5ef;
+  --color-surface: #ffffff;
+  --color-text: #333333;
+  --color-text-secondary: #6b6b60;
+  --color-accent: #b96b45;
+  --color-accent-alt: #355b3e;
+  --color-border: #e9e2d2;
+  --shadow-soft: 0 1px 1px rgba(51, 51, 51, 0.03), 0 6px 16px rgba(51, 51, 51, 0.04);
+
+  /* Typography — friendly and readable, never too tight */
+  --font-display: 'DM Sans', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-display-weight: 700;
+
+  /* Shape — generously rounded corners, thin lines over shadow */
+  --radius-card: 22px;
+  --radius-button: 16px;
+
+  /* Motion — calm fade/slide, matches the rest of the system */
+  --motion-duration: 220ms;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Spacing */
+  --space-section-desktop: 130px;
+  --space-section-mobile: 72px;
+}
