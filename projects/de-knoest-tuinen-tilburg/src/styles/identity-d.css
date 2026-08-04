@@ -1,0 +1,54 @@
+/* Identity D — Premium Natural (Luxe Hovenier)
+ * hovenier · tuinarchitect · tuinaannemer — premium segment.
+ *
+ * Rust, vakmanschap en natuur. The garden itself is the hero; the site's job is
+ * to stay out of its way. Calm and expensive-feeling, never playful and never
+ * saturated. Never bright green, never a busy layout, never a stock photo of
+ * someone holding a rake.
+ *
+ * Values only — token names live in tokens.css. The font @import is part of this
+ * file on purpose: an identity that ships without its typefaces is not applied.
+ *
+ * The brief names three greens/golds: a dark forest green ("primair", #1F3A2E),
+ * a moss green ("accent", #6D8C54) and an amber CTA gold (#C68B3C). tokens.css
+ * only carries one accent + one alt, and "one accent" is the universal rule —
+ * so the dark forest green is promoted to --color-accent (it is the calmer,
+ * more premium choice for buttons than the brighter moss), the amber CTA gold
+ * becomes --color-accent-alt, and moss green is left for a project-specific
+ * override (global.css's "overrides go below this line" section) if a real
+ * client build has a genuine reason to bring it in — e.g. an icon tint.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  color-scheme: light;
+
+  /* Palette */
+  --color-bg: #f6f3ed;
+  --color-surface: #ffffff;
+  --color-text: #1c1c1c;
+  --color-text-secondary: #5c655d;
+  --color-accent: #1f3a2e;
+  --color-accent-alt: #c68b3c;
+  --color-border: #e5ded0;
+  --shadow-soft: 0 1px 2px rgba(28, 28, 28, 0.04), 0 10px 28px rgba(31, 58, 46, 0.07);
+
+  /* Typography — big, confident headings; the brief's "Uw droomtuin, vakkundig
+     aangelegd" only works set large and heavy. */
+  --font-display: 'Manrope', 'Sora', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-display-weight: 800;
+
+  /* Shape — rounded but restrained, subtle shadows over hard edges */
+  --radius-card: 18px;
+  --radius-button: 14px;
+
+  /* Motion — calm fade/slide on scroll, never bouncy */
+  --motion-duration: 220ms;
+  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Spacing — generous, luxury reads as room to breathe */
+  --space-section-desktop: 150px;
+  --space-section-mobile: 76px;
+}
