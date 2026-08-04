@@ -2,9 +2,10 @@
 name: lovable-page
 description: >-
   Structure and write a one-page local-business site that visitors actually
-  trust and act on — the required sections (hero, trust strip, services, about,
-  social proof, location, opening hours, contact), the copy formulas for each,
-  and a conversion checklist. Use this whenever you're deciding what goes on a
+  trust and act on — the required sections (hero, trust strip, services,
+  projects, highlights, about, process, social proof, location, opening hours,
+  contact), the copy formulas for each, and a conversion checklist. Use this
+  whenever you're deciding what goes on a
   business one-pager and how it's phrased (orchestration.md Phase 5, feeding the
   content model in build-part-1 §5). It turns the intake-research brief into
   section-by-section content. Trigger it any time someone asks what sections a
@@ -23,9 +24,15 @@ easy to contact**. A visitor should answer three questions **within 5 seconds**:
 3. How do I contact them?
 
 **This skill is now about the words.** The sections, their order, and the fields
-they map to are already built — `templates/one-pager/` ships all eight, and
+they map to are already built — `templates/one-pager/` ships all eleven, and
 `sections` in `site.config.json` switches them on and off. You write
 `src/content/home.md`. See `BUILD.md`.
+
+Not every business needs all eleven. `projects`, `highlights` and `process` are
+the three most likely to be skipped — a hairdresser rarely needs a portfolio
+section, a one-person business may not have a multi-step process worth
+walking through. Include them only where they genuinely increase trust for
+*this* business, same as any other section.
 
 ## Core philosophy
 
@@ -71,6 +78,31 @@ Each one sentence, and write the **outcome, not the method**:
 
 Three to six. More than six and none of them land.
 
+### Projects — `projects[]`, `projects_heading`
+
+Real completed work, shown as large photos — this is what proves the services
+above are actually delivered. **Only for a business that has real photos of its
+own work** (a garden contractor, a carpenter, a tattoo artist) — a hairdresser
+or a masseuse rarely needs this section, and there is no stock fallback here:
+no photo means no entry, not a placeholder.
+
+Name the location if it's true and specific — *"Tuinrenovatie — Tilburg"* reads
+as local proof, not a generic portfolio. One line of what was done is enough;
+this section is carried by the photo, not the copy.
+
+*Visitor feeling:* "They've actually done this kind of work before, near me."
+
+### Highlights — `highlights[]`, `highlights_heading`
+
+A "why choose us" card grid — distinct from Services (what we *do*) and from
+the Trust strip (short claims under the hero). Three to four cards, each a
+short, checkable reason plus one line backing it up: *Familiebedrijf* / *"Al
+25 jaar in handen van dezelfde familie."* An optional `icon` (an emoji works
+fine) gives each card a visual anchor without needing real photography.
+
+Use this instead of a second Trust strip when a reason needs more than four
+words to land.
+
 ### About — `about_heading`, `about`
 
 For a local business the owner *is* the brand. The formula is
@@ -81,6 +113,16 @@ Two to four sentences. A headline like *"You're not just another appointment."*
 does more than a paragraph of history.
 
 *Visitor feeling:* "This seems like a good person."
+
+### Process — `process[]`, `process_heading`
+
+How the work happens, step by step — usually 3 to 4 steps (*Kennismaken →
+Offerte → Aan de slag → Oplevering*). This matters most for a business whose
+work is a multi-visit project (renovations, tuinaanleg, bruiloften), and matters
+much less for a walk-in service — skip it rather than padding out a trivial
+process into four steps.
+
+*Visitor feeling:* "I know what to expect, so this isn't a leap of faith."
 
 ### Social proof — `testimonials[]`, `testimonials_source`
 

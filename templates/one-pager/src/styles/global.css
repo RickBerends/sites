@@ -2,7 +2,7 @@
  *
  * Two lines do the work: pick an identity, then load the shared vocabulary.
  * scripts/new-site.mjs rewrites the identity import to the chosen letter and
- * deletes the other two identity files.
+ * deletes the other identity files (identity-a through identity-e).
  *
  * To change identity later: swap the import below and copy the other identity
  * file back in from templates/one-pager/src/styles/.

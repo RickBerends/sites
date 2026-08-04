@@ -21,6 +21,8 @@ the "best for" lists.
 | `A` | Crafted Masculine | barber · tattoo · detailing · mechanic · electrician · carpenter · trainer · bike shop · plumber · contractor |
 | `B` | Soft Boutique | hairdresser · beautician · nail salon · midwife · yoga · florist · photographer · wedding planner · stylist · massage |
 | `C` | Editorial Food | restaurant · bakery · lunchroom · wine bar · café · deli · food truck · catering · cheesemonger · roastery |
+| `D` | Premium Natural | hovenier · tuinarchitect · tuinaannemer (premium segment) |
+| `E` | Warm Regional | hovenier (buurt-/familiebedrijf) · klusbedrijf · groenvoorziening |
 
 ## 3. Generate
 
@@ -32,7 +34,10 @@ Options: `--lang=nl|en` · `--sections=hero,services,about,contact` ·
 `--accent=#RRGGBB --accent-reason="…"` · `--no-install`
 
 You get a project that already builds, already has the right `base`, already
-loads its fonts, and already has all eight sections wired.
+loads its fonts, and already has all eleven sections wired (hero · trust ·
+services · projects · highlights · about · process · testimonials · location ·
+hours · contact) — `projects`, `highlights` and `process` render nothing until
+`home.md` gives them content.
 
 ## 4. Write the words
 
