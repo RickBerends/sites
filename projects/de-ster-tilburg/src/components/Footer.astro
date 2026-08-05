@@ -1,0 +1,73 @@
+---
+import { site } from '../config';
+
+interface Props {
+  instagramUrl?: string;
+  facebookUrl?: string;
+}
+
+const { instagramUrl, facebookUrl } = Astro.props;
+const year = new Date().getFullYear();
+
+const socials = [
+  instagramUrl && { href: instagramUrl, label: 'Instagram' },
+  facebookUrl && { href: facebookUrl, label: 'Facebook' },
+].filter(Boolean) as { href: string; label: string }[];
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>&copy; {year} {site.name}</p>
+    {
+      socials.length > 0 && (
+        <ul>
+          {socials.map((social) => (
+            <li>
+              <a href={social.href} target="_blank" rel="noopener noreferrer">
+                {social.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-border);
+    padding-block: 2rem;
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-inner p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  ul {
+    display: flex;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ul a {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+
+  ul a:hover {
+    color: var(--color-accent);
+  }
+</style>
