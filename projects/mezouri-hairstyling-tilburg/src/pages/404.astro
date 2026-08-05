@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site, strings } from '../config';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title={`${strings.notFoundHeading} — ${site.name}`} description={strings.notFoundBody}>
+  <main id="main" class="section notfound">
+    <div class="container">
+      <p class="eyebrow">404</p>
+      <h1>{strings.notFoundHeading}</h1>
+      <p class="lead">{strings.notFoundBody}</p>
+      <a class="btn btn-primary" href={base}>{strings.notFoundCta}</a>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .notfound {
+    display: flex;
+    align-items: center;
+    min-height: 70vh;
+  }
+</style>
