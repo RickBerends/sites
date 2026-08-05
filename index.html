@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>sites — manifest</title>
+<style>
+  :root {
+    color-scheme: dark light;
+    --bg: #10130f; --surface: #171b17; --surface-2: #1d221d; --border: #2a302a;
+    --text: #e7ebe6; --muted: #8b9389; --faint: #5b6259;
+    --accent: #6fbf9e; --accent-ink: #06140d;
+    --live: #6fbf9e; --draft: #d7b56a; --unknown: #6a6f68;
+    --mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, "Liberation Mono", monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f3f5f1; --surface: #ffffff; --surface-2: #edf0ea; --border: #d9ddd3;
+      --text: #14170f; --muted: #565e51; --faint: #8a9083;
+      --accent: #2f8f68; --accent-ink: #ffffff;
+      --live: #2f8f68; --draft: #97701f; --unknown: #9aa093;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #10130f; --surface: #171b17; --surface-2: #1d221d; --border: #2a302a;
+    --text: #e7ebe6; --muted: #8b9389; --faint: #5b6259;
+    --accent: #6fbf9e; --accent-ink: #06140d;
+    --live: #6fbf9e; --draft: #d7b56a; --unknown: #6a6f68;
+  }
+  :root[data-theme="light"] {
+    --bg: #f3f5f1; --surface: #ffffff; --surface-2: #edf0ea; --border: #d9ddd3;
+    --text: #14170f; --muted: #565e51; --faint: #8a9083;
+    --accent: #2f8f68; --accent-ink: #ffffff;
+    --live: #2f8f68; --draft: #97701f; --unknown: #9aa093;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text); font-family: var(--sans);
+    padding: 56px 20px 96px;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; }
+
+  .masthead { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding-bottom: 18px; margin-bottom: 6px; }
+  .masthead h1 {
+    font-family: var(--mono); font-size: 1.05rem; font-weight: 600; letter-spacing: 0.04em;
+    text-transform: uppercase; margin: 0; color: var(--text);
+  }
+  .masthead .tally { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .masthead .tally b { color: var(--accent); font-weight: 600; }
+  p.sub { color: var(--muted); font-size: 0.92rem; margin: 14px 0 28px; max-width: 62ch; line-height: 1.55; }
+
+  .toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .toolbar label { font-family: var(--mono); font-size: 0.72rem; color: var(--faint); text-transform: uppercase; letter-spacing: 0.06em; }
+  input#filter {
+    flex: 1; padding: 10px 12px; font-size: 0.88rem; font-family: var(--mono);
+    border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text);
+  }
+  input#filter:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+  input#filter::placeholder { color: var(--faint); }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 22px; font-size: 0.92rem; }
+  thead th {
+    text-align: left; font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--faint); font-weight: 500; padding: 0 10px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 120ms ease; }
+  tbody tr:hover { background: var(--surface-2); }
+  tbody td { padding: 11px 10px; vertical-align: middle; }
+  .c-idx { font-family: var(--mono); color: var(--faint); font-variant-numeric: tabular-nums; width: 3em; }
+  .c-status { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); white-space: nowrap; width: 6.5em; }
+  .c-name a { color: var(--text); text-decoration: none; font-weight: 500; }
+  .c-name a:hover { color: var(--accent); text-decoration: underline; }
+  .c-cat { color: var(--muted); font-size: 0.85rem; white-space: nowrap; }
+  .c-slug { font-family: var(--mono); color: var(--faint); font-size: 0.78rem; text-align: right; white-space: nowrap; }
+
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 7px; vertical-align: middle; position: relative; top: -1px; }
+  .dot-live { background: var(--live); box-shadow: 0 0 0 2px color-mix(in srgb, var(--live) 25%, transparent); }
+  .dot-draft { background: var(--draft); }
+  .dot-unknown { background: var(--unknown); }
+
+  .empty { display: none; color: var(--faint); font-family: var(--mono); font-size: 0.85rem; padding: 32px 0; text-align: center; }
+
+  @media (max-width: 640px) {
+    .c-cat, .c-slug { display: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="masthead">
+      <h1>sites // manifest</h1>
+      <span class="tally"><b>75</b> shipped · <b>0</b> live</span>
+    </div>
+    <p class="sub">Elke rij is een losstaande one-pager in deze monorepo, gebouwd via <code>new-site.mjs</code> en gedeployed naar zijn eigen subpad. Concept = MVP-link, nog niet door de klant bevestigd.</p>
+    <div class="toolbar">
+      <label for="filter">grep</label>
+      <input id="filter" type="text" placeholder="filter op naam…" autocomplete="off" />
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>status</th>
+          <th>project</th>
+          <th>categorie</th>
+          <th>slug</th>
+        </tr>
+      </thead>
+      <tbody id="rows">
+      <tr data-name="ali's kapsalon">
+        <td class="c-idx">001</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./ali-s-kapsalon-tilburg/">Ali's kapsalon</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">ali-s-kapsalon-tilburg</td>
+      </tr>
+      <tr data-name="artizan kapper">
+        <td class="c-idx">002</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./artizan-kapper-tilburg/">Artizan Kapper</a></td>
+        <td class="c-cat">Crafted Masculine</td>
+        <td class="c-slug">artizan-kapper-tilburg</td>
+      </tr>
+      <tr data-name="asja hairstyling">
+        <td class="c-idx">003</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./asja-hairstyling-tilburg/">Asja Hairstyling</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">asja-hairstyling-tilburg</td>
+      </tr>
+      <tr data-name="avantgarde">
+        <td class="c-idx">004</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./avantgarde-tilburg/">Avantgarde</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">avantgarde-tilburg</td>
+      </tr>
+      <tr data-name="barber tek tilburg">
+        <td class="c-idx">005</td>
+        <td class="c-status"><span class="dot dot-unknown"></span>—</td>
+        <td class="c-name"><a href="./barber-tek-tilburg/">Barber Tek Tilburg</a></td>
+        <td class="c-cat">—</td>
+        <td class="c-slug">barber-tek-tilburg</td>
+      </tr>
+      <tr data-name="beautybyeses">
+        <td class="c-idx">006</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./beautybyeses-tilburg/">BeautybyEses</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">beautybyeses-tilburg</td>
+      </tr>
+      <tr data-name="bij nienke">
+        <td class="c-idx">007</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./bij-nienke-tilburg/">Bij Nienke</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">bij-nienke-tilburg</td>
+      </tr>
+      <tr data-name="bloemist tilburg">
+        <td class="c-idx">008</td>
+        <td class="c-status"><span class="dot dot-unknown"></span>—</td>
+        <td class="c-name"><a href="./bloemist-tilburg/">Bloemist Tilburg</a></td>
+        <td class="c-cat">—</td>
+        <td class="c-slug">bloemist-tilburg</td>
+      </tr>
+      <tr data-name="bloom">
+        <td class="c-idx">009</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./bloom-tilburg/">Bloom</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">bloom-tilburg</td>
+      </tr>
+      <tr data-name="brankaert">
+        <td class="c-idx">010</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./brankaert-tilburg/">Brankaert</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">brankaert-tilburg</td>
+      </tr>
+      <tr data-name="brows by seyda">
+        <td class="c-idx">011</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./brows-by-seyda-tilburg/">Brows by Seyda</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">brows-by-seyda-tilburg</td>
+      </tr>
+      <tr data-name="bruna heyhoef">
+        <td class="c-idx">012</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./bruna-heyhoef-tilburg/">Bruna Heyhoef</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">bruna-heyhoef-tilburg</td>
+      </tr>
+      <tr data-name="characthair">
+        <td class="c-idx">013</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./characthair-tilburg/">Characthair</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">characthair-tilburg</td>
+      </tr>
+      <tr data-name="chimutah massagepraktijk">
+        <td class="c-idx">014</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./chimutah-massage-tilburg/">Chimutah Massagepraktijk</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">chimutah-massage-tilburg</td>
+      </tr>
+      <tr data-name="curliosity curl bar">
+        <td class="c-idx">015</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./curliosity-curl-bar-tilburg/">Curliosity Curl Bar</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">curliosity-curl-bar-tilburg</td>
+      </tr>
+      <tr data-name="d'hairstyling">
+        <td class="c-idx">016</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./d-hairstyling-tilburg/">D'Hairstyling</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">d-hairstyling-tilburg</td>
+      </tr>
+      <tr data-name="de knoest tuinen">
+        <td class="c-idx">017</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./de-knoest-tuinen-tilburg/">De Knoest Tuinen</a></td>
+        <td class="c-cat">Premium Natural</td>
+        <td class="c-slug">de-knoest-tuinen-tilburg</td>
+      </tr>
+      <tr data-name="de ster">
+        <td class="c-idx">018</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./de-ster-tilburg/">De Ster</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">de-ster-tilburg</td>
+      </tr>
+      <tr data-name="fabulous hairdesign">
+        <td class="c-idx">019</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./fabulous-hairdesign-tilburg/">Fabulous Hairdesign</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">fabulous-hairdesign-tilburg</td>
+      </tr>
+      <tr data-name="florissant tuinen">
+        <td class="c-idx">020</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./florissant-tuinen-oosterhout/">Florissant Tuinen</a></td>
+        <td class="c-cat">Warm Regional</td>
+        <td class="c-slug">florissant-tuinen-oosterhout</td>
+      </tr>
+      <tr data-name="gentlemen barber">
+        <td class="c-idx">021</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./gentlemen-barber-tilburg/">Gentlemen Barber</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">gentlemen-barber-tilburg</td>
+      </tr>
+      <tr data-name="haarstudio semisar">
+        <td class="c-idx">022</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./haarstudio-semisar-tilburg/">Haarstudio Semisar</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">haarstudio-semisar-tilburg</td>
+      </tr>
+      <tr data-name="haartotaal">
+        <td class="c-idx">023</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./haartotaal-tilburg/">Haartotaal</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">haartotaal-tilburg</td>
+      </tr>
+      <tr data-name="hair & looks">
+        <td class="c-idx">024</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./hair-looks-tilburg/">Hair & Looks</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">hair-looks-tilburg</td>
+      </tr>
+      <tr data-name="hair fashionn">
+        <td class="c-idx">025</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./hair-fashionn-tilburg/">Hair Fashionn</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">hair-fashionn-tilburg</td>
+      </tr>
+      <tr data-name="hair i am">
+        <td class="c-idx">026</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./hair-i-am-tilburg/">Hair I Am</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">hair-i-am-tilburg</td>
+      </tr>
+      <tr data-name="hair2day">
+        <td class="c-idx">027</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./hair2day-tilburg/">Hair2Day</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">hair2day-tilburg</td>
+      </tr>
+      <tr data-name="heerkens coiffure">
+        <td class="c-idx">028</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./heerkens-coiffure-tilburg/">Heerkens Coiffure</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">heerkens-coiffure-tilburg</td>
+      </tr>
+      <tr data-name="henry's barbershop">
+        <td class="c-idx">029</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./henry-s-barbershop-tilburg/">Henry's Barbershop</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">henry-s-barbershop-tilburg</td>
+      </tr>
+      <tr data-name="herenkapsalon aziz">
+        <td class="c-idx">030</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./herenkapsalon-aziz-tilburg/">Herenkapsalon Aziz</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">herenkapsalon-aziz-tilburg</td>
+      </tr>
+      <tr data-name="hip&zo">
+        <td class="c-idx">031</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./hip-zo-tilburg/">Hip&Zo</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">hip-zo-tilburg</td>
+      </tr>
+      <tr data-name="hovenier de man">
+        <td class="c-idx">032</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./hovenier-de-man-tilburg/">Hovenier De Man</a></td>
+        <td class="c-cat">Warm Regional</td>
+        <td class="c-slug">hovenier-de-man-tilburg</td>
+      </tr>
+      <tr data-name="hovenier rens van oudheusden">
+        <td class="c-idx">033</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./rens-van-oudheusden-tilburg/">Hovenier Rens van Oudheusden</a></td>
+        <td class="c-cat">Warm Regional</td>
+        <td class="c-slug">rens-van-oudheusden-tilburg</td>
+      </tr>
+      <tr data-name="hoveniersbedrijf smolders">
+        <td class="c-idx">034</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./hoveniersbedrijf-smolders-tilburg/">Hoveniersbedrijf Smolders</a></td>
+        <td class="c-cat">Warm Regional</td>
+        <td class="c-slug">hoveniersbedrijf-smolders-tilburg</td>
+      </tr>
+      <tr data-name="hoveniersbedrijf wessels">
+        <td class="c-idx">035</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./hoveniersbedrijf-wessels-dongen/">Hoveniersbedrijf Wessels</a></td>
+        <td class="c-cat">Warm Regional</td>
+        <td class="c-slug">hoveniersbedrijf-wessels-dongen</td>
+      </tr>
+      <tr data-name="ikke haarhuis">
+        <td class="c-idx">036</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./ikke-haarhuis-tilburg/">Ikke Haarhuis</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">ikke-haarhuis-tilburg</td>
+      </tr>
+      <tr data-name="ilias coiffure">
+        <td class="c-idx">037</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./ilias-coiffure-tilburg/">Ilias Coiffure</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">ilias-coiffure-tilburg</td>
+      </tr>
+      <tr data-name="image haarstudio">
+        <td class="c-idx">038</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./image-haarstudio-tilburg/">Image Haarstudio</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">image-haarstudio-tilburg</td>
+      </tr>
+      <tr data-name="ingrid haarmode">
+        <td class="c-idx">039</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./ingrid-haarmode-tilburg/">Ingrid Haarmode</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">ingrid-haarmode-tilburg</td>
+      </tr>
+      <tr data-name="iris exclusive hair">
+        <td class="c-idx">040</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./iris-exclusive-hair-tilburg/">Iris Exclusive Hair</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">iris-exclusive-hair-tilburg</td>
+      </tr>
+      <tr data-name="kapper & co">
+        <td class="c-idx">041</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./kapper-co-tilburg/">Kapper & Co</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">kapper-co-tilburg</td>
+      </tr>
+      <tr data-name="kapper fatih">
+        <td class="c-idx">042</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./kapper-fatih-tilburg/">Kapper Fatih</a></td>
+        <td class="c-cat">Crafted Masculine</td>
+        <td class="c-slug">kapper-fatih-tilburg</td>
+      </tr>
+      <tr data-name="kapper muro tilburg">
+        <td class="c-idx">043</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./kapper-muro-tilburg/">Kapper Muro Tilburg</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">kapper-muro-tilburg</td>
+      </tr>
+      <tr data-name="kapsalon de bruyn">
+        <td class="c-idx">044</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./kapsalon-de-bruyn-tilburg/">Kapsalon De Bruyn</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">kapsalon-de-bruyn-tilburg</td>
+      </tr>
+      <tr data-name="kapsalon fons schults">
+        <td class="c-idx">045</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./kapsalon-fons-schults-tilburg/">Kapsalon Fons Schults</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">kapsalon-fons-schults-tilburg</td>
+      </tr>
+      <tr data-name="kapsalon roger">
+        <td class="c-idx">046</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./kapsalon-roger-tilburg/">Kapsalon Roger</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">kapsalon-roger-tilburg</td>
+      </tr>
+      <tr data-name="kledingreparatie perfect tilburg">
+        <td class="c-idx">047</td>
+        <td class="c-status"><span class="dot dot-unknown"></span>—</td>
+        <td class="c-name"><a href="./kledingreparatie-perfect-tilburg/">Kledingreparatie Perfect Tilburg</a></td>
+        <td class="c-cat">—</td>
+        <td class="c-slug">kledingreparatie-perfect-tilburg</td>
+      </tr>
+      <tr data-name="leyla's hairstyling">
+        <td class="c-idx">048</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./leyla-s-hairstyling-tilburg/">Leyla's Hairstyling</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">leyla-s-hairstyling-tilburg</td>
+      </tr>
+      <tr data-name="lifestyle">
+        <td class="c-idx">049</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./lifestyle-tilburg/">Lifestyle</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">lifestyle-tilburg</td>
+      </tr>
+      <tr data-name="lookin sharp">
+        <td class="c-idx">050</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./lookin-sharp-tilburg/">Lookin Sharp</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">lookin-sharp-tilburg</td>
+      </tr>
+      <tr data-name="malik kapsalon">
+        <td class="c-idx">051</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./malik-kapsalon-tilburg/">Malik Kapsalon</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">malik-kapsalon-tilburg</td>
+      </tr>
+      <tr data-name="mevan & wasseem">
+        <td class="c-idx">052</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./mevan-wasseem-tilburg/">Mevan & Wasseem</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">mevan-wasseem-tilburg</td>
+      </tr>
+      <tr data-name="mezouri hairstyling">
+        <td class="c-idx">053</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./mezouri-hairstyling-tilburg/">Mezouri hairstyling</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">mezouri-hairstyling-tilburg</td>
+      </tr>
+      <tr data-name="mk barbers">
+        <td class="c-idx">054</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./mk-barbers-tilburg/">MK Barbers</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">mk-barbers-tilburg</td>
+      </tr>
+      <tr data-name="mulling tuinen">
+        <td class="c-idx">055</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./mulling-tuinen-tilburg/">Mulling Tuinen</a></td>
+        <td class="c-cat">Warm Regional</td>
+        <td class="c-slug">mulling-tuinen-tilburg</td>
+      </tr>
+      <tr data-name="nail studio by sav">
+        <td class="c-idx">056</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./nail-studio-by-sav-tilburg/">Nail Studio By Sav</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">nail-studio-by-sav-tilburg</td>
+      </tr>
+      <tr data-name="nailsalon heyhoef">
+        <td class="c-idx">057</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./nailsalon-heyhoef-tilburg/">Nailsalon Heyhoef</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">nailsalon-heyhoef-tilburg</td>
+      </tr>
+      <tr data-name="naziba's haircare">
+        <td class="c-idx">058</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./naziba-s-haircare-tilburg/">Naziba's Haircare</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">naziba-s-haircare-tilburg</td>
+      </tr>
+      <tr data-name="niek staats">
+        <td class="c-idx">059</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./niek-staats-tilburg/">Niek Staats</a></td>
+        <td class="c-cat">Warm Regional</td>
+        <td class="c-slug">niek-staats-tilburg</td>
+      </tr>
+      <tr data-name="rob ink tattoo's">
+        <td class="c-idx">060</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./rob-ink-tattoos-tilburg/">Rob Ink Tattoo's</a></td>
+        <td class="c-cat">Crafted Masculine</td>
+        <td class="c-slug">rob-ink-tattoos-tilburg</td>
+      </tr>
+      <tr data-name="salon ortega">
+        <td class="c-idx">061</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./salon-ortega-tilburg/">Salon Ortega</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">salon-ortega-tilburg</td>
+      </tr>
+      <tr data-name="sefa's haircompany">
+        <td class="c-idx">062</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./sefa-s-haircompany-tilburg/">SeFa's Haircompany</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">sefa-s-haircompany-tilburg</td>
+      </tr>
+      <tr data-name="still haarstudio">
+        <td class="c-idx">063</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./still-haarstudio-tilburg/">Still Haarstudio</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">still-haarstudio-tilburg</td>
+      </tr>
+      <tr data-name="studio so tilburg">
+        <td class="c-idx">064</td>
+        <td class="c-status"><span class="dot dot-unknown"></span>—</td>
+        <td class="c-name"><a href="./studio-so-tilburg/">Studio So Tilburg</a></td>
+        <td class="c-cat">—</td>
+        <td class="c-slug">studio-so-tilburg</td>
+      </tr>
+      <tr data-name="sylvia hair fashion">
+        <td class="c-idx">065</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./sylvia-hair-fashion-tilburg/">Sylvia Hair Fashion</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">sylvia-hair-fashion-tilburg</td>
+      </tr>
+      <tr data-name="the artist hairstyle">
+        <td class="c-idx">066</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./the-artist-hairstyle-tilburg/">The Artist Hairstyle</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">the-artist-hairstyle-tilburg</td>
+      </tr>
+      <tr data-name="tijdloos tuinen">
+        <td class="c-idx">067</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./tijdloos-tuinen-tilburg/">Tijdloos Tuinen</a></td>
+        <td class="c-cat">Premium Natural</td>
+        <td class="c-slug">tijdloos-tuinen-tilburg</td>
+      </tr>
+      <tr data-name="touch hairstyle">
+        <td class="c-idx">068</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./touch-hairstyle-tilburg/">Touch Hairstyle</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">touch-hairstyle-tilburg</td>
+      </tr>
+      <tr data-name="trends">
+        <td class="c-idx">069</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./trends-tilburg/">Trends</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">trends-tilburg</td>
+      </tr>
+      <tr data-name="ttv nails en spa">
+        <td class="c-idx">070</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./ttv-nails-spa-tilburg/">TTV Nails en Spa</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">ttv-nails-spa-tilburg</td>
+      </tr>
+      <tr data-name="van beurden hoveniers">
+        <td class="c-idx">071</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./van-beurden-hoveniers-tilburg/">Van Beurden Hoveniers</a></td>
+        <td class="c-cat">Warm Regional</td>
+        <td class="c-slug">van-beurden-hoveniers-tilburg</td>
+      </tr>
+      <tr data-name="van dijk de hovenier">
+        <td class="c-idx">072</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./van-dijk-de-hovenier-tilburg/">Van Dijk De Hovenier</a></td>
+        <td class="c-cat">Warm Regional</td>
+        <td class="c-slug">van-dijk-de-hovenier-tilburg</td>
+      </tr>
+      <tr data-name="vitamine groen">
+        <td class="c-idx">073</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./vitamine-groen-tilburg/">Vitamine Groen</a></td>
+        <td class="c-cat">Warm Regional</td>
+        <td class="c-slug">vitamine-groen-tilburg</td>
+      </tr>
+      <tr data-name="viva herenkapsalon">
+        <td class="c-idx">074</td>
+        <td class="c-status"><span class="dot dot-draft"></span>concept</td>
+        <td class="c-name"><a href="./viva-herenkapsalon-tilburg/">VIVA Herenkapsalon</a></td>
+        <td class="c-cat">Soft Boutique</td>
+        <td class="c-slug">viva-herenkapsalon-tilburg</td>
+      </tr>
+      <tr data-name="wereldwinkel tilburg">
+        <td class="c-idx">075</td>
+        <td class="c-status"><span class="dot dot-unknown"></span>—</td>
+        <td class="c-name"><a href="./wereldwinkel-tilburg/">Wereldwinkel Tilburg</a></td>
+        <td class="c-cat">—</td>
+        <td class="c-slug">wereldwinkel-tilburg</td>
+      </tr>
+      </tbody>
+    </table>
+    <p class="empty" id="empty">geen resultaten</p>
+  </div>
+  <script>
+    const input = document.getElementById('filter');
+    const rows = Array.from(document.querySelectorAll('#rows tr'));
+    const empty = document.getElementById('empty');
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      let visible = 0;
+      for (const row of rows) {
+        const match = row.dataset.name.includes(q);
+        row.style.display = match ? '' : 'none';
+        if (match) visible++;
+      }
+      empty.style.display = visible === 0 ? '' : 'none';
+    });
+  </script>
+</body>
+</html>
