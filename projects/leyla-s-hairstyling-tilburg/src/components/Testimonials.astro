@@ -1,0 +1,81 @@
+---
+import { strings } from '../config';
+
+interface Props {
+  testimonials?: { name: string; rating?: number; quote: string }[];
+  /**
+   * Where these came from — a live embed, client-permissioned quotes, or fresh
+   * testimonials (intake-research §2b). Rendered as an attribution line, which
+   * is also the point: if you cannot name a compliant source, you should not be
+   * publishing the quote.
+   */
+  source?: string;
+}
+
+const { testimonials = [], source } = Astro.props;
+---
+
+{
+  testimonials.length > 0 && (
+    <section id="testimonials" class="section">
+      <div class="container">
+        <h2>{strings.testimonialsHeading}</h2>
+        <ul class="testimonial-grid">
+          {testimonials.map((testimonial) => (
+            <li class="card reveal">
+              {testimonial.rating !== undefined && (
+                <p class="rating">
+                  <span aria-hidden="true">
+                    {'★'.repeat(Math.round(testimonial.rating))}
+                  </span>
+                  <span class="visually-hidden">{testimonial.rating} / 5</span>
+                </p>
+              )}
+              <blockquote>{testimonial.quote}</blockquote>
+              <p class="attribution">{testimonial.name}</p>
+            </li>
+          ))}
+        </ul>
+        {source && <p class="source">{source}</p>}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+  }
+
+  .rating {
+    color: var(--color-accent);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.1em;
+  }
+
+  blockquote {
+    margin: 0 0 1rem;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+
+  .attribution {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+  }
+
+  .source {
+    margin: 1.5rem 0 0;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+</style>
