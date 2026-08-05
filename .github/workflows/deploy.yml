@@ -46,8 +46,24 @@ jobs:
           else
             echo "any=true"  >> "$GITHUB_OUTPUT"
           fi
+  # Cheap, runs on every push regardless of whether any project changed —
+  # just reads projects/*/site.config.json (no npm install/build needed) and
+  # republishes the repo-root directory page. Kept out of build-deploy so
+  # touching this page never triggers a full rebuild of every project.
+  publish-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: mkdir -p site && node scripts/build-index.mjs > site/index.html
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          keep_files: true
   build-deploy:
-    needs: detect
+    needs: [detect, publish-manifest]
     if: needs.detect.outputs.any == 'true'
     runs-on: ubuntu-latest
     steps:
@@ -67,8 +83,6 @@ jobs:
             cp -r "projects/$slug/dist/." "site/$slug/"
             echo "::endgroup::"
           done
-      - name: Build project manifest (repo-root directory page)
-        run: node scripts/build-index.mjs > site/index.html
       - name: Publish to gh-pages (keep untouched projects)
         uses: peaceiris/actions-gh-pages@v4
         with:
