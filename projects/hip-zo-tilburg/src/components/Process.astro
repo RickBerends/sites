@@ -1,0 +1,61 @@
+---
+import { strings } from '../config';
+
+interface Props {
+  heading?: string;
+  steps?: { title: string; body?: string }[];
+}
+
+const { heading, steps = [] } = Astro.props;
+---
+
+{
+  steps.length > 0 && (
+    <section id="process" class="section section-alt">
+      <div class="container">
+        <h2>{heading ?? strings.processHeading}</h2>
+        <ol class="process-grid">
+          {steps.map((step, index) => (
+            <li class="reveal">
+              <span class="process-number" aria-hidden="true">
+                {index + 1}
+              </span>
+              <h3>{step.title}</h3>
+              {step.body && <p>{step.body}</p>}
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+    counter-reset: none;
+  }
+
+  .process-grid p {
+    margin-bottom: 0;
+  }
+
+  .process-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-weight: var(--font-display-weight, 600);
+    margin-bottom: 1rem;
+  }
+</style>
