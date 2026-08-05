@@ -1,0 +1,54 @@
+---
+interface Props {
+  items?: string[];
+}
+
+const { items = [] } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <section class="trust" aria-label="Trust">
+      <div class="container">
+        <ul class="trust-list reveal">
+          {items.map((item) => (
+            <li>
+              <span aria-hidden="true">&#10003;</span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .trust {
+    padding-block: 1.5rem;
+    border-block: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+
+  .trust-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .trust-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--color-text);
+  }
+
+  .trust-list span {
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+</style>
