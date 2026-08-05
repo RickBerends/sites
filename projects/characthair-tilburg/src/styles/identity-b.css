@@ -1,0 +1,43 @@
+/* Identity B — Soft Boutique
+ * hairdresser · beautician · nail salon · midwife · yoga studio · florist ·
+ * photographer · wedding planner · interior stylist · massage therapist.
+ *
+ * Aesop × boutique hotel × modern wellness studio. Warm, elegant, human —
+ * premium through calmness. Never bright pink, never purple gradients.
+ *
+ * Values only — token names live in tokens.css. The font @import is part of this
+ * file on purpose: an identity that ships without its typefaces is not applied.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  color-scheme: light;
+
+  /* Palette */
+  --color-bg: #fffdf9;
+  --color-surface: #ffffff;
+  --color-text: #2c2c2c;
+  --color-text-secondary: #6b6b6b;
+  --color-accent: #b8827a;
+  --color-accent-alt: #aab39b;
+  --color-border: #ece6de;
+  --shadow-soft: 0 8px 30px rgba(44, 44, 44, 0.06);
+
+  /* Typography */
+  --font-display: 'Instrument Serif', 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', 'Manrope', system-ui, sans-serif;
+  --font-display-weight: 400;
+
+  /* Shape — cards 20px, soft borders, tiny shadows, large white space */
+  --radius-card: 20px;
+  --radius-button: 14px;
+
+  /* Motion — fade, gentle scaling, slide. Never bounce. */
+  --motion-duration: 250ms;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Spacing */
+  --space-section-desktop: 140px;
+  --space-section-mobile: 72px;
+}

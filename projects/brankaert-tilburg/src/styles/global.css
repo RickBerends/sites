@@ -1,0 +1,21 @@
+/* global.css — the only stylesheet the site imports.
+ *
+ * Two lines do the work: pick an identity, then load the shared vocabulary.
+ * scripts/new-site.mjs rewrites the identity import to the chosen letter and
+ * deletes the other identity files (identity-a through identity-e).
+ *
+ * To change identity later: swap the import below and copy the other identity
+ * file back in from templates/one-pager/src/styles/.
+ */
+
+@import './identity-b.css';
+@import './tokens.css';
+
+/* ---------------------------------------------------------------------------
+ * Project-specific overrides go BELOW this line.
+ *
+ * Anything you add here wins over the identity file, because it comes later.
+ * The accent override (visual-identity step 3: "adapt the accent only if there
+ * is a real reason, e.g. an existing logo colour") is written here by the
+ * generator when --accent is passed. Keep the reason in the comment.
+ * ------------------------------------------------------------------------- */
