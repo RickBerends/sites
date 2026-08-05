@@ -1,0 +1,47 @@
+---
+import { strings } from '../config';
+
+interface Props {
+  address?: string;
+  mapsUrl?: string;
+}
+
+const { address, mapsUrl } = Astro.props;
+
+// Fall back to a Maps search for the address when no explicit URL was sourced.
+const link =
+  mapsUrl ??
+  (address
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
+    : null);
+---
+
+{
+  address && (
+    <section id="location" class="section">
+      <div class="container location-inner reveal">
+        <h2>{strings.locationHeading}</h2>
+        <address>{address}</address>
+        {link && (
+          <a class="btn btn-secondary" href={link} target="_blank" rel="noopener noreferrer">
+            {strings.mapsLinkLabel}
+          </a>
+        )}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .location-inner {
+    max-width: 60ch;
+  }
+
+  address {
+    font-style: normal;
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1.5rem;
+    white-space: pre-line;
+  }
+</style>
