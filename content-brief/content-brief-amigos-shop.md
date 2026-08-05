@@ -5,7 +5,7 @@ Researched: 2026-07-25 · Entity confirmed via: Pater van den Elsenplein 65D, 50
 > live → **https://rickberends.github.io/amigos-shop-tilburg/** (repo
 > `RickBerends/amigos-shop-tilburg`). Copy below is the seed; the `[CONFIRM]` /
 > Missing items still need client ratification before go-live. See
-> [`./orchestration.md`](./orchestration.md) Appendix D.
+> [`./orchestration.md`](../orchestration.md) Appendix D.
 
 > One entity confirmed: a parcel pickup/drop-off point ("pakketpunt") and small
 > convenience shop. No competing "Amigos Shop" at this address. Not the closed

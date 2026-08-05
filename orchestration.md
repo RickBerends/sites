@@ -26,6 +26,9 @@ outreach, qualification, close, kickoff, review, launch, handoff, and invoicing.
     single **sites monorepo**; one shared workflow builds only changed projects.
   - **Only in git.** The working copy is a clone of that repo; everything is
     committed and pushed. No loose local project folders outside version control.
+  - **Content briefs live in `content-brief/`.** Every intake brief is
+    `content-brief/content-brief-<slug>.md` — not a loose file directly in the
+    repo root. Keeps the root readable as the client count grows.
 - **Runnable by:** you, or an AI assistant following it step by step. Steps
   marked **[gate]** require a human decision before proceeding. Steps marked
   **[approve-before-send]** must not go out without explicit human sign-off
@@ -191,7 +194,7 @@ build, never for anything that leaves the building:
 - **Gate status:** Phases 1–4 (outreach→contract) **not applicable / bypassed**
   by owner instruction for a self-owned demo build. Proceeded straight into
   Phase 5 build from the intake brief.
-- **Intake brief:** [`./content-brief-amigos-shop.md`](./content-brief-amigos-shop.md).
+- **Intake brief:** [`./content-brief-amigos-shop.md`](content-brief/content-brief-amigos-shop.md).
 - **Decisions taken as autonomous defaults (pending client ratification):**
   - Language: **Dutch** (local Tilburg parcel shop, Dutch-speaking customers).
   - Sections: **hero · services · about · hours+contact**. Testimonials
