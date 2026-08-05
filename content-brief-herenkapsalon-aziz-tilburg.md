@@ -1,0 +1,68 @@
+# Content brief — Herenkapsalon Aziz (Tilburg area, NL)
+Researched: 2026-08-05 · Source: Google Places API record via
+`kappers_tilburg_enriched.json` (OSM-to-Google-Places enrichment pipeline;
+match status "matched", i.e. high-confidence). Every fact below is sourced
+directly from that record.
+
+> **Build status (2026-08-05):** batch build per orchestration.md Phase 5,
+> framework-owner-directed run (see /goal). Facts are sourced; hero/about
+> copy is a labelled draft pending owner confirmation (`draft: true`).
+
+## Hero
+- heading: Een adres dat veel Tilburgers al weten te vinden.
+- sub: Herenkapsalon aan de Korvelseweg in Tilburg, zeven dagen per week open behalve op zondag — ook op maandagmiddag terecht.
+
+## About
+Herenkapsalon Aziz is gevestigd aan de Korvelseweg in Tilburg en telt inmiddels 180 beoordelingen, met een gemiddelde van 4,4. De salon is elke dag open behalve op zondag, en ook op maandagmiddag is er terecht te komen. Deze pagina is een eerste concept op basis van openbare gegevens; de tekst hierboven wordt nog door de eigenaar bevestigd.
+
+(No sourced owner story exists beyond name/category/address — the paragraph
+above is intentionally generic, not invented specifics.)
+
+## Services
+No sourced service list exists beyond the Google Places category ("kapper").
+The three services drafted for `home.md` (knippen / kleuren / föhnen &
+stylen) are baseline offerings essentially every kapper provides — not a
+claim specific to this business.
+
+## Contact & facts
+- address: Korvelseweg 55, 5025 JB Tilburg, Netherlands (source: Google Places API)
+- phone: 06 24390008
+- hours:
+  - Maandag: 12:00–18:00
+  - Dinsdag: 09:30–18:00
+  - Woensdag: 09:30–18:00
+  - Donderdag: 09:30–20:00
+  - Vrijdag: 09:30–18:00
+  - Zaterdag: 09:00–17:00
+  - Zondag: Gesloten
+- website: http://herenkapsalon-aziz.nl/ (noted as a source only — not linked from the built site)
+- rating: 4.4★ (180 reviews) (source: Google Places API)
+- contact_email: [CONFIRM WITH CLIENT] — none public
+
+## Testimonials
+No compliant source (live embed / client-permissioned quotes) exists, so
+none are published. The aggregate rating above is surfaced only as a sourced
+statistic in the trust strip, never as a review quote.
+
+## Brand & assets
+Logo / colours / fonts / real photos: not sourced this session. Using the
+identity-B bundled stock fallback for hero/about until real photos are
+supplied.
+
+## Sources
+- Google Places API record (place_id: ChIJbc5IHki-xkcR16buf0GkTmo), via `kappers_tilburg_enriched.json`
+- http://herenkapsalon-aziz.nl/
+
+## Confirm with client
+- Hero/about copy wording (drafted, not decided).
+- Whether the drafted generic service list matches what is actually offered, and real pricing.
+- Contact email.
+- Logo, brand colours, real photos.
+
+## Missing
+- Owner name, story, years of experience.
+- Business-specific service list and pricing.
+- Logo, brand colours, real photos.
+- Reviews/testimonials (no compliant source).
+- Contact email.
+
